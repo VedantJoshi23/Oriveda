@@ -22,6 +22,18 @@ documents:
     status: Frozen
     version: 0.1.0
     milestone: M2
+  - id: OV-003
+    title: M3 System Architecture Protocol
+    path: knowledge/architecture/OV-003-system-architecture-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M3
+  - id: OV-004
+    title: M3 Technology Decisions Protocol
+    path: knowledge/architecture/OV-004-technology-decisions-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M3
 
 domains: []
 features: []
