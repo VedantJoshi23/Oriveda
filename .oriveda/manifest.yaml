@@ -14,7 +14,7 @@ documents:
     title: M1 Discovery Protocol
     path: knowledge/discovery/OV-001-discovery-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.1.1
     milestone: M1
   - id: OV-002
     title: M2 Constitution Protocol
@@ -34,6 +34,12 @@ documents:
     status: Frozen
     version: 0.1.0
     milestone: M3
+  - id: OV-005
+    title: M4 Standards Protocol
+    path: knowledge/standards/OV-005-standards-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M4
 
 domains: []
 features: []

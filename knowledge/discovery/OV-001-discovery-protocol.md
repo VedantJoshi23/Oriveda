@@ -4,7 +4,7 @@
 ---
 id: OV-001
 title: M1 Discovery Protocol
-version: 0.1.0
+version: 0.1.1
 status: Frozen
 owner: Architecture
 reviewers:
@@ -73,6 +73,27 @@ already exist, not to go looking for new ones from scratch.
 | `hidden-business-rules` | Hidden Business Rules | What rules are implicit in the implementation but never stated? |
 | `technical-debt` | Technical Debt | What's fragile, deferred, or would bite a future team? |
 | `recommendations` | Recommendations | What should Oriveda preserve, improve, or discard going forward? |
+
+**Cross-cutting extraction checklist.** Three independent dry runs
+(`m3-architecture-jwel-walkthrough.md`, `m4-standards-jwel-walkthrough.md`)
+found the same failure shape: a detail present in source evidence, squarely
+in scope for a specific investigation, but not captured there — a domain
+events catalog missing from `domain-discovery`, and non-functional
+requirements missing from `business-vision`/`technical-architecture`. Three
+independent misses is a pattern, not noise. Before an investigation is
+marked ready for Discussion, it must explicitly check for these commonly-
+missed artifact types in its own evidence, and either capture them or state
+they don't exist in the evidence:
+
+| Artifact type | Which investigation must check for it |
+|---|---|
+| Domain/integration events (producer/consumer pairs) | `domain-discovery` |
+| Non-functional requirements (performance, accessibility, SEO, availability targets) | `business-vision` and `technical-architecture` |
+
+This list is expected to grow the same way the investigation list itself
+might (see Future Considerations) — add an artifact type here once a
+second, independent dry run confirms it's a recurring miss, not a
+one-off.
 
 **The investigation template.** Every investigation, regardless of topic,
 is written to the same shape:
