@@ -1,0 +1,41 @@
+# Evidence Item Schema
+#
+# Defines the shape of one entry in an evidence log (see
+# knowledge/discovery/evidence/README.md). This is intentionally small:
+# Oriveda tracks evidence and knowledge claims, not a generic document DB.
+#
+# A "knowledge claim" is a single assertion extracted from evidence, carrying
+# its own confidence and status independent of the evidence item it came from.
+
+evidence_item:
+  id:              string   # EVD-NNN, assigned on intake
+  type:            enum     # vision | repository | api | database | figma |
+                             # screenshot | video | competitor | conversation |
+                             # analytics | support_tickets | other
+  source:          string   # file path, URL, or free-text description
+  received:        date
+  summary:         string   # one paragraph: what this evidence is
+  pipeline:        string   # which reverse-engineering pipeline applies
+                             # (see OV-000 section "Evidence Pipelines")
+  processed:       boolean  # has extraction been run against it yet
+  claims:          list     # knowledge_claim[] extracted from this evidence
+
+knowledge_claim:
+  id:              string   # KC-NNN
+  statement:       string   # the assertion itself, stated as fact
+  status:          enum     # fact | inference | assumption
+  confidence:      integer  # 0-100
+  evidence_ids:    list     # EVD-NNN this claim is derived from (can be >1)
+  investigation:   string   # which M1 investigation this feeds
+                             # (repo-structure | business-vision |
+                             # feature-inventory | user-journeys | data-model |
+                             # domain-discovery | technical-architecture |
+                             # hidden-business-rules | technical-debt |
+                             # recommendations)
+  superseded_by:   string   # KC-NNN, if a later claim revised this one
+  notes:           string   # optional
+
+# Confidence bands (informal, guides wording, not a hard gate):
+#   90-100  Fact       — directly observed, no interpretation required
+#   60-89   Inference  — reasonably derived, worth a light confirmation
+#   0-59    Assumption — should not be treated as settled until confirmed

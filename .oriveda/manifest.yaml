@@ -1,0 +1,31 @@
+framework: Oriveda
+version: 0.1.0
+knowledge_graph: pending   # seeded once OV-001 exists; premature before then
+validation: manual         # no automated linting yet — tracked as future work in OV-000
+
+documents:
+  - id: OV-000
+    title: Knowledge Acquisition Specification
+    path: knowledge/discovery/OV-000-knowledge-acquisition.md
+    status: Frozen
+    version: 0.1.1
+    milestone: M1
+  - id: OV-001
+    title: M1 Discovery Protocol
+    path: knowledge/discovery/OV-001-discovery-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M1
+
+domains: []
+features: []
+decisions:
+  - id: ADR-0001
+    title: Oriveda Itself Is a Product
+    path: knowledge/decisions/ADR-0001-oriveda-is-a-product.md
+    status: Frozen
+  - id: ADR-0002
+    title: Example Sandbox Separation
+    path: knowledge/decisions/ADR-0002-example-sandbox-separation.md
+    status: Frozen
+prompts: []
