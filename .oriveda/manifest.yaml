@@ -46,6 +46,12 @@ documents:
     status: Frozen
     version: 0.1.0
     milestone: M5
+  - id: OV-007
+    title: M6 Feature Specification Protocol
+    path: knowledge/features/OV-007-feature-specification-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M6
 
 domains: []
 features: []
