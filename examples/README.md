@@ -40,6 +40,10 @@ synthesis step and cross-references the other nine.
 Source evidence for all ten: `jwel-main.zip` (`README.md`, `ARCHITECTURE.md`,
 `PRODUCT.md`, `SECURITY.md`, `apps/api/src/modules/*` listing).
 
+| Example | Demonstrates |
+| --- | --- |
+| [`m2-constitution-jwel-walkthrough.md`](m2-constitution-jwel-walkthrough.md) | `OV-002`, a full Constitution derived from the M1 walkthroughs above |
+
 Each new example should get one row here, plus a short intro at the top of
 its own file naming: which `knowledge/` rulebook it exercises, and what
 input it was run against.

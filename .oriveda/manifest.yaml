@@ -16,6 +16,12 @@ documents:
     status: Frozen
     version: 0.1.0
     milestone: M1
+  - id: OV-002
+    title: M2 Constitution Protocol
+    path: knowledge/constitution/OV-002-constitution-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M2
 
 domains: []
 features: []
