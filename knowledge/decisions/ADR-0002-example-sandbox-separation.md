@@ -1,7 +1,7 @@
 ---
 id: ADR-0002
 title: Example Sandbox Separation
-version: 1.0.0
+version: 1.0.1
 status: Frozen
 owner: Architecture
 reviewers:
@@ -13,13 +13,15 @@ milestone: M1
 category: Decision
 priority: High
 depends_on:
+  - ADR-0001
   - OV-000
 required_by: []
 related_documents:
   - OV-000
 related_domains: []
 related_features: []
-related_decisions: []
+related_decisions:
+  - ADR-0001
 tags:
   - governance
   - examples

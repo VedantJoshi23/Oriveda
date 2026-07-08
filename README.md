@@ -127,11 +127,10 @@ oriveda/
 ├── .oriveda/
 │   ├── schemas/
 │   ├── glossary.yaml
-│   ├── knowledge_graph.yaml
+│   ├── knowledge_graph.md
 │   ├── manifest.yaml
 │   └── taxonomy.yaml
 │
-├── assets/
 ├── changelog/
 ├── examples/
 │
@@ -144,15 +143,22 @@ oriveda/
 │   ├── domains/
 │   ├── features/
 │   ├── prompts/
-│   ├── standards/
-│   └── vision/
+│   └── standards/
 │
 ├── scripts/
-├── standards/
 ├── templates/
 │
 └── README.md
 ```
+
+`scripts/` is an intentional placeholder for future tooling — empty
+today, not yet built. `.oriveda/knowledge_graph.md` is a Mermaid diagram
+rendered from every specification's own frontmatter, updated by hand at
+each milestone checkpoint (see the file itself for the maintenance rule).
+There is no standalone Vision layer or folder: vision-type evidence is
+acquired by `OV-000` and synthesized by `OV-001`'s `business-vision`
+investigation — a separate artifact was considered and deliberately not
+built (see Knowledge Hierarchy below).
 
 ---
 
@@ -161,32 +167,32 @@ oriveda/
 Oriveda organizes engineering knowledge into multiple layers.
 
 ```text
-Vision
+Discovery       (OV-000, OV-001 — M1)
         │
         ▼
-Discovery
+Constitution    (OV-002 — M2)
         │
         ▼
-Constitution
+Architecture    (OV-003, OV-004 — M3)
         │
         ▼
-Architecture
+Standards       (OV-005 — M4)
         │
         ▼
-Standards
+Domains         (OV-006 — M5)
         │
         ▼
-Domains
+Features        (OV-007 — M6)
         │
         ▼
-Features
+Prompts         (OV-008 — M7)
         │
         ▼
-Implementation Prompts
-        │
-        ▼
-Engineering Decisions
+Implementation  (M8)
 ```
+
+Decisions (`ADR-XXXX`) are cross-cutting, not a final layer — one may be
+recorded at any point where a significant, revisitable choice is made.
 
 Each layer builds upon the previous one.
 

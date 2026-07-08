@@ -1,0 +1,92 @@
+# Oriveda Taxonomy
+#
+# Machine-readable ID-prefix rules. This is the source of truth; the root
+# README's "Naming Convention" section is the human-readable restatement
+# of exactly this data — if they ever disagree, this file wins (per
+# Principle 4: documentation is executable knowledge).
+#
+# scope: framework  — this ID series belongs to Oriveda itself, lives
+#                      under knowledge/ in THIS repository.
+# scope: project     — this ID series belongs to a target project
+#                      consuming Oriveda, lives in THAT project's own
+#                      repository, never here (ADR-0001, ADR-0002).
+
+prefixes:
+  OV:
+    name: Specification
+    scope: framework
+    pattern: 'OV-[0-9]{3}'
+    description: >
+      A reusable Oriveda protocol (OV-000 through OV-008 today). Each
+      describes HOW an artifact is produced for any target project, not
+      a specific project's own artifact.
+    example: OV-002
+
+  ADR:
+    name: Architecture Decision Record
+    scope: framework
+    pattern: 'ADR-[0-9]{4}'
+    description: >
+      A decision about Oriveda itself (this repository). A target
+      project's own architecture decisions use the same ADR- prefix but
+      live in that project's own decisions/ folder, not here.
+    example: ADR-0003
+
+  DOM:
+    name: Domain
+    scope: project
+    pattern: 'DOM-[A-Z-]+'
+    description: A bounded context, per a target project's OV-006 output.
+    example: DOM-CATALOG
+
+  FEAT:
+    name: Feature
+    scope: project
+    pattern: 'FEAT-[A-Z-]+'
+    description: A feature specification, per a target project's OV-007 output.
+    example: FEAT-WISHLIST
+
+  STD:
+    name: Standard
+    scope: project
+    pattern: 'STD-[A-Z-]+'
+    description: >
+      A convention in one of the nine candidate categories, per a target
+      project's OV-005 output.
+    example: STD-API
+
+  PRM:
+    name: Prompt
+    scope: framework
+    pattern: 'PRM-[A-Z-]+'
+    description: >
+      One of the seven fixed catalog prompts defined by OV-008. Unlike
+      DOM/FEAT/STD, this is a closed, framework-defined set — not
+      something a target project invents its own instances of.
+    example: PRM-FEATURE
+    fixed_values:
+      - PRM-DISCOVERY
+      - PRM-CONSTITUTION
+      - PRM-ARCHITECTURE
+      - PRM-STANDARDS
+      - PRM-DOMAIN
+      - PRM-FEATURE
+      - PRM-REVIEW
+
+  EVD:
+    name: Evidence item
+    scope: project
+    pattern: 'EVD-[0-9]{3}'
+    description: >
+      One entry in a target project's evidence log, per OV-000. Scoped
+      per project — never accumulates across unrelated projects.
+    example: EVD-001
+
+  KC:
+    name: Knowledge claim
+    scope: project
+    pattern: 'KC-[0-9]{3}'
+    description: >
+      One atomic assertion extracted from evidence, per OV-000's
+      evidence.schema.yaml.
+    example: KC-014

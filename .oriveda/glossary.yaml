@@ -1,0 +1,99 @@
+# Oriveda Glossary
+#
+# Framework-level vocabulary — terms Oriveda's own protocols use with a
+# specific meaning. This is not a place for project-specific terms (a
+# target project's own domain vocabulary belongs in its own specs, not
+# here) — see ADR-0001/ADR-0002.
+
+specification:
+  definition: >
+    A frozen or in-progress document under knowledge/, following the
+    four-layer structure (Human/AI/Decision/Validation Layer) and the
+    metadata schema described in the root README.
+  aliases: [spec]
+
+protocol:
+  definition: >
+    A specification (an OV-NNN document) that describes HOW an artifact
+    gets produced for any target project, reusably — as opposed to the
+    artifact itself, which is a per-project output. Example: OV-002 is
+    the Constitution protocol; a specific project's Constitution is not
+    itself an OV-numbered document.
+
+frozen:
+  definition: >
+    A specification's terminal, authoritative lifecycle state. A Frozen
+    specification may only change via a versioned revision (a version
+    bump, in the same change as the edit) — never a silent edit. See the
+    Specification Lifecycle section of the root README.
+
+law:
+  definition: >
+    A non-negotiable rule in a target project's Constitution (OV-002
+    output). Distinct from a Standard: violating a Law silently would be
+    expensive to discover and fix later. See OV-002's promotion
+    criterion.
+
+standard:
+  definition: >
+    A revisable convention in one of nine candidate categories (OV-005
+    output) that makes engineering practice consistent within a target
+    project, without rising to the non-negotiable bar of a Law.
+
+bounded_context:
+  definition: >
+    A named area of business responsibility with explicit Owns/Does-NOT-
+    own boundaries (OV-003 Service Boundaries), matching Domain-Driven
+    Design usage. One bounded context gets exactly one Domain
+    Specification (OV-006 output).
+
+domain_specification:
+  definition: >
+    The full, per-bounded-context document (OV-006 output) covering
+    ownership, sourced invariants, API surface, events, data ownership,
+    dependencies, and edge cases. Tiered Full or Thin depending on
+    whether the context owns independent business rules.
+
+feature_specification:
+  definition: >
+    A per-feature document (OV-007 output) naming exactly one owning
+    domain, with acceptance criteria, API/event/data changes, and
+    non-functional considerations checked against Applicable Standards.
+
+investigation:
+  definition: >
+    One of the ten fixed M1 Discovery topics (OV-001) — e.g.
+    repo-structure, domain-discovery, hidden-business-rules — each
+    following the same Purpose/Observed Facts/Interpretation/.../
+    Confidence Level template.
+
+knowledge_claim:
+  definition: >
+    A single atomic assertion extracted from evidence (OV-000), tagged
+    fact/inference/assumption with a confidence score and a pointer back
+    to its source evidence. See .oriveda/schemas/evidence.schema.yaml.
+
+evidence:
+  definition: >
+    Anything a target project's owner supplies about their project —
+    not limited to a code repository. See OV-000's Knowledge Inventory
+    categories (Vision, Existing Product, UX, Technical, Business).
+
+point_dont_copy:
+  definition: >
+    The recurring rule, enforced at every layer from OV-002 through
+    OV-008 and extended across repository boundaries by ADR-0003: a
+    specification/prompt/bootstrap file references another artifact by
+    ID or relative path, never by restating its content inline.
+
+sandbox:
+  definition: >
+    Content under examples/ — worked demonstrations of a protocol
+    running against real input. Explicitly not part of Oriveda's own
+    knowledge base; may contain project-specific facts. See ADR-0002.
+
+genesis:
+  definition: >
+    The one-time act of establishing a new Oriveda-consuming project's
+    workspace and bootstrap file (root README's Getting Started
+    section), analogous to this framework's own M0 Genesis milestone.

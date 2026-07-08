@@ -1,6 +1,7 @@
 framework: Oriveda
 version: 0.1.0
-knowledge_graph: pending   # seeded once OV-001 exists; premature before then
+knowledge_graph: knowledge_graph.md   # rendered Mermaid diagram, hand-updated
+                                        # at each milestone checkpoint
 validation: manual         # no automated linting yet — tracked as future work in OV-000
 
 documents:
@@ -66,12 +67,33 @@ decisions:
     title: Oriveda Itself Is a Product
     path: knowledge/decisions/ADR-0001-oriveda-is-a-product.md
     status: Frozen
+    version: 1.0.0
   - id: ADR-0002
     title: Example Sandbox Separation
     path: knowledge/decisions/ADR-0002-example-sandbox-separation.md
     status: Frozen
+    version: 1.0.1
   - id: ADR-0003
     title: Target Projects Reference Oriveda via Git Submodule
     path: knowledge/decisions/ADR-0003-target-project-submodule-reference.md
     status: Frozen
-prompts: []
+    version: 1.0.0
+
+# The fixed PRM-* catalog is framework-level (defined by OV-008), unlike
+# domains/features above which are always empty here — those are
+# per-target-project artifacts that never belong in this repository.
+prompts:
+  - id: PRM-DISCOVERY
+    kicks_off: [OV-000, OV-001]
+  - id: PRM-CONSTITUTION
+    kicks_off: [OV-002]
+  - id: PRM-ARCHITECTURE
+    kicks_off: [OV-003, OV-004]
+  - id: PRM-STANDARDS
+    kicks_off: [OV-005]
+  - id: PRM-DOMAIN
+    kicks_off: [OV-006]
+  - id: PRM-FEATURE
+    kicks_off: [OV-007]
+  - id: PRM-REVIEW
+    kicks_off: []   # cross-cutting; evaluates against all Frozen specs
