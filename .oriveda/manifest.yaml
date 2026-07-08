@@ -52,6 +52,12 @@ documents:
     status: Frozen
     version: 0.1.0
     milestone: M6
+  - id: OV-008
+    title: M7 Prompt Library Protocol
+    path: knowledge/prompts/OV-008-prompt-library-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M7
 
 domains: []
 features: []

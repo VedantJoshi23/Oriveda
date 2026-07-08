@@ -48,6 +48,7 @@ Source evidence for all ten: `jwel-main.zip` (`README.md`, `ARCHITECTURE.md`,
 | [`m4-standards-jwel-walkthrough.md`](m4-standards-jwel-walkthrough.md) | `OV-005`, applicability detection + Standards for all nine candidate categories |
 | [`m5-domains-jwel-walkthrough.md`](m5-domains-jwel-walkthrough.md) | `OV-006`, two Full domain specs (Order, Payment) + one Thin (Search) |
 | [`m6-features-jwel-walkthrough.md`](m6-features-jwel-walkthrough.md) | `OV-007`, Checkout (multi-domain, sequential hand-off) + Wishlist Save (single-domain) |
+| [`m7-prompts-jwel-walkthrough.md`](m7-prompts-jwel-walkthrough.md) | `OV-008`, all seven catalog prompts + PRM-FEATURE put to a real sufficiency test |
 
 Each new example should get one row here, plus a short intro at the top of
 its own file naming: which `knowledge/` rulebook it exercises, and what
