@@ -192,14 +192,90 @@ Each layer builds upon the previous one.
 
 ---
 
+## Getting Started With a New Project
+
+Oriveda governs a project via a **bootstrap file** that lives in *that
+project's own repository* — never here (see `ADR-0001`, `ADR-0002`). The
+bootstrap file makes any coding agent working in that project
+automatically follow Oriveda's protocols: which `PRM-*` prompt applies,
+what the Constitution's Laws are once frozen, which Standards bind a
+given change — without you having to paste a protocol document into every
+session.
+
+To set one up, give your coding agent the prompt below **from within your
+target project** (not from this repository). It works whether or not your
+project already has a repository or any code — Oriveda itself started
+with framework knowledge and no product code, and reached implementation
+(M8) only much later. If you have nothing but an idea, the agent
+initializes a fresh workspace first; that workspace can become your real
+product repository later, or simply hold documentation until it does.
+
+```text
+You are setting up this project to be governed by the Oriveda engineering
+framework (https://github.com/VedantJoshi23/Oriveda).
+
+1. If this directory is not already a git repository, run `git init`.
+   A project doesn't need existing code to start — only a place to keep
+   Oriveda's own artifacts (evidence log, and later Constitution,
+   Architecture, Domain and Feature specs) as they're produced.
+
+2. Add Oriveda as a git submodule at `.oriveda-framework/`:
+     git submodule add https://github.com/VedantJoshi23/Oriveda.git .oriveda-framework
+
+3. Create a bootstrap file at this project's root (name it `CLAUDE.md`,
+   or `AGENTS.md` if you use a different agent — create both if you use
+   more than one). It must:
+   - State that this project follows Oriveda, and point to
+     `.oriveda-framework/knowledge/prompts/OV-008-prompt-library-protocol.md`
+     for the full prompt catalog.
+   - Instruct: before any action, identify which PRM-* prompt applies
+     to the current task and load only the Frozen specs it points to —
+     never restate their content into this bootstrap file.
+   - Once this project has a frozen Constitution
+     (`knowledge/constitution/` in this project, not the submodule),
+     point to it and state its Laws must never be silently violated.
+   - State clearly that this file is a pointer, not a copy — if it starts
+     accumulating restated rules instead of references, that's a mistake
+     to fix, not a convenience to keep.
+
+4. Mirror Oriveda's own `knowledge/` layout in this project (discovery,
+   constitution, architecture, standards, domains, features, decisions),
+   empty for now — this is where this project's own specs will live as
+   each milestone produces them. These are this project's artifacts, not
+   Oriveda's; they use this project's own DOM-/FEAT-/STD-/ADR- naming,
+   not Oriveda's OV- numbering.
+
+5. Once set up, begin with `PRM-DISCOVERY`
+   (`.oriveda-framework/knowledge/discovery/
+   OV-000-knowledge-acquisition.md` and `OV-001-discovery-protocol.md`):
+   ask me what evidence I have about this project (existing code, a PRD,
+   Figma, screenshots, a video — anything), and start Discovery from
+   whatever I actually have. Don't assume a repository full of code is
+   required.
+```
+
+This prompt is intentionally generic — see `examples/` in this repository
+for what the output of following it looked like end-to-end against a
+sample project.
+
+---
+
 ## Naming Convention
 
 ### Specifications
 
+Oriveda's own protocols, one per milestone (see `knowledge/`):
+
 ```text
-OV-001 Discovery Report
-OV-002 Product Analysis
-OV-003 Feature Inventory
+OV-000 Knowledge Acquisition Specification (M1)
+OV-001 M1 Discovery Protocol
+OV-002 M2 Constitution Protocol
+OV-003 M3 System Architecture Protocol
+OV-004 M3 Technology Decisions Protocol
+OV-005 M4 Standards Protocol
+OV-006 M5 Domain Specification Protocol
+OV-007 M6 Feature Specification Protocol
+OV-008 M7 Prompt Library Protocol
 ```
 
 ---
@@ -207,9 +283,9 @@ OV-003 Feature Inventory
 ### Architecture Decision Records
 
 ```text
-ADR-001
-ADR-002
-ADR-003
+ADR-0001
+ADR-0002
+ADR-0003
 ```
 
 ---
@@ -248,10 +324,17 @@ STD-TESTING
 
 ### Prompt Templates
 
+The fixed catalog defined by `OV-008`, one per protocol above plus one
+cross-cutting review prompt:
+
 ```text
-PRM-IMPLEMENT
-PRM-REVIEW
 PRM-DISCOVERY
+PRM-CONSTITUTION
+PRM-ARCHITECTURE
+PRM-STANDARDS
+PRM-DOMAIN
+PRM-FEATURE
+PRM-REVIEW
 ```
 
 ---
