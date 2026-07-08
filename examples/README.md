@@ -46,6 +46,7 @@ Source evidence for all ten: `jwel-main.zip` (`README.md`, `ARCHITECTURE.md`,
 | [`m3-architecture-jwel-walkthrough.md`](m3-architecture-jwel-walkthrough.md) | `OV-003`, system architecture (boundaries, domain model, events, folder structure, scalability) |
 | [`m3-technology-decisions-jwel-walkthrough.md`](m3-technology-decisions-jwel-walkthrough.md) | `OV-004`, per-layer technology decisions with trade-offs |
 | [`m4-standards-jwel-walkthrough.md`](m4-standards-jwel-walkthrough.md) | `OV-005`, applicability detection + Standards for all nine candidate categories |
+| [`m5-domains-jwel-walkthrough.md`](m5-domains-jwel-walkthrough.md) | `OV-006`, two Full domain specs (Order, Payment) + one Thin (Search) |
 
 Each new example should get one row here, plus a short intro at the top of
 its own file naming: which `knowledge/` rulebook it exercises, and what

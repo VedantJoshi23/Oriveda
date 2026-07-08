@@ -40,6 +40,12 @@ documents:
     status: Frozen
     version: 0.1.0
     milestone: M4
+  - id: OV-006
+    title: M5 Domain Specification Protocol
+    path: knowledge/domains/OV-006-domain-specification-protocol.md
+    status: Frozen
+    version: 0.1.0
+    milestone: M5
 
 domains: []
 features: []
