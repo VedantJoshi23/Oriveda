@@ -6,6 +6,8 @@ Oriveda is an engineering knowledge framework for building software with AI agen
 
 It works whether you're starting from nothing but an idea, or reverse-engineering an existing codebase, PRD, Figma file, or competitor site — Oriveda's Knowledge Acquisition protocol builds a checklist of what it knows, how confident it is, and where each fact came from, then asks only for the specific evidence that's missing.
 
+**How did a website prompt turn into an engineering methodology?** Read the [origin story](ORIGIN.md).
+
 ---
 
 ## Why Oriveda
