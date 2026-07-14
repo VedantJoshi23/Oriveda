@@ -2,7 +2,7 @@ framework: Oriveda
 version: 0.1.0
 knowledge_graph: knowledge_graph.md   # rendered Mermaid diagram, hand-updated
                                         # at each milestone checkpoint
-validation: manual         # no automated linting yet — tracked as future work in OV-000
+validation: scripts/validate.py   # run before treating any spec as Frozen
 
 documents:
   - id: OV-000
