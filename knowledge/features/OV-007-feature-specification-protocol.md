@@ -113,10 +113,11 @@ silently skipped.
 
 #### Examples
 
-See `examples/m6-features-jwel-walkthrough.md` once drafted — expected to
-cover a small representative slice (not an exhaustive feature list, since
-M6 doesn't have one), chosen to include at least one feature that spans
-multiple domains, to exercise the "exactly one owner, others as
+No published example yet — see `examples/README.md` for the sandbox
+rules a future worked example must follow. A future example should
+cover a small representative slice (not an exhaustive feature list,
+since M6 doesn't have one), chosen to include at least one feature that
+spans multiple domains, to exercise the "exactly one owner, others as
 dependencies" rule under real pressure.
 
 ---

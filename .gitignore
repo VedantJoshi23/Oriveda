@@ -2,3 +2,8 @@
 # content itself. See ADR-0001 and ADR-0002: this repo stays domain-agnostic.
 jwel-main.zip
 Complete_chat.md
+
+# Confidential/NDA-covered client material must never be committed.
+# See ADR-0002: examples/ may only use publishable source evidence.
+examples/jwel-target/
+**/jwel-*

@@ -129,11 +129,9 @@ against, so it should not drift casually.
 
 #### Examples
 
-No worked example exists yet. The first run of this protocol should
-produce a full Constitution draft for `jwel-main.zip` as a sandbox
-walkthrough in `examples/`, exercising all three owner-choice questions
-plus at least three Laws derived from `OV-001`'s existing jwel
-walkthroughs' recommendations.
+No worked example exists yet — see `examples/README.md` for the sandbox
+rules a future worked example must follow (source material must be safe
+to publish, e.g. synthetic data or an open-source project).
 
 ---
 

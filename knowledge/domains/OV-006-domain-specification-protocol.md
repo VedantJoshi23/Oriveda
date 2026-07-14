@@ -101,11 +101,11 @@ invariants should already exist somewhere upstream by M5).
 
 ### Examples
 
-See `examples/m5-domains-jwel-walkthrough.md` once drafted — expected to
-cover a representative subset in full depth (not all seventeen jwel
-contexts; matching `OV-005`'s "three full, rest abbreviated" precedent)
-plus at least one Thin-tier domain to exercise that path, which no prior
-milestone's dry run has tested yet.
+No published example yet — see `examples/README.md` for the sandbox
+rules a future worked example must follow. A future example should
+cover a representative subset in full depth (matching `OV-005`'s "three
+full, rest abbreviated" precedent) plus at least one Thin-tier domain to
+exercise that path.
 
 ---
 

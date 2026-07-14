@@ -108,11 +108,11 @@ further out, at the point where a human or agent actually starts typing.
 
 #### Examples
 
-See `examples/m7-prompts-jwel-walkthrough.md` once drafted — expected to
-exercise `PRM-FEATURE` against one of M6's dry-run features (Wishlist
-Save, the simpler of the two), to check whether the compressed prompt is
-actually sufficient to start real implementation work without the full
-`OV-007` spec being retyped.
+No published example yet — see `examples/README.md` for the sandbox
+rules a future worked example must follow. A future example should
+exercise `PRM-FEATURE` against one of M6's dry-run features, to check
+whether the compressed prompt is actually sufficient to start real
+implementation work without the full `OV-007` spec being retyped.
 
 ---
 

@@ -54,15 +54,16 @@ per target project (not once per Oriveda framework checkout). Right now it
 holds only `EVD-001`, which is meta-evidence about Oriveda's own design —
 not evidence about any product Oriveda will be used to build.
 
-No product/target-project evidence has been processed yet. `jwel-main.zip`
-was supplied only as background material for the ChatGPT conversation that
-designed Oriveda (`EVD-001`'s source) — it was never intended as the first
-real subject of Discovery, and an earlier pass in this session mistakenly
-ran the repository pipeline against it and wrote 14 jewelry-specific
-claims here. Those have been reverted per explicit instruction: this
-framework repository should not carry any one product's discovery data,
-so that the same mechanism can be run again unmodified against a
-completely different target repository/domain later.
+No product/target-project evidence has been processed yet. A reference
+codebase was supplied only as background material for the ChatGPT
+conversation that designed Oriveda (`EVD-001`'s source) — it was never
+intended as the first real subject of Discovery, and an earlier pass in
+this session mistakenly ran the repository pipeline against it and wrote
+14 product-specific claims here. Those have been reverted per explicit
+instruction: this framework repository should not carry any one
+product's discovery data, so that the same mechanism can be run again
+unmodified against a completely different target repository/domain
+later.
 
 Per OV-000's exit checklist, entering M1 Discovery for an actual target
 project requires processing that project's own evidence through this same

@@ -67,11 +67,9 @@ scalability strategy if Discovery never covered performance.
 **Contents**, each carried at whatever confidence its source supports:
 
 1. **Service Boundaries** — bounded contexts, each with an explicit Owns /
-   Does NOT own statement (this is the generalized form of the pattern
-   found valuable in `examples/m1-discovery-domain-discovery-walkthrough.md`
-   and promoted to Law in the `m2-constitution-jwel-walkthrough.md`
-   example — if a target project's Constitution contains a boundary-
-   ownership Law, this section is how that Law gets satisfied concretely).
+   Does NOT own statement (if a target project's Constitution contains a
+   boundary-ownership Law, this section is how that Law gets satisfied
+   concretely).
 2. **Domain Model** — aggregate roots and their relationships (built from
    `data-model` findings if `Adopted`/`Adapted`, designed fresh otherwise).
 3. **Event Flow / Domain Events Catalog** — producer/consumer table for
@@ -94,11 +92,8 @@ module is `OV-004`.
 
 #### Examples
 
-See `examples/m3-architecture-jwel-walkthrough.md` once drafted — expected
-to be mostly `Adopted`, since `jwel-main.zip`'s own `ARCHITECTURE.md` was
-already thorough and largely consistent with the Constitution's Hybrid
-ambition (Law 1 in `m2-constitution-jwel-walkthrough.md` restates jwel's
-own boundary-enforcement rule as a binding Law).
+No published example yet — see `examples/README.md` for the sandbox
+rules a future worked example must follow.
 
 ---
 
@@ -195,6 +190,6 @@ idea.
 
 #### Required Updates When This Changes
 
-If the five-section structure changes, `examples/m3-architecture-jwel-
-walkthrough.md` (once it exists) should be reconciled or explicitly
-marked as authored against a prior protocol version.
+If the five-section structure changes, any published example exercising
+this protocol should be reconciled or explicitly marked as authored
+against a prior protocol version.

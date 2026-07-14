@@ -36,16 +36,16 @@ complexity: Low
 
 Rulebooks for each milestone (starting with M1 Discovery) read better and
 are more trustworthy when validated against a real, messy input rather than
-written in the abstract and never exercised. `jwel-main.zip` is available
-as exactly that kind of input.
+written in the abstract and never exercised. A real reference codebase is
+available as exactly that kind of input.
 
-But on 2026-07-08, validating `OV-000` against `jwel-main.zip` was done by
-writing the run's output directly into `knowledge/discovery/evidence/`,
-Oriveda's own live specification set. That merged one specific product's
-domain content (jewelry personas, NestJS module names, gold-rate pricing
-rules) into files meant to stay reusable across arbitrary future domains.
-It had to be identified and reverted. The underlying problem wasn't running
-the validation — it was where the validation's output was allowed to live.
+But on 2026-07-08, validating `OV-000` against that reference codebase was
+done by writing the run's output directly into
+`knowledge/discovery/evidence/`, Oriveda's own live specification set.
+That merged one specific product's domain content into files meant to
+stay reusable across arbitrary future domains. It had to be identified
+and reverted. The underlying problem wasn't running the validation — it
+was where the validation's output was allowed to live.
 
 ### The Convention
 
@@ -53,11 +53,14 @@ the validation — it was where the validation's output was allowed to live.
   and rulebooks. Everything here must remain domain-agnostic and reusable
   by any project that adopts Oriveda, indefinitely.
 - **`examples/`** is a sandbox: worked demonstrations of a protocol run
-  against a real input. Content here may freely reference a specific
-  project (jwel or otherwise) because nothing here is treated as
-  framework truth — it exists purely to show a rulebook working, for both
-  this project's own validation and as a reference for future users of the
-  framework.
+  against a real input. Content here may reference a specific project,
+  but only when that project's material is safe to publish (synthetic
+  data, a project the user owns outright, or something open-source) —
+  confidential or NDA-covered material must never be used as example
+  source evidence, and must never be committed to this repository at all.
+  Nothing here is treated as framework truth — it exists purely to show a
+  rulebook working, for both this project's own validation and as a
+  reference for future users of the framework.
 
 ## Options Considered
 

@@ -19,36 +19,13 @@ This folder is a **sandbox**, not part of Oriveda's own knowledge base. See
 
 ## Index
 
-`m1-discovery-*-walkthrough.md` is a complete run of `OV-001` against
-`jwel-main.zip` — all ten investigations, in the same order as `OV-001`'s
-investigation table. `m1-discovery-recommendations-walkthrough.md` is the
-synthesis step and cross-references the other nine.
-
-| Example | Investigation | Confidence |
-| --- | --- | --- |
-| [`m1-discovery-repo-structure-walkthrough.md`](m1-discovery-repo-structure-walkthrough.md) | repo-structure | 85% |
-| [`m1-discovery-business-vision-walkthrough.md`](m1-discovery-business-vision-walkthrough.md) | business-vision | 90% |
-| [`m1-discovery-feature-inventory-walkthrough.md`](m1-discovery-feature-inventory-walkthrough.md) | feature-inventory | 90% |
-| [`m1-discovery-user-journeys-walkthrough.md`](m1-discovery-user-journeys-walkthrough.md) | user-journeys | 60% |
-| [`m1-discovery-data-model-walkthrough.md`](m1-discovery-data-model-walkthrough.md) | data-model | 85% |
-| [`m1-discovery-domain-discovery-walkthrough.md`](m1-discovery-domain-discovery-walkthrough.md) | domain-discovery | 85% |
-| [`m1-discovery-technical-architecture-walkthrough.md`](m1-discovery-technical-architecture-walkthrough.md) | technical-architecture | 90% |
-| [`m1-discovery-hidden-business-rules-walkthrough.md`](m1-discovery-hidden-business-rules-walkthrough.md) | hidden-business-rules | 70% |
-| [`m1-discovery-technical-debt-walkthrough.md`](m1-discovery-technical-debt-walkthrough.md) | technical-debt | 90% |
-| [`m1-discovery-recommendations-walkthrough.md`](m1-discovery-recommendations-walkthrough.md) | recommendations (synthesis) | 90% |
-
-Source evidence for all ten: `jwel-main.zip` (`README.md`, `ARCHITECTURE.md`,
-`PRODUCT.md`, `SECURITY.md`, `apps/api/src/modules/*` listing).
-
-| Example | Demonstrates |
-| --- | --- |
-| [`m2-constitution-jwel-walkthrough.md`](m2-constitution-jwel-walkthrough.md) | `OV-002`, a full Constitution derived from the M1 walkthroughs above |
-| [`m3-architecture-jwel-walkthrough.md`](m3-architecture-jwel-walkthrough.md) | `OV-003`, system architecture (boundaries, domain model, events, folder structure, scalability) |
-| [`m3-technology-decisions-jwel-walkthrough.md`](m3-technology-decisions-jwel-walkthrough.md) | `OV-004`, per-layer technology decisions with trade-offs |
-| [`m4-standards-jwel-walkthrough.md`](m4-standards-jwel-walkthrough.md) | `OV-005`, applicability detection + Standards for all nine candidate categories |
-| [`m5-domains-jwel-walkthrough.md`](m5-domains-jwel-walkthrough.md) | `OV-006`, two Full domain specs (Order, Payment) + one Thin (Search) |
-| [`m6-features-jwel-walkthrough.md`](m6-features-jwel-walkthrough.md) | `OV-007`, Checkout (multi-domain, sequential hand-off) + Wishlist Save (single-domain) |
-| [`m7-prompts-jwel-walkthrough.md`](m7-prompts-jwel-walkthrough.md) | `OV-008`, all seven catalog prompts + PRM-FEATURE put to a real sufficiency test |
+This folder is currently empty. Prior worked examples were run against a
+confidential client codebase and have been removed — see
+`knowledge/decisions/ADR-0002-example-sandbox-separation.md` for the
+sandbox rules that make this possible without touching `knowledge/`.
+Future examples must run against source material that is safe to publish
+(synthetic data, a project the user owns outright, or something
+open-source) — never against confidential or NDA-covered material.
 
 Each new example should get one row here, plus a short intro at the top of
 its own file naming: which `knowledge/` rulebook it exercises, and what

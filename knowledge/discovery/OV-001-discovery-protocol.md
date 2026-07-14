@@ -75,7 +75,6 @@ already exist, not to go looking for new ones from scratch.
 | `recommendations` | Recommendations | What should Oriveda preserve, improve, or discard going forward? |
 
 **Cross-cutting extraction checklist.** Three independent dry runs
-(`m3-architecture-jwel-walkthrough.md`, `m4-standards-jwel-walkthrough.md`)
 found the same failure shape: a detail present in source evidence, squarely
 in scope for a specific investigation, but not captured there — a domain
 events catalog missing from `domain-discovery`, and non-functional

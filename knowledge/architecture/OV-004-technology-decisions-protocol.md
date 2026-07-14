@@ -93,7 +93,8 @@ or in `examples/` for a validation dry-run. They do not join Oriveda's own
 
 #### Examples
 
-See `examples/m3-technology-decisions-jwel-walkthrough.md` once drafted.
+No published example yet — see `examples/README.md` for the sandbox
+rules a future worked example must follow.
 
 ---
 

@@ -53,8 +53,8 @@ The framework now exists independently of any implementation and establishes the
   owner-choice questions (rigor level, AI collaboration mode,
   architecture ambition) that can't be inferred from evidence.
 - `templates/constitution-template.md`.
-- `examples/m2-constitution-jwel-walkthrough.md`: a full 8-Law
-  Constitution draft.
+- A worked example: a full 8-Law Constitution draft (later removed from
+  `examples/` — confidential source material, see `ADR-0002`).
 
 ---
 
@@ -69,9 +69,9 @@ The framework now exists independently of any implementation and establishes the
 - `OV-004` M3 Technology Decisions Protocol (Frozen): the stack-freedom
   owner-choice question plus one ADR-shaped decision per significant
   technology layer.
-- Two worked examples (`m3-architecture-jwel-walkthrough.md`,
-  `m3-technology-decisions-jwel-walkthrough.md`). Found and fixed a real
-  leak (tech-specific content embedded in `OV-003`'s own body) before
+- Two worked examples (later removed from `examples/` — confidential
+  source material, see `ADR-0002`). Found and fixed a real leak
+  (tech-specific content embedded in `OV-003`'s own body) before
   freezing.
 
 ---
@@ -84,7 +84,8 @@ The framework now exists independently of any implementation and establishes the
   catalog with applicability detection against a target project's
   architecture/technology/constitution, a shared necessity bar, and one
   common template all produced Standards follow.
-- `examples/m4-standards-jwel-walkthrough.md`.
+- A worked example (later removed from `examples/` — confidential source
+  material, see `ADR-0002`).
 
 ### Changed
 
@@ -105,9 +106,10 @@ The framework now exists independently of any implementation and establishes the
   projection domains while still requiring every declared boundary to
   have a spec.
 - `templates/domain-template.md`.
-- `examples/m5-domains-jwel-walkthrough.md`: two Full specs, one Thin —
-  surfaced a real inconsistency in the reference project's own
-  architecture doc (correctly flagged, not silently resolved).
+- A worked example: two Full specs, one Thin — surfaced a real
+  inconsistency in the reference project's own architecture doc
+  (correctly flagged, not silently resolved). Later removed from
+  `examples/` — confidential source material, see `ADR-0002`.
 
 ---
 
@@ -120,9 +122,10 @@ The framework now exists independently of any implementation and establishes the
   domain." Unlike M1–M5, M6's Definition of Done is protocol readiness,
   not full feature coverage — features are open-ended.
 - `templates/feature-template.md`.
-- `examples/m6-features-jwel-walkthrough.md`: a multi-domain,
-  sequential-hand-off feature found and fixed a real structural gap in
-  the dependency rule before freezing.
+- A worked example: a multi-domain, sequential-hand-off feature found
+  and fixed a real structural gap in the dependency rule before
+  freezing. Later removed from `examples/` — confidential source
+  material, see `ADR-0002`.
 
 ---
 
@@ -135,8 +138,9 @@ The framework now exists independently of any implementation and establishes the
   milestone's protocol plus a cross-cutting review prompt, sharing a
   common Context/Task/Constraints/Deliverables/DoD shape.
 - `templates/prompt-template.md`.
-- `examples/m7-prompts-jwel-walkthrough.md`: all seven prompts
-  instantiated; `PRM-FEATURE` put to a real sufficiency test.
+- A worked example: all seven prompts instantiated; `PRM-FEATURE` put to
+  a real sufficiency test. Later removed from `examples/` — confidential
+  source material, see `ADR-0002`.
 - Root `README.md`: a "Getting Started With a New Project" section with
   a copy-pasteable Genesis Prompt for bootstrapping Oriveda governance
   in a new target project, including the no-repository case.

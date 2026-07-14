@@ -112,11 +112,11 @@ Constitution amendment, not a Standards revision.
 
 #### Examples
 
-See `examples/m4-standards-jwel-walkthrough.md` once drafted — expected to
-exercise the applicability table against jwel's actual architecture (API
-and Database clearly applicable; Accessibility applicable since it has a
-storefront UI; worth checking whether SEO is applicable given the
-storefront is server-rendered per `OV-004`'s technology decisions).
+No published example yet — see `examples/README.md` for the sandbox
+rules a future worked example must follow. A future example should
+exercise the applicability table against a real project's architecture
+to validate that "not applicable" categories get explicitly stated
+rather than silently skipped.
 
 ---
 
