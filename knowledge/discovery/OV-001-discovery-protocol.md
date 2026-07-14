@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-001
 title: M1 Discovery Protocol
@@ -31,9 +28,8 @@ tags:
 risk: Medium
 complexity: Medium
 ---
-```
 
-## OV-001 — M1 Discovery Protocol
+# OV-001 — M1 Discovery Protocol
 
 ### 1. Human Layer
 

@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-007
 title: M6 Feature Specification Protocol
@@ -31,9 +28,8 @@ tags:
 risk: Medium
 complexity: Medium
 ---
-```
 
-## OV-007 — M6 Feature Specification Protocol
+# OV-007 — M6 Feature Specification Protocol
 
 ### 1. Human Layer
 

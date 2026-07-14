@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-005
 title: M4 Standards Protocol
@@ -32,9 +29,8 @@ tags:
 risk: Medium
 complexity: Medium
 ---
-```
 
-## OV-005 — M4 Standards Protocol
+# OV-005 — M4 Standards Protocol
 
 ### 1. Human Layer
 

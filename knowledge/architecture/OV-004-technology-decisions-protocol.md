@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-004
 title: M3 Technology Decisions Protocol
@@ -32,9 +29,8 @@ tags:
 risk: Medium
 complexity: Medium
 ---
-```
 
-## OV-004 — M3 Technology Decisions Protocol
+# OV-004 — M3 Technology Decisions Protocol
 
 ### 1. Human Layer
 

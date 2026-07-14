@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-000
 title: Knowledge Acquisition Specification
@@ -29,9 +26,8 @@ tags:
 risk: Medium
 complexity: Medium
 ---
-```
 
-## OV-000 — Knowledge Acquisition Specification
+# OV-000 — Knowledge Acquisition Specification
 
 ## 1. Human Layer
 

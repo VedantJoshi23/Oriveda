@@ -68,16 +68,19 @@ decisions:
     path: knowledge/decisions/ADR-0001-oriveda-is-a-product.md
     status: Frozen
     version: 1.0.0
+    milestone: M0
   - id: ADR-0002
     title: Example Sandbox Separation
     path: knowledge/decisions/ADR-0002-example-sandbox-separation.md
     status: Frozen
     version: 1.0.1
+    milestone: M1
   - id: ADR-0003
     title: Target Projects Reference Oriveda via Git Submodule
     path: knowledge/decisions/ADR-0003-target-project-submodule-reference.md
     status: Frozen
     version: 1.0.0
+    milestone: M7
 
 # The fixed PRM-* catalog is framework-level (defined by OV-008), unlike
 # domains/features above which are always empty here — those are

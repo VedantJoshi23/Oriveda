@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-008
 title: M7 Prompt Library Protocol
@@ -36,9 +33,8 @@ tags:
 risk: Medium
 complexity: Low
 ---
-```
 
-## OV-008 — M7 Prompt Library Protocol
+# OV-008 — M7 Prompt Library Protocol
 
 ### 1. Human Layer
 

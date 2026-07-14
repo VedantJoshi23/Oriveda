@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: ADR-0003
 title: Target Projects Reference Oriveda via Git Submodule
@@ -30,9 +27,8 @@ tags:
 risk: Medium
 complexity: Low
 ---
-```
 
-## ADR-0003 — Target Projects Reference Oriveda via Git Submodule
+# ADR-0003 — Target Projects Reference Oriveda via Git Submodule
 
 ### Context
 

@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-002
 title: M2 Constitution Protocol
@@ -32,9 +29,8 @@ tags:
 risk: High
 complexity: Medium
 ---
-```
 
-## OV-002 — M2 Constitution Protocol
+# OV-002 — M2 Constitution Protocol
 
 ### 1. Human Layer
 
