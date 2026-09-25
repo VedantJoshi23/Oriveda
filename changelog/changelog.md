@@ -188,3 +188,37 @@ without anyone deciding whether they were actually needed.
   forgotten.
 - Phantom top-level `standards/` from the README's structure diagram —
   never actually existed; `knowledge/standards/` is what's real.
+
+---
+
+## Feedback from the first consuming project
+
+Gaps found while running M1–M6 on the first real target project
+(DecisionMakingUsingData) and fixed here.
+
+### Added
+
+- The seven `PRM-*` prompts in `knowledge/prompts/` (Draft). `OV-008`
+  defined the catalog, but no prompt had a body, so "identify the `PRM`
+  that applies and load its Context" could not actually be followed.
+- `ADR-0004` (Draft): project-scope prefixes `DISC-`, `CONST-` and `ARCH-`
+  for the documents `OV-001`–`OV-003` produce (adopted from the project,
+  which had to invent them), and `scripts/validate.py --root PROJECT` to
+  validate a target project's `knowledge/` against its own manifest.
+  Checked against that project: 62 specifications, no errors.
+- The framework-mode validator also checks the `PRM-*` files.
+
+### Fixed
+
+- README: `scripts/` described as empty (the validator exists), a
+  non-existent `knowledge/appendix/` in the structure diagram, and "no
+  separate prompt library" contradicting `OV-008`.
+
+### Known, not yet addressed
+
+- The worked examples removed under `ADR-0002` leave the DoD items that
+  cite `examples/` (for example `OV-008` item 4) unmet.
+- No protocol for M8 (Implementation) yet: keeping specifications in step
+  with code, marking Discovery findings resolved, and governing releases.
+- No rule for a project whose specifications are all still Draft: "load
+  only Frozen specs" then loads nothing.

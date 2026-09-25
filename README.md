@@ -16,7 +16,7 @@ Most "spec-driven" tooling assumes you're starting greenfield with a clean PRD. 
 
 - **Evidence-based Knowledge Acquisition.** Every extracted fact carries a confidence score and a citation to its source — `"Orders have a status field — 99% confidence, from source code"` vs. `"Wishlist exists — 70% confidence, inferred from a screenshot"`. Nothing gets asserted without a trail back to why it's believed.
 - **Knowledge outlives implementation.** Specifications are the durable asset; code is the disposable output. If code and docs ever disagree, the specification is treated as correct and the implementation is the thing that's wrong.
-- **Humans and AI read the same documents.** No separate prompt library and no tribal knowledge living only in a chat transcript — one set of specifications, structured so both a person and a coding agent can act on them directly.
+- **Humans and AI read the same documents.** No tribal knowledge living only in a chat transcript — one set of specifications, structured so both a person and a coding agent can act on them directly. The prompt catalog (`OV-008`) adds no knowledge of its own: each prompt only points at those specifications by ID.
 - **Milestone-driven, not all-at-once.** Discovery → Constitution → Architecture → Standards → Domains → Features → Prompts → Implementation, in that order, deliberately — implementation is the *last* milestone, not the first.
 
 ---
@@ -163,7 +163,6 @@ oriveda/
 ├── examples/
 │
 ├── knowledge/
-│   ├── appendix/
 │   ├── architecture/
 │   ├── constitution/
 │   ├── decisions/
@@ -179,8 +178,9 @@ oriveda/
 └── README.md
 ```
 
-`scripts/` is an intentional placeholder for future tooling — empty
-today, not yet built. `.oriveda/knowledge_graph.md` is a Mermaid diagram
+`scripts/validate.py` mechanizes the Validation Layer: it checks this
+repository's specifications, or a target project's with `--root`
+(`ADR-0004`). `.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
 each milestone checkpoint (see the file itself for the maintenance rule).
 There is no standalone Vision layer or folder: vision-type evidence is
@@ -326,6 +326,19 @@ ADR-0003
 
 ---
 
+### Project documents
+
+A target project's own Discovery, Constitution and Architecture documents
+(`ADR-0004`):
+
+```text
+DISC-RECOMMENDATIONS
+CONST-CORE
+ARCH-SYSTEM
+```
+
+---
+
 ### Domains
 
 ```text
@@ -361,7 +374,7 @@ STD-TESTING
 ### Prompt Templates
 
 The fixed catalog defined by `OV-008`, one per protocol above plus one
-cross-cutting review prompt:
+cross-cutting review prompt, in `knowledge/prompts/`:
 
 ```text
 PRM-DISCOVERY
