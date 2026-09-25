@@ -73,6 +73,29 @@ prefixes:
       - PRM-FEATURE
       - PRM-REVIEW
 
+  DISC:
+    name: Discovery investigation
+    scope: project
+    pattern: 'DISC-[A-Z-]+'
+    description: >
+      One of a target project's ten OV-001 investigations or its
+      recommendations roll-up (ADR-0004).
+    example: DISC-RECOMMENDATIONS
+
+  CONST:
+    name: Constitution
+    scope: project
+    pattern: 'CONST-[A-Z-]+'
+    description: A target project's Engineering Constitution, per OV-002 (ADR-0004).
+    example: CONST-CORE
+
+  ARCH:
+    name: Architecture
+    scope: project
+    pattern: 'ARCH-[A-Z-]+'
+    description: A target project's system architecture, per OV-003 (ADR-0004).
+    example: ARCH-SYSTEM
+
   EVD:
     name: Evidence item
     scope: project

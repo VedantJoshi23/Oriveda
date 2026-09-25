@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """oriveda validate — mechanizes OV-000's Validation Layer against knowledge/.
 
-Checks, per specification file under knowledge/**/*.md matching OV-*.md or
-ADR-*.md:
+Checks, per specification file under knowledge/**/*.md matching OV-*.md,
+ADR-*.md or PRM-*.md (or, with --root PROJECT, a target project's
+knowledge/**/*.md matching its project-scope prefixes; ADR-0004):
   - frontmatter present and parses as YAML
   - all fields required by templates/document-template.md are present
   - Frozen/Approved specs have non-blank values for fields the template
@@ -12,7 +13,8 @@ ADR-*.md:
   - status is one of the seven lifecycle stages in the root README
   - depends_on / required_by / related_documents / related_decisions
     reference ids that actually exist
-  - every file is listed in .oriveda/manifest.yaml with matching
+  - every file is listed in .oriveda/manifest.yaml (a target project's
+    knowledge/manifest.yaml with --root) with matching
     id/status/version/milestone, and every manifest entry's path exists
     (bidirectional sync, catches orphans per Contribution Rule 6)
 
@@ -38,6 +40,10 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 KNOWLEDGE_DIR = REPO_ROOT / "knowledge"
 TAXONOMY_PATH = REPO_ROOT / ".oriveda" / "taxonomy.yaml"
 MANIFEST_PATH = REPO_ROOT / ".oriveda" / "manifest.yaml"
+
+# The repository being validated: this one by default, a target project with
+# --root (ADR-0004). Paths in findings and manifests are relative to it.
+BASE = REPO_ROOT
 
 LIFECYCLE_STATUSES = {
     "Proposal",
@@ -96,7 +102,7 @@ def load_manifest() -> dict:
 
 def parse_frontmatter(path: Path, findings: list[Finding]) -> ParsedDoc | None:
     text = path.read_text()
-    rel = str(path.relative_to(REPO_ROOT))
+    rel = str(path.relative_to(BASE))
 
     m = RAW_FRONTMATTER_RE.match(text)
     if m:
@@ -131,7 +137,7 @@ def parse_frontmatter(path: Path, findings: list[Finding]) -> ParsedDoc | None:
 
 
 def check_required_fields(doc: ParsedDoc, findings: list[Finding]) -> None:
-    rel = str(doc.path.relative_to(REPO_ROOT))
+    rel = str(doc.path.relative_to(BASE))
     for f in REQUIRED_FIELDS:
         if f not in doc.frontmatter:
             findings.append(Finding(rel, "error", f"missing required field '{f}'"))
@@ -154,7 +160,7 @@ def check_required_fields(doc: ParsedDoc, findings: list[Finding]) -> None:
 
 
 def check_status(doc: ParsedDoc, findings: list[Finding]) -> None:
-    rel = str(doc.path.relative_to(REPO_ROOT))
+    rel = str(doc.path.relative_to(BASE))
     status = doc.frontmatter.get("status")
     if status is not None and status not in LIFECYCLE_STATUSES:
         findings.append(Finding(
@@ -166,7 +172,7 @@ def check_status(doc: ParsedDoc, findings: list[Finding]) -> None:
 
 def check_id(doc: ParsedDoc, taxonomy: dict, seen_ids: dict[str, Path],
              findings: list[Finding]) -> None:
-    rel = str(doc.path.relative_to(REPO_ROOT))
+    rel = str(doc.path.relative_to(BASE))
     doc_id = doc.frontmatter.get("id")
     if not doc_id:
         return
@@ -182,7 +188,7 @@ def check_id(doc: ParsedDoc, taxonomy: dict, seen_ids: dict[str, Path],
         ))
 
     if doc_id in seen_ids and seen_ids[doc_id] != doc.path:
-        other = seen_ids[doc_id].relative_to(REPO_ROOT)
+        other = seen_ids[doc_id].relative_to(BASE)
         findings.append(Finding(rel, "error", f"id '{doc_id}' is also used by {other}"))
     else:
         seen_ids[doc_id] = doc.path
@@ -190,7 +196,7 @@ def check_id(doc: ParsedDoc, taxonomy: dict, seen_ids: dict[str, Path],
 
 def check_dependency_graph(doc: ParsedDoc, known_ids: set[str],
                             findings: list[Finding]) -> None:
-    rel = str(doc.path.relative_to(REPO_ROOT))
+    rel = str(doc.path.relative_to(BASE))
     for field_name in ("depends_on", "required_by", "related_documents", "related_decisions"):
         refs = doc.frontmatter.get(field_name) or []
         for ref in refs:
@@ -204,13 +210,15 @@ def check_dependency_graph(doc: ParsedDoc, known_ids: set[str],
 def check_manifest_sync(docs: list[ParsedDoc], manifest: dict,
                          findings: list[Finding]) -> None:
     manifest_entries = {
-        e["id"]: e for e in (manifest.get("documents") or []) + (manifest.get("decisions") or [])
+        e["id"]: e
+        for e in (manifest.get("documents") or []) + (manifest.get("decisions") or [])
+        + [p for p in (manifest.get("prompts") or []) if "path" in p]
     }
 
     docs_by_id = {d.frontmatter.get("id"): d for d in docs if d.frontmatter.get("id")}
 
     for doc_id, entry in manifest_entries.items():
-        manifest_path = REPO_ROOT / entry["path"]
+        manifest_path = BASE / entry["path"]
         if not manifest_path.exists():
             findings.append(Finding(
                 str(entry["path"]), "error",
@@ -233,7 +241,7 @@ def check_manifest_sync(docs: list[ParsedDoc], manifest: dict,
     for doc_id, doc in docs_by_id.items():
         if doc_id not in manifest_entries:
             findings.append(Finding(
-                str(doc.path.relative_to(REPO_ROOT)), "error",
+                str(doc.path.relative_to(BASE)), "error",
                 f"'{doc_id}' exists on disk but is not listed in .oriveda/manifest.yaml",
             ))
 
@@ -241,15 +249,46 @@ def check_manifest_sync(docs: list[ParsedDoc], manifest: dict,
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate Oriveda specifications.")
     parser.add_argument("--strict", action="store_true", help="treat warnings as errors")
+    parser.add_argument("--root", type=Path, metavar="PROJECT",
+                        help="validate a target project's knowledge/ instead of this repository "
+                             "(ADR-0004): its project-scope prefixes, knowledge/manifest.yaml, "
+                             "and references to Oriveda's own OV-/ADR-/PRM- ids")
     args = parser.parse_args()
 
+    global BASE
     findings: list[Finding] = []
     taxonomy = load_taxonomy()
-    manifest = load_manifest()
+    framework_manifest = load_manifest()
+    external_ids: set[str] = set()
+
+    if args.root is None:
+        manifest = framework_manifest
+        knowledge_dir = KNOWLEDGE_DIR
+        prefixes = ["OV", "ADR", "PRM"]
+    else:
+        BASE = args.root.resolve()
+        knowledge_dir = BASE / "knowledge"
+        manifest_path = knowledge_dir / "manifest.yaml"
+        if not manifest_path.exists():
+            print(f"[ERROR] {manifest_path}: a target project lists its specifications here")
+            return 1
+        manifest = yaml.safe_load(manifest_path.read_text())
+        # Project-scope prefixes, plus the project's own ADR series and any prefixes the
+        # project adds in knowledge/taxonomy.yaml (ADR-0004).
+        taxonomy = {k: v for k, v in taxonomy.items() if v.get("scope") == "project" or k == "ADR"}
+        project_taxonomy = knowledge_dir / "taxonomy.yaml"
+        if project_taxonomy.exists():
+            for k, v in (yaml.safe_load(project_taxonomy.read_text()).get("prefixes") or {}).items():
+                taxonomy.setdefault(k, v)
+        prefixes = sorted(taxonomy)
+        external_ids = {
+            e["id"] for e in (framework_manifest.get("documents") or [])
+            + (framework_manifest.get("decisions") or []) + (framework_manifest.get("prompts") or [])
+        }
 
     spec_files = sorted(
-        p for p in KNOWLEDGE_DIR.rglob("*.md")
-        if re.match(r"^(OV|ADR)-", p.name)
+        p for p in knowledge_dir.rglob("*.md")
+        if re.match(r"^(" + "|".join(prefixes) + r")-", p.name)
     )
 
     docs: list[ParsedDoc] = []
@@ -263,7 +302,7 @@ def main() -> int:
         check_status(doc, findings)
         check_id(doc, taxonomy, seen_ids, findings)
 
-    known_ids = {d.frontmatter.get("id") for d in docs if d.frontmatter.get("id")}
+    known_ids = {d.frontmatter.get("id") for d in docs if d.frontmatter.get("id")} | external_ids
     for doc in docs:
         check_dependency_graph(doc, known_ids, findings)
 
