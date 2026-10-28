@@ -21,43 +21,43 @@ documents:
     title: M2 Constitution Protocol
     path: knowledge/constitution/OV-002-constitution-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M2
   - id: OV-003
     title: M3 System Architecture Protocol
     path: knowledge/architecture/OV-003-system-architecture-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M3
   - id: OV-004
     title: M3 Technology Decisions Protocol
     path: knowledge/architecture/OV-004-technology-decisions-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M3
   - id: OV-005
     title: M4 Standards Protocol
     path: knowledge/standards/OV-005-standards-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M4
   - id: OV-006
     title: M5 Domain Specification Protocol
     path: knowledge/domains/OV-006-domain-specification-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M5
   - id: OV-007
     title: M6 Feature Specification Protocol
     path: knowledge/features/OV-007-feature-specification-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M6
   - id: OV-008
     title: M7 Prompt Library Protocol
     path: knowledge/prompts/OV-008-prompt-library-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M7
 
 domains: []
@@ -78,6 +78,11 @@ decisions:
     path: knowledge/decisions/ADR-0003-target-project-submodule-reference.md
     status: Frozen
     version: 1.0.0
+  - id: ADR-0004
+    title: Progressive Rigor — Only Frozen Specifications Win
+    path: knowledge/decisions/ADR-0004-progressive-rigor.md
+    status: Frozen
+    version: 1.0.0
 
 # The fixed PRM-* catalog is framework-level (defined by OV-008), unlike
 # domains/features above which are always empty here — those are
@@ -96,4 +101,5 @@ prompts:
   - id: PRM-FEATURE
     kicks_off: [OV-007]
   - id: PRM-REVIEW
-    kicks_off: []   # cross-cutting; evaluates against all Frozen specs
+    kicks_off: []   # cross-cutting; checks Frozen-spec violations and
+                    # unlogged divergences from Draft specs (ADR-0004)

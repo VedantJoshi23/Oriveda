@@ -83,7 +83,8 @@ A specification should have a single responsibility and a clearly defined owner.
 **Documentation is executable knowledge.**
 
 Documentation is not historical record.
-It is the authoritative description of how a system should behave.
+A **Frozen** specification is the authoritative description of how a system should behave: when code disagrees with it, the code is wrong.
+A specification that is not yet Frozen informs the code without binding it. A disagreement with one is a *divergence*, which is logged and reconciled, and either side may change. See `ADR-0004`.
 
 ---
 
@@ -148,6 +149,7 @@ oriveda/
 ├── scripts/
 ├── templates/
 │
+├── LICENSE
 └── README.md
 ```
 
@@ -264,6 +266,14 @@ This prompt is intentionally generic — see `examples/` in this repository
 for what the output of following it looked like end-to-end against a
 sample project.
 
+**You don't need every milestone finished before writing code.** The
+recommended default (`ADR-0004`) is a walking skeleton: run M1–M7 only
+as deep as one feature needs, build that feature, then deepen the specs
+with what the build taught you. Specs and code then advance together,
+feature by feature. The Constitution and any High-risk spec (domain
+boundaries, data ownership, auth, payments) are always Frozen before
+code that touches them.
+
 ---
 
 ## Naming Convention
@@ -292,6 +302,7 @@ OV-008 M7 Prompt Library Protocol
 ADR-0001
 ADR-0002
 ADR-0003
+ADR-0004
 ```
 
 ---
@@ -406,6 +417,22 @@ Superseded
 
 Knowledge evolves deliberately.
 
+**Freeze on proof, not on paper (`ADR-0004`).** How much rigor a
+specification needs, and when it must be Frozen, depends on its `risk`
+field:
+
+| Tier | Must be Frozen before… |
+| --- | --- |
+| High: the Constitution, domain boundaries, data ownership, auth, payments, decisions costly to reverse | …implementation of anything that touches it |
+| Medium: most domain and feature specs, Standards | …the first release that ships what it governs |
+| Low: routine features (a short *spec card*, `templates/spec-card-template.md`) | …the first release that ships it |
+
+Work may start on specs that are still Draft, as long as the claims it
+relies on are at ≥60% confidence and owner-acknowledged. Disagreements
+between code and Draft specs go in the target project's divergence log
+(`templates/divergence-log-template.md`). A spec with open divergences
+cannot be Frozen.
+
 ---
 
 ## Versioning
@@ -461,9 +488,7 @@ Every contribution should improve both the implementation **and** the engineerin
 
 ## Long-Term Vision
 
-The first implementation of Oriveda will power a production-grade jewelry e-commerce platform.
-
-The framework itself, however, is intentionally domain-agnostic.
+The framework is intentionally domain-agnostic.
 
 The long-term goal is to make Oriveda reusable for any software system—from SaaS platforms and marketplaces to healthcare, ERP, fintech, and AI-native applications.
 
@@ -473,5 +498,4 @@ Ultimately, Oriveda aims to become an engineering operating system where humans 
 
 ## License
 
-This project is currently under active development.
-License information will be added before the first stable release.
+Licensed under the [Apache License, Version 2.0](LICENSE).

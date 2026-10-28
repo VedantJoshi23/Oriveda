@@ -1,14 +1,14 @@
 ---
 id: OV-006
 title: M5 Domain Specification Protocol
-version: 0.1.0
+version: 0.2.0
 status: Frozen
 owner: Architecture
 reviewers:
   - Vedant
   - Oriveda AI
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-10-28
 milestone: M5
 category: Domains
 priority: Critical
@@ -23,6 +23,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
+  - ADR-0004
 tags:
   - domains
   - protocol
@@ -122,6 +123,8 @@ consumes:
   - TechnologyDecisionFrozen  # OV-004; which datastore implements ownership
   - InvestigationFrozen       # OV-001 domain-discovery, hidden-business-rules
   - ConstitutionFrozen        # OV-002; Laws each Invariant must not violate
+  - ConfidenceGate            # ADR-0004: inputs other than the Constitution and
+                                # OV-003 §1–§2 may be Drafts that pass the gate
 forbidden_dependencies:
   - Same domain-agnostic rule as the rest of the OV-00X series: no
     project-specific domain names, invariants, or events in this
@@ -189,16 +192,25 @@ forgotten one.
   reconciled first.
 - A Thin-tier classification must be justified against the context map,
   not asserted without backing.
+- **Gating (`ADR-0004`).** §2 Ownership, §6 Data Ownership and §7
+  Dependencies are High tier, because together they are the domain's
+  boundary. They must be Frozen before implementation of any slice that
+  touches the domain. The other sections may stay Draft while
+  implementation proceeds, and freeze before the first release that ships
+  the behavior they describe.
 
 ### Checklists
 
 **Definition of Done for Milestone M5 (Domains):**
 
-- [ ] `OV-003` and `OV-004` are Frozen for the target project.
+- [ ] `OV-003` §1–§2 (Service Boundaries, Domain Model) are Frozen; the `OV-004` decisions
+      this domain depends on pass the `ADR-0004` confidence gate.
 - [ ] Every declared bounded context has a Domain Specification, tiered
       Full or Thin, each justified.
 - [ ] No orphan or duplicate domain specs relative to `OV-003`.
 - [ ] Every Invariant sourced; no unsourced rules.
+- [ ] §2, §6 and §7 of each Domain Specification Frozen before
+      implementation touches that domain.
 - [ ] At least one Full and one Thin worked example exist under
       `examples/`, per `ADR-0002`.
 

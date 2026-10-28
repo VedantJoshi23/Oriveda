@@ -188,3 +188,42 @@ without anyone deciding whether they were actually needed.
   forgotten.
 - Phantom top-level `standards/` from the README's structure diagram —
   never actually existed; `knowledge/standards/` is what's real.
+
+---
+
+## Progressive Rigor (post-M8)
+
+Running M0–M8 end to end against a real target project showed the method
+works, but strict sequential freezing front-loads the specs most likely
+to be wrong and can't absorb requirements that only settle during the
+build.
+
+### Added
+
+- `ADR-0004` Progressive Rigor (Frozen): only Frozen specifications are
+  authoritative over code. A disagreement with a not-yet-Frozen spec is
+  a logged *divergence*. Rigor tiers (High/Medium/Low) come from each
+  spec's `risk` field; a confidence gate (≥60%, owner-acknowledged)
+  replaces "upstream must be Frozen" for starting work; specs freeze on
+  proof, and open divergences block freezing.
+- `templates/spec-card-template.md` (Low-tier feature form) and
+  `templates/divergence-log-template.md`.
+- `DIV` ID prefix (`.oriveda/taxonomy.yaml`); glossary terms
+  *divergence*, *rigor tier*, *confidence gate*, *slice*, *spec card*.
+- `LICENSE`: Apache License 2.0.
+- `examples/graphify-pilot-walkthrough.md`: Graphify (code-only, pinned
+  0.9.89) piloted as an `OV-000` evidence provider against an
+  open-source NestJS app. Verdict: adopt, under six stated rules.
+
+### Changed
+
+- Root `README.md`: Principle 4 now states that only Frozen
+  specifications bind code. The Specification Lifecycle section gains
+  the tier table; Getting Started recommends a walking skeleton. Removed
+  the stale "first implementation" line from Long-Term Vision. The
+  License section now points to `LICENSE`.
+- `OV-002` through `OV-008` revised to v0.2.0: each "upstream is Frozen"
+  gate is replaced by the `ADR-0004` confidence gate, except where the
+  upstream spec is High tier. The Constitution, `OV-003` §1–§2 and
+  `OV-006` §2/§6/§7 remain Frozen-before-implementation. `OV-008`'s
+  `PRM-REVIEW` now also checks for unlogged divergences.

@@ -4,14 +4,14 @@
 ---
 id: OV-004
 title: M3 Technology Decisions Protocol
-version: 0.1.0
+version: 0.2.0
 status: Frozen
 owner: Architecture
 reviewers:
   - Vedant
   - Oriveda AI
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-10-28
 milestone: M3
 category: Architecture
 priority: Critical
@@ -25,6 +25,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
+  - ADR-0004
 tags:
   - architecture
   - technology
@@ -110,6 +111,8 @@ consumes:
   - ArchitectureFrozen          # OV-003; determines which layers need a decision
   - ConstitutionFrozen          # rigor level bears on how much trade-off
                                   # documentation each decision needs
+  - ConfidenceGate              # ADR-0004: OV-003 §3–§5 may instead be Drafts
+                                  # that pass the confidence gate
 forbidden_dependencies:
   - Same domain-agnostic rule as the rest of the OV-00X series: no
     specific technology names are prescribed by this protocol itself.
@@ -162,14 +165,22 @@ change over a project's life — one at a time, not all together.
 - A technology decision may not contradict a Constitution Law (e.g. a
   choice that makes boundary-enforcement unenforceable would violate a
   Law-1-style rule).
+- **Gating (`ADR-0004`).** A technology decision that is costly to reverse
+  (for example the primary datastore, the language/runtime or the
+  identity provider) is High tier, and must be Frozen before any
+  implementation depends on it. Other decisions are Medium by default and
+  freeze before the first release that ships code depending on them.
 
 #### Checklists
 
 **Definition of Done for Milestone M3 (Technology half):**
 
-- [ ] `OV-003`'s architecture is Frozen (layers needing decisions are known).
+- [ ] `OV-003` §1–§2 (Service Boundaries, Domain Model) are Frozen and its other sections pass
+      the `ADR-0004` confidence gate (layers needing decisions are known).
 - [ ] Stack-freedom question and constraint preferences answered.
-- [ ] One decision entry per significant layer, each Frozen.
+- [ ] One decision entry per significant layer, each Frozen per its
+      `ADR-0004` tier (High-tier decisions before implementation depends
+      on them).
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`.
 
 #### Cross References

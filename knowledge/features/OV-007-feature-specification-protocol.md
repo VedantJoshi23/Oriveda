@@ -4,14 +4,14 @@
 ---
 id: OV-007
 title: M6 Feature Specification Protocol
-version: 0.1.0
+version: 0.2.0
 status: Frozen
 owner: Architecture
 reviewers:
   - Vedant
   - Oriveda AI
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-10-28
 milestone: M6
 category: Features
 priority: High
@@ -25,6 +25,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
+  - ADR-0004
 tags:
   - features
   - protocol
@@ -135,6 +136,8 @@ consumes:
                                 events, data ownership, allowed dependencies
   - StandardFrozen            # OV-005; Applicable Standards to check against
   - ConstitutionFrozen        # OV-002; Laws a feature must not violate
+  - ConfidenceGate            # ADR-0004: Draft Standards and non-boundary domain
+                                # sections may stand in when they pass the gate
 forbidden_dependencies:
   - Same domain-agnostic rule as the rest of the OV-00X series: no
     project-specific feature names, acceptance criteria, or domain
@@ -203,22 +206,38 @@ founding conversation asked for from the start.
   Applicable Standard relevant to the feature's shape, including stating
   "not applicable" where genuinely true.
 - No Feature Specification may violate a Constitution Law.
+- **Rigor tier (`ADR-0004`).** Every feature gets a tier at Proposal,
+  with a one-line reason. A Low-tier feature (no new invariant, no
+  cross-domain flow, no High-tier dependency) may use
+  `templates/spec-card-template.md` instead of the nine-section
+  structure. A feature moves up a tier as soon as it adds an invariant or
+  touches a High-tier spec.
+- **Gating (`ADR-0004`).** Implementation of a feature may start once it
+  passes the confidence gate: the Constitution and every High-tier spec
+  on its path are Frozen; everything else it depends on is at least
+  Draft, with the claims it relies on at ≥60% and owner-acknowledged; and
+  assumption-tier claims are listed as open questions. A High-tier
+  Feature Specification is Frozen before implementation; Medium and Low
+  ones before the first release that ships them.
 
 #### Checklists
 
 **Definition of Done for Milestone M6 (Features) — protocol readiness, not
 feature coverage:**
 
-- [ ] `OV-002`, `OV-005`, `OV-006` are Frozen for the target project.
+- [ ] The Constitution (`OV-002`) is Frozen; `OV-005` Standards and
+      `OV-006` Domain Specifications pass the `ADR-0004` confidence gate,
+      with domain §2/§6/§7 Frozen.
 - [ ] The nine-section structure has been exercised against at least one
       real feature spanning more than one domain.
 - [ ] No Feature Specification produced so far violates a Constitution Law
       or invents an undeclared cross-domain dependency.
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`.
 
-*(Ongoing, per-feature: each new Feature Specification is Frozen
-individually before implementation begins — M6 as a milestone is "ready,"
-not "finished," once the above is met.)*
+*(Ongoing, per-feature: each new Feature Specification or spec card
+passes the `ADR-0004` gate before implementation begins, and is Frozen at
+the point its tier requires. M6 as a milestone is "ready," not
+"finished," once the above is met.)*
 
 #### Cross References
 

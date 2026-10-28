@@ -4,14 +4,14 @@
 ---
 id: OV-005
 title: M4 Standards Protocol
-version: 0.1.0
+version: 0.2.0
 status: Frozen
 owner: Architecture
 reviewers:
   - Vedant
   - Oriveda AI
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-10-28
 milestone: M4
 category: Standards
 priority: High
@@ -26,6 +26,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
+  - ADR-0004
 tags:
   - standards
   - protocol
@@ -134,6 +135,8 @@ consumes:
   - ArchitectureFrozen        # OV-003; API/Accessibility/Performance signals
   - TechnologyDecisionFrozen  # OV-004; Database/CI-CD signals
   - InvestigationFrozen       # OV-001 recommendations, specifically Improve items
+  - ConfidenceGate            # ADR-0004: OV-001/OV-003/OV-004 inputs may instead be
+                                # Drafts that pass the gate (High-tier parts Frozen)
 forbidden_dependencies:
   - Same domain-agnostic rule as the rest of the OV-00X series: no
     project-specific rules, category applicability answers, or examples
@@ -204,17 +207,23 @@ the latter is honest about its own scope.
 - No Standard may contradict a Constitution Law. A conflict found during
   drafting must be surfaced as a candidate Constitution amendment, not
   quietly resolved in the Standard's favor.
+- **Gating (`ADR-0004`).** Standards are Medium tier by default: drafted
+  early, and Frozen before the first release that ships code they govern.
+  A Standard may be harvested from the first implemented slice's code
+  instead of written in the abstract; abstract-first Standards tend to
+  fail on first contact with a real schema (see `ADR-0004` Context). A
+  Standard that bears on security or data integrity may be raised to High.
 
 #### Checklists
 
 **Definition of Done for Milestone M4 (Standards):**
 
-- [ ] `OV-002`, `OV-003`, `OV-004` are Frozen for the target project (M2
-      and M3 complete first).
+- [ ] The Constitution (`OV-002`) is Frozen; `OV-003`/`OV-004` outputs pass
+      the `ADR-0004` confidence gate, with their High-tier parts Frozen.
 - [ ] Applicability determined and stated for all nine candidate
       categories (plus any project-specific additions).
-- [ ] Every applicable category's Standard drafted, reviewed, and Frozen
-      using the common template.
+- [ ] Every applicable category's Standard drafted and reviewed using the
+      common template, and Frozen per its `ADR-0004` tier.
 - [ ] No Standard contradicts a Constitution Law.
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`.
 
