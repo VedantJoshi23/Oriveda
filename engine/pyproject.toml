@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "oriveda"
+version = "0.1.0"
+description = "Oriveda engine: check a codebase against its Oriveda specifications."
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.10"
+dependencies = ["PyYAML>=6.0"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Quality Assurance",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+[project.scripts]
+oriveda = "oriveda.cli:main"
+
+[project.urls]
+Repository = "https://github.com/VedantJoshi23/Oriveda"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

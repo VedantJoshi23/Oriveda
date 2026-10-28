@@ -133,3 +133,17 @@ spec_card:
     spec-card-template.md): purpose, owning domain, acceptance criteria,
     open questions. Moves up to a full Feature Specification as soon as
     it gains an invariant, a cross-domain flow or a High-tier dependency.
+
+engine:
+  definition: >
+    The oriveda CLI under engine/ (ADR-0005). It reads a target project's
+    specifications plus an evidence provider's code graph, and reports
+    where they agree or disagree, applying the ADR-0004 authority rule
+    and OV-000 confidence tiers.
+
+evidence_provider:
+  definition: >
+    A tool whose output the engine can read as a code graph (Graphify
+    first). Providers are inputs, never dependencies: the engine reads
+    their output files through an adapter, and provider clustering is
+    never treated as a domain proposal (ADR-0005 rule 3).

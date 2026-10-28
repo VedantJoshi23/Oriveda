@@ -1,6 +1,6 @@
 ---
 id:
-title: <Project Name> — Review: <Name>
+title: "<Project Name> — Review: <Name>"
 version: 0.1.0
 status: Proposal
 owner:

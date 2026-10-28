@@ -227,3 +227,40 @@ build.
   upstream spec is High tier. The Constitution, `OV-003` §1–§2 and
   `OV-006` §2/§6/§7 remain Frozen-before-implementation. `OV-008`'s
   `PRM-REVIEW` now also checks for unlogged divergences.
+
+---
+
+## Oriveda Engine v0.1.0 (post-M8)
+
+### Added
+
+- `ADR-0005` The Oriveda Engine (Frozen): a Python 3.10+ CLI under
+  `engine/` that reads target-project specifications plus an evidence
+  provider's code graph (Graphify first, read as a file and never
+  imported), and reports disagreements under the `ADR-0004` authority
+  rule. Commands ship one slice at a time.
+- `engine/` v0.1.0: `oriveda check boundaries`. It compares every
+  cross-domain dependency with each Domain Specification's §7
+  `oriveda-boundary` block. Findings on Frozen specs are violations
+  (exit 1); findings on Draft specs are divergences, printed with a
+  ready-to-paste `DIV` row. Every finding carries a confidence tier,
+  and a clean run is reported as an absence claim. Ships with 20 tests.
+- `examples/engine-boundary-check-walkthrough.md` and
+  `examples/realworld-domains/`: on the RealWorld target the check found
+  2 violations and 1 divergence. One of them was found through
+  symbol-level edges, despite Graphify#4839.
+- Glossary terms *engine*, *evidence provider*.
+
+### Changed
+
+- `OV-006` revised to v0.3.0: §7 carries an `oriveda-boundary` block that
+  must agree with its prose; a disagreement blocks freezing.
+  `templates/domain-template.md` gains the block.
+- Root `README.md`: `engine/` replaces the never-built `scripts/`
+  placeholder.
+
+### Fixed
+
+- Frontmatter in five templates (domain, feature, prompt, review, spec
+  card) was invalid YAML: an unquoted colon in `title:`. Titles are now
+  quoted. Found by the engine's first real run.

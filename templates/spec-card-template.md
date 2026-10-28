@@ -3,7 +3,7 @@
 ```yaml
 ---
 id:
-title: <Project Name> — Spec Card: <Name>
+title: "<Project Name> — Spec Card: <Name>"
 version: 0.1.0
 status: Proposal
 owner:

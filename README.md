@@ -146,15 +146,15 @@ oriveda/
 │   ├── prompts/
 │   └── standards/
 │
-├── scripts/
+├── engine/
 ├── templates/
 │
 ├── LICENSE
 └── README.md
 ```
 
-`scripts/` is an intentional placeholder for future tooling — empty
-today, not yet built. `.oriveda/knowledge_graph.md` is a Mermaid diagram
+`engine/` is the `oriveda` CLI (`ADR-0005`), which checks a codebase
+against its specifications. See `engine/README.md`. `.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
 each milestone checkpoint (see the file itself for the maintenance rule).
 There is no standalone Vision layer or folder: vision-type evidence is
@@ -274,6 +274,13 @@ feature by feature. The Constitution and any High-risk spec (domain
 boundaries, data ownership, auth, payments) are always Frozen before
 code that touches them.
 
+**Check the code against the specs.** Once a Domain Specification's §7
+carries an `oriveda-boundary` block, `oriveda check boundaries` reports
+every cross-domain dependency the specs don't allow. When the domain's
+spec is Frozen, it reports a violation; when the spec is still Draft, it
+reports a divergence to log. See `engine/README.md` and
+`examples/engine-boundary-check-walkthrough.md`.
+
 ---
 
 ## Naming Convention
@@ -303,6 +310,7 @@ ADR-0001
 ADR-0002
 ADR-0003
 ADR-0004
+ADR-0005
 ```
 
 ---

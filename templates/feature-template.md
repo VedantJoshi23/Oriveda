@@ -3,7 +3,7 @@
 ```yaml
 ---
 id:
-title: <Project Name> — Feature: <Name>
+title: "<Project Name> — Feature: <Name>"
 version: 0.1.0
 status: Proposal
 owner:

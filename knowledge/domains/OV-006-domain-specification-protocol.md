@@ -1,7 +1,7 @@
 ---
 id: OV-006
 title: M5 Domain Specification Protocol
-version: 0.2.0
+version: 0.3.0
 status: Frozen
 owner: Architecture
 reviewers:
@@ -24,6 +24,7 @@ related_features: []
 related_decisions:
   - ADR-0002
   - ADR-0004
+  - ADR-0005
 tags:
   - domains
   - protocol
@@ -81,7 +82,9 @@ context-map backing is not).
 6. Data Ownership     — tables/aggregates this domain owns (from OV-003's
                          Domain Model + OV-004's datastore decision)
 7. Dependencies       — Allowed (must match OV-003's context map exactly)
-                         / Forbidden (explicit, not just "everything else")
+                         / Forbidden (explicit, not just "everything else"),
+                         plus an `oriveda-boundary` block stating the same
+                         boundary machine-checkably (ADR-0005)
 8. Edge Cases &
    Validations        — specific scenarios a future implementer must handle
 ```
@@ -198,6 +201,11 @@ forgotten one.
   touches the domain. The other sections may stay Draft while
   implementation proceeds, and freeze before the first release that ships
   the behavior they describe.
+- **Machine-checkable boundary (`ADR-0005`).** §7 carries one
+  `oriveda-boundary` block: the code paths the domain owns, plus its
+  allowed and forbidden dependencies. It must agree with §2 and §7's
+  prose. A disagreement blocks freezing, just like a context-map
+  mismatch. `oriveda check boundaries` checks code against it.
 
 ### Checklists
 
@@ -211,6 +219,8 @@ forgotten one.
 - [ ] Every Invariant sourced; no unsourced rules.
 - [ ] §2, §6 and §7 of each Domain Specification Frozen before
       implementation touches that domain.
+- [ ] Each Domain Specification's §7 has an `oriveda-boundary` block that
+      agrees with its prose.
 - [ ] At least one Full and one Thin worked example exist under
       `examples/`, per `ADR-0002`.
 

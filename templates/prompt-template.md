@@ -3,7 +3,7 @@
 ```yaml
 ---
 id:
-title: <Project Name> — Prompt: <Name>
+title: "<Project Name> — Prompt: <Name>"
 version: 0.1.0
 status: Proposal
 owner:

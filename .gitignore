@@ -7,3 +7,11 @@ Complete_chat.md
 # See ADR-0002: examples/ may only use publishable source evidence.
 **/*jwel*
 examples/m1-discovery-*-walkthrough.md
+
+# Engine build and test artifacts.
+__pycache__/
+*.egg-info/
+.pytest_cache/
+engine/build/
+engine/dist/
+graphify-out/

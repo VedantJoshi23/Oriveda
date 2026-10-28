@@ -3,7 +3,7 @@
 ```yaml
 ---
 id:
-title: <Project Name> — Divergence Log
+title: "<Project Name> — Divergence Log"
 version: 0.1.0
 status: Draft
 owner:
