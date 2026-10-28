@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: DOM-PROFILE
 title: "RealWorld — Domain: Profile"
@@ -13,9 +10,8 @@ related_decisions:
   - ADR-0006
 risk: High
 ---
-```
 
-## Domain: Profile
+# Domain: Profile
 
 *Abbreviated for the `oriveda check boundaries` worked example: only
 §2 and §7 are shown. A real Domain Specification has all nine sections

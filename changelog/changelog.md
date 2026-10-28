@@ -191,12 +191,57 @@ without anyone deciding whether they were actually needed.
 
 ---
 
+## Feedback from the first consuming project
+
+Gaps found while running M1–M6 on the first real target project
+(DecisionMakingUsingData) and fixed here.
+
+### Added
+
+- The seven `PRM-*` prompts in `knowledge/prompts/` (Draft). `OV-008`
+  defined the catalog, but no prompt had a body, so "identify the `PRM`
+  that applies and load its Context" could not actually be followed.
+- `ADR-0004` (Draft): project-scope prefixes `DISC-`, `CONST-` and `ARCH-`
+  for the documents `OV-001`–`OV-003` produce (adopted from the project,
+  which had to invent them), and `scripts/validate.py --root PROJECT` to
+  validate a target project's `knowledge/` against its own manifest.
+  Checked against that project: 62 specifications, no errors.
+- The framework-mode validator also checks the `PRM-*` files.
+
+### Fixed
+
+- README: `scripts/` described as empty (the validator exists), a
+  non-existent `knowledge/appendix/` in the structure diagram, and "no
+  separate prompt library" contradicting `OV-008`.
+
+### Known, not yet addressed
+
+- The worked examples removed under `ADR-0002` leave the DoD items that
+  cite `examples/` (for example `OV-008` item 4) unmet.
+- No protocol for M8 (Implementation) yet: keeping specifications in step
+  with code, marking Discovery findings resolved, and governing releases.
+- No rule for a project whose specifications are all still Draft: "load
+  only Frozen specs" then loads nothing.
+
+---
+
 ## Progressive Rigor (post-M8)
 
 Running M0–M8 end to end against a real target project showed the method
 works, but strict sequential freezing front-loads the specs most likely
 to be wrong and can't absorb requirements that only settle during the
 build.
+
+### Resolves
+
+Two items from the "Known, not yet addressed" list above:
+
+- *No rule for a project whose specifications are all still Draft.* The
+  `ADR-0005` confidence gate lets work load Draft specs, marked as such,
+  when the claims it relies on are ≥60% and owner-acknowledged.
+- *Keeping specifications in step with code.* This is handled by the
+  divergence log, and by the rule that a spec with open divergences
+  can't be Frozen. A full M8 protocol is still open.
 
 ### Added
 
@@ -256,8 +301,9 @@ build.
 - `OV-006` revised to v0.3.0: §7 carries an `oriveda-boundary` block that
   must agree with its prose; a disagreement blocks freezing.
   `templates/domain-template.md` gains the block.
-- Root `README.md`: `engine/` replaces the never-built `scripts/`
-  placeholder.
+- Root `README.md`: documents `engine/` next to `scripts/validate.py`.
+  The genesis prompt now loads Draft specs, marked as such, instead of
+  "only Frozen specs".
 
 ### Fixed
 

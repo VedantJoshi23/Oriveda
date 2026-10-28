@@ -1,10 +1,7 @@
-# Metadata
-
-```yaml
 ---
 id: ADR-0006
 title: The Oriveda Engine — Specs That Check Themselves Against Code
-version: 1.0.0
+version: 1.0.1
 status: Frozen
 owner: Architecture
 reviewers:
@@ -35,9 +32,8 @@ tags:
 risk: High
 complexity: Medium
 ---
-```
 
-## ADR-0006 — The Oriveda Engine: Specs That Check Themselves Against Code
+# ADR-0006 — The Oriveda Engine: Specs That Check Themselves Against Code
 
 ### Context
 
@@ -82,9 +78,13 @@ specifications and a provider's code graph, and reports where the code
 and the specifications agree or disagree, using `ADR-0005`'s authority
 rule and `OV-000`'s confidence tiers.
 
-**1. Location.** The engine lives in this repository under `engine/`,
-replacing the never-built `scripts/` placeholder. Protocols and the
-checks that enforce them version together. A target project that
+**1. Location.** The engine lives in this repository under `engine/`.
+Protocols and the checks that enforce them version together. It sits
+next to `scripts/validate.py` (`ADR-0004`), but the two answer different
+questions. The validator checks specifications *themselves*
+(frontmatter, IDs, references, manifest sync). The engine checks *code
+against* specifications. Folding the validator into the engine as
+`oriveda validate` is a candidate follow-up, not part of this decision. A target project that
 references Oriveda as a submodule (`ADR-0003`) gets the matching engine
 version automatically.
 
@@ -186,3 +186,8 @@ graph), and `oriveda gate` (`ADR-0005` rule 3 for a given slice).
   language.
 - After `oriveda check boundaries` has run on two real target projects,
   re-evaluate the order of the next commands.
+- Users are confused by having two entry points (`scripts/validate.py`
+  and `oriveda`). Merge them before adding a third command.
+
+*v1.0.1 (2026-10-28): corrected rule 1. It had said `scripts/` was never
+built, but `scripts/validate.py` already existed on `main` (`ADR-0004`).*

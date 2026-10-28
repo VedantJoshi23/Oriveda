@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id:
 title: "<Project Name> — Spec Card: <Name>"
@@ -26,9 +23,8 @@ tags:
 risk: Low
 complexity:
 ---
-```
 
-## Spec Card: < Name >
+# Spec Card: < Name >
 
 The Low-tier form of a Feature Specification (`ADR-0005` rule 2,
 `OV-007`). Use it only when **all three** of these hold, and say why in

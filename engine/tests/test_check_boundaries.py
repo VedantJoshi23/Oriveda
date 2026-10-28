@@ -164,6 +164,17 @@ def test_spec_without_block_is_skipped_and_duplicate_domain_is_an_error(tmp_path
         load_boundaries(tmp_path)
 
 
+def test_raw_frontmatter_is_read_like_fenced(tmp_path):
+    """Raw `---` frontmatter at the top of the file, the form the validator expects."""
+    fenced = spec("DOM-X", "Frozen", ["x/**"])
+    raw = fenced.replace("# Metadata\n\n```yaml\n", "").replace("---\n```\n", "---\n", 1)
+    assert raw.startswith("---\nid: DOM-X")
+    p = tmp_path / "x.md"
+    p.write_text(raw, encoding="utf-8")
+    b = parse_domain_spec(p)
+    assert (b.spec_id, b.status, b.frozen) == ("DOM-X", "Frozen", True)
+
+
 def test_allowed_and_forbidden_overlap_is_a_spec_error(tmp_path):
     p = tmp_path / "x.md"
     p.write_text(spec("DOM-X", "Draft", ["x/**"], allowed=["DOM-Y"], forbidden=["DOM-Y"]), encoding="utf-8")

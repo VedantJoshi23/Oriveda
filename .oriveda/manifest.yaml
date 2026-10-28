@@ -2,7 +2,7 @@ framework: Oriveda
 version: 0.1.0
 knowledge_graph: knowledge_graph.md   # rendered Mermaid diagram, hand-updated
                                         # at each milestone checkpoint
-validation: manual         # no automated linting yet — tracked as future work in OV-000
+validation: scripts/validate.py   # run before treating any spec as Frozen
 engine:
   path: engine/
   version: 0.1.0
@@ -72,43 +72,89 @@ decisions:
     path: knowledge/decisions/ADR-0001-oriveda-is-a-product.md
     status: Frozen
     version: 1.0.0
+    milestone: M0
   - id: ADR-0002
     title: Example Sandbox Separation
     path: knowledge/decisions/ADR-0002-example-sandbox-separation.md
     status: Frozen
     version: 1.0.1
+    milestone: M1
   - id: ADR-0003
     title: Target Projects Reference Oriveda via Git Submodule
     path: knowledge/decisions/ADR-0003-target-project-submodule-reference.md
     status: Frozen
     version: 1.0.0
+    milestone: M7
+  - id: ADR-0004
+    title: Project Prefixes for Discovery, Constitution and Architecture; Target-Project Validation
+    path: knowledge/decisions/ADR-0004-project-prefixes-and-target-validation.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
   - id: ADR-0005
     title: Progressive Rigor — Only Frozen Specifications Win
     path: knowledge/decisions/ADR-0005-progressive-rigor.md
     status: Frozen
     version: 1.0.0
+    milestone: M8
   - id: ADR-0006
     title: The Oriveda Engine — Specs That Check Themselves Against Code
     path: knowledge/decisions/ADR-0006-oriveda-engine.md
     status: Frozen
-    version: 1.0.0
+    version: 1.0.1
+    milestone: M8
 
 # The fixed PRM-* catalog is framework-level (defined by OV-008), unlike
 # domains/features above which are always empty here — those are
 # per-target-project artifacts that never belong in this repository.
 prompts:
   - id: PRM-DISCOVERY
+    title: Prompt — Discovery
+    path: knowledge/prompts/PRM-DISCOVERY.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
     kicks_off: [OV-000, OV-001]
   - id: PRM-CONSTITUTION
+    title: Prompt — Constitution
+    path: knowledge/prompts/PRM-CONSTITUTION.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
     kicks_off: [OV-002]
   - id: PRM-ARCHITECTURE
+    title: Prompt — Architecture
+    path: knowledge/prompts/PRM-ARCHITECTURE.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
     kicks_off: [OV-003, OV-004]
   - id: PRM-STANDARDS
+    title: Prompt — Standards
+    path: knowledge/prompts/PRM-STANDARDS.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
     kicks_off: [OV-005]
   - id: PRM-DOMAIN
+    title: Prompt — Domain
+    path: knowledge/prompts/PRM-DOMAIN.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
     kicks_off: [OV-006]
   - id: PRM-FEATURE
+    title: Prompt — Feature
+    path: knowledge/prompts/PRM-FEATURE.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
     kicks_off: [OV-007]
   - id: PRM-REVIEW
+    title: Prompt — Review
+    path: knowledge/prompts/PRM-REVIEW.md
+    status: Draft
+    version: 0.1.0
+    milestone: M7
     kicks_off: []   # cross-cutting; checks Frozen-spec violations and
                     # unlogged divergences from Draft specs (ADR-0005)

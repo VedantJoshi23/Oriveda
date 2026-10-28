@@ -8,7 +8,7 @@ other way around.
 
 **Maintenance:** update this diagram by hand at each milestone
 checkpoint, alongside `.oriveda/manifest.yaml` — same discipline, same
-moment, not a separate pass. There are only ~14 nodes today; this stays
+moment, not a separate pass. There are only ~15 nodes today; this stays
 cheap to keep current as long as it's done at the same time a new
 protocol or ADR gets frozen, not batched up later.
 
@@ -29,6 +29,7 @@ graph TD
     ADR0001["ADR-0001<br/>Oriveda Is a Product"]
     ADR0002["ADR-0002<br/>Sandbox Separation"]
     ADR0003["ADR-0003<br/>Submodule Reference"]
+    ADR0004["ADR-0004<br/>Project Prefixes"]
     ADR0005["ADR-0005<br/>Progressive Rigor"]
     ADR0006["ADR-0006<br/>Oriveda Engine"]
 
@@ -61,6 +62,9 @@ graph TD
     ADR0002 --> ADR0001
     ADR0002 --> OV000
     ADR0003 --> OV008
+    ADR0004 --> OV001
+    ADR0004 --> OV002
+    ADR0004 --> OV003
     ADR0005 --> OV000
     ADR0005 --> OV001
     ADR0005 --> OV002
@@ -75,7 +79,7 @@ graph TD
     ADR0006 --> ADR0005
 
     classDef adr fill:#4a3b6b,stroke:#8b7bb8,color:#fff
-    class ADR0001,ADR0002,ADR0003,ADR0005,ADR0006 adr
+    class ADR0001,ADR0002,ADR0003,ADR0004,ADR0005,ADR0006 adr
 ```
 
 ## Reading this graph

@@ -2,11 +2,22 @@
 
 > **Engineering the Future, Deliberately.**
 
-Oriveda is a living engineering knowledge system that enables humans and AI to collaboratively design, build, evolve, and maintain production-grade software through structured knowledge, principled architecture, and deliberate decision-making.
+Oriveda is an engineering knowledge framework for building software with AI agents: **specs before code, evidence before specs.** Every architectural claim traces back to a source and a confidence score. Every decision is written down before it's implemented, not reconstructed afterward from commit history and chat logs.
 
-Unlike traditional documentation repositories, Oriveda is designed to become the **single source of truth** for engineering knowledge. It captures not only *what* a system is, but *why* it exists, *how* it should evolve, and *which* decisions shape its future.
+It works whether you're starting from nothing but an idea, or reverse-engineering an existing codebase, PRD, Figma file, or competitor site — Oriveda's Knowledge Acquisition protocol builds a checklist of what it knows, how confident it is, and where each fact came from, then asks only for the specific evidence that's missing.
 
-The long-term vision is to make Oriveda an engineering operating system where architecture, documentation, implementation, testing, and AI collaboration evolve together.
+**How did a website prompt turn into an engineering methodology?** Read the [origin story](ORIGIN.md).
+
+---
+
+## Why Oriveda
+
+Most "spec-driven" tooling assumes you're starting greenfield with a clean PRD. Real projects rarely look like that — you inherit a half-documented repo, a pile of screenshots, an old README, and someone's memory of what the client asked for. Oriveda is built for that case:
+
+- **Evidence-based Knowledge Acquisition.** Every extracted fact carries a confidence score and a citation to its source — `"Orders have a status field — 99% confidence, from source code"` vs. `"Wishlist exists — 70% confidence, inferred from a screenshot"`. Nothing gets asserted without a trail back to why it's believed.
+- **Knowledge outlives implementation.** Specifications are the durable asset; code is the disposable output. If code and docs ever disagree, the specification is treated as correct and the implementation is the thing that's wrong.
+- **Humans and AI read the same documents.** No tribal knowledge living only in a chat transcript — one set of specifications, structured so both a person and a coding agent can act on them directly. The prompt catalog (`OV-008`) adds no knowledge of its own: each prompt only points at those specifications by ID.
+- **Milestone-driven, not all-at-once.** Discovery → Constitution → Architecture → Standards → Domains → Features → Prompts → Implementation, in that order, deliberately — implementation is the *last* milestone, not the first.
 
 ---
 
@@ -120,6 +131,23 @@ Predictability creates maintainability.
 
 ---
 
+## Quickstart
+
+Oriveda governs a target project through a bootstrap file that lives in *that* project's own repo, with this framework pulled in as a git submodule — nothing here needs to be installed to start. Later, the optional `oriveda` engine (`engine/`) checks your code against your specs. From within your project, give your coding agent this:
+
+```text
+You are setting up this project to be governed by the Oriveda engineering
+framework (https://github.com/VedantJoshi23/Oriveda). Add it as a git
+submodule at .oriveda-framework/, then start with PRM-DISCOVERY: ask me
+what evidence I have about this project (existing code, a PRD, Figma,
+screenshots, a video — anything) and begin Knowledge Acquisition from
+whatever I actually have.
+```
+
+See [Getting Started With a New Project](#getting-started-with-a-new-project) below for the full setup prompt and what each step does.
+
+---
+
 ## Repository Structure
 
 ```text
@@ -136,7 +164,6 @@ oriveda/
 ├── examples/
 │
 ├── knowledge/
-│   ├── appendix/
 │   ├── architecture/
 │   ├── constitution/
 │   ├── decisions/
@@ -147,14 +174,18 @@ oriveda/
 │   └── standards/
 │
 ├── engine/
+├── scripts/
 ├── templates/
 │
 ├── LICENSE
 └── README.md
 ```
 
-`engine/` is the `oriveda` CLI (`ADR-0006`), which checks a codebase
-against its specifications. See `engine/README.md`. `.oriveda/knowledge_graph.md` is a Mermaid diagram
+`scripts/validate.py` mechanizes the Validation Layer: it checks this
+repository's specifications, or a target project's with `--root`
+(`ADR-0004`). `engine/` is the `oriveda` CLI (`ADR-0006`), which checks
+a codebase against its specifications; see `engine/README.md`.
+`.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
 each milestone checkpoint (see the file itself for the maintenance rule).
 There is no standalone Vision layer or folder: vision-type evidence is
@@ -237,8 +268,10 @@ framework (https://github.com/VedantJoshi23/Oriveda).
      `.oriveda-framework/knowledge/prompts/OV-008-prompt-library-protocol.md`
      for the full prompt catalog.
    - Instruct: before any action, identify which PRM-* prompt applies
-     to the current task and load only the Frozen specs it points to —
-     never restate their content into this bootstrap file.
+     to the current task and load the specs it points to, marking each
+     as Frozen or Draft. Frozen specs bind the work. Draft specs inform
+     it, and any disagreement with one is logged as a divergence
+     (ADR-0005). Never restate their content into this bootstrap file.
    - Once this project has a frozen Constitution
      (`knowledge/constitution/` in this project, not the submodule),
      point to it and state its Laws must never be silently violated.
@@ -262,9 +295,11 @@ framework (https://github.com/VedantJoshi23/Oriveda).
    required.
 ```
 
-This prompt is intentionally generic — see `examples/` in this repository
-for what the output of following it looked like end-to-end against a
-sample project.
+This prompt is intentionally generic — it makes no assumptions about your
+domain, stack, or how much (if anything) already exists. See `examples/`
+in this repository for published worked demonstrations;
+see `knowledge/decisions/ADR-0002-example-sandbox-separation.md` for why
+that folder only ever holds publishable source material.
 
 **You don't need every milestone finished before writing code.** The
 recommended default (`ADR-0005`) is a walking skeleton: run M1–M7 only
@@ -309,8 +344,22 @@ OV-008 M7 Prompt Library Protocol
 ADR-0001
 ADR-0002
 ADR-0003
+ADR-0004
 ADR-0005
 ADR-0006
+```
+
+---
+
+### Project documents
+
+A target project's own Discovery, Constitution and Architecture documents
+(`ADR-0004`):
+
+```text
+DISC-RECOMMENDATIONS
+CONST-CORE
+ARCH-SYSTEM
 ```
 
 ---
@@ -350,7 +399,7 @@ STD-TESTING
 ### Prompt Templates
 
 The fixed catalog defined by `OV-008`, one per protocol above plus one
-cross-cutting review prompt:
+cross-cutting review prompt, in `knowledge/prompts/`:
 
 ```text
 PRM-DISCOVERY
@@ -496,9 +545,9 @@ Every contribution should improve both the implementation **and** the engineerin
 
 ## Long-Term Vision
 
-The framework is intentionally domain-agnostic.
+Oriveda is intentionally domain-agnostic — nothing in the framework itself is tied to any one product, industry, or tech stack.
 
-The long-term goal is to make Oriveda reusable for any software system—from SaaS platforms and marketplaces to healthcare, ERP, fintech, and AI-native applications.
+The long-term goal is to make Oriveda reusable for any software system — from SaaS platforms and marketplaces to healthcare, ERP, fintech, and AI-native applications.
 
 Ultimately, Oriveda aims to become an engineering operating system where humans and AI collaborate using shared knowledge instead of isolated prompts.
 

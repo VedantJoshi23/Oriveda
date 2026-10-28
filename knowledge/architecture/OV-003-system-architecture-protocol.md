@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: OV-003
 title: M3 System Architecture Protocol
@@ -32,9 +29,8 @@ tags:
 risk: High
 complexity: High
 ---
-```
 
-## OV-003 — M3 System Architecture Protocol
+# OV-003 — M3 System Architecture Protocol
 
 ### 1. Human Layer
 

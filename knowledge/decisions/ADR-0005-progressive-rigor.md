@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id: ADR-0005
 title: Progressive Rigor — Only Frozen Specifications Win
@@ -39,9 +36,8 @@ tags:
 risk: High
 complexity: Medium
 ---
-```
 
-## ADR-0005 — Progressive Rigor: Only Frozen Specifications Win
+# ADR-0005 — Progressive Rigor: Only Frozen Specifications Win
 
 ### Context
 

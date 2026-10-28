@@ -1,6 +1,3 @@
-# Metadata
-
-```yaml
 ---
 id:
 title: "<Project Name> — Divergence Log"
@@ -25,9 +22,8 @@ tags:
 risk: Medium
 complexity: Low
 ---
-```
 
-## Divergence Log
+# Divergence Log
 
 A divergence is a recorded disagreement between code and a
 specification that is **not yet Frozen** (`ADR-0005` rule 1). A
