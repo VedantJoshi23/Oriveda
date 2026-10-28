@@ -1,14 +1,14 @@
 ---
 id: OV-002
 title: M2 Constitution Protocol
-version: 0.1.0
+version: 0.2.0
 status: Frozen
 owner: Architecture
 reviewers:
   - Vedant
   - Oriveda AI
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-10-28
 milestone: M2
 category: Constitution
 priority: Critical
@@ -22,6 +22,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
+  - ADR-0005
 tags:
   - constitution
   - protocol
@@ -142,6 +143,8 @@ publishes:
   - ConstitutionFrozen   # logged when a target project's Constitution is frozen
 consumes:
   - InvestigationFrozen   # specifically the recommendations investigation from OV-001
+  - ConfidenceGate        # ADR-0005: that investigation may instead be a Draft
+                          # that passes the confidence gate
 forbidden_dependencies:
   - Same domain-agnostic rule as OV-000/OV-001: no project-specific Laws,
     rigor-level answers, or architecture choices may be hardcoded into this
@@ -209,13 +212,19 @@ and later Standards, not in whether the Constitution itself is stable.
   defaulted.
 - A Frozen Constitution may not be edited without an accompanying ADR and
   remediation statement (see Lifecycle above).
+- **Gating (`ADR-0005`).** A Constitution is always High tier. It must be
+  Frozen before any implementation starts, and it can never be deferred
+  at a release checkpoint. Its *inputs* need not be Frozen: the `OV-001`
+  investigations a Law cites may be Drafts, provided each cited claim is
+  at the Fact or Inference tier and the owner has acknowledged it.
 
 #### Checklists
 
 **Definition of Done for Milestone M2 (Constitution):**
 
-- [ ] `OV-001`'s `recommendations` investigation exists and is Frozen for
-      the target project (M1 must be complete first).
+- [ ] `OV-001`'s `recommendations` investigation exists for the target
+      project and passes the `ADR-0005` confidence gate: Frozen, or a Draft
+      whose claims cited by Laws are ≥60% and owner-acknowledged.
 - [ ] All three owner-choice questions asked and answered.
 - [ ] Constitution drafted using the six-section structure, reviewed, and
       Frozen.

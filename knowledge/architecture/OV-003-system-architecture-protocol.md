@@ -1,14 +1,14 @@
 ---
 id: OV-003
 title: M3 System Architecture Protocol
-version: 0.1.0
+version: 0.2.0
 status: Frozen
 owner: Architecture
 reviewers:
   - Vedant
   - Oriveda AI
 created: 2026-07-08
-updated: 2026-07-08
+updated: 2026-10-28
 milestone: M3
 category: Architecture
 priority: Critical
@@ -22,6 +22,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
+  - ADR-0005
 tags:
   - architecture
   - protocol
@@ -106,6 +107,8 @@ consumes:
                                    # constraining boundaries or folder structure
   - InvestigationFrozen          # domain-discovery, technical-architecture,
                                    # data-model, business-vision (for NFRs)
+  - ConfidenceGate               # ADR-0005: investigations may instead be Drafts
+                                   # that pass the confidence gate
 forbidden_dependencies:
   - Same domain-agnostic rule as OV-000/001/002: no project-specific
     boundaries, aggregates, or folder names in this protocol's own body.
@@ -166,6 +169,12 @@ idea.
 - Folder Structure must be structurally consistent with the Constitution's
   Architecture Ambition (e.g. a Hybrid ambition requires one folder/module
   per bounded context, not a layered-by-technical-concern structure).
+- **Gating (`ADR-0005`).** The Constitution must be Frozen; it is always
+  High tier. `OV-001` inputs may be Drafts that pass the confidence gate.
+  Within this document, §1 Service Boundaries and §2 Domain Model are High
+  tier by default, because they fix domain boundaries and data ownership.
+  They must be Frozen before implementation of any slice that touches
+  them. §3–§5 are Medium by default and freeze before the first release.
 
 #### Checklists
 
@@ -174,6 +183,8 @@ idea.
 - [ ] `OV-002`'s Constitution is Frozen for the target project (M2 must be
       complete first).
 - [ ] All five sections drafted, each with a stated source.
+- [ ] §1–§2 Frozen before implementation; §3–§5 Frozen, or scheduled to
+      freeze, per their `ADR-0005` tier.
 - [ ] No section conflicts with a Constitution Law.
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`.
 

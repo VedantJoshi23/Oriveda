@@ -1,6 +1,6 @@
 ---
 id:
-title: <Project Name> — Engineering Constitution
+title: "<Project Name> — Engineering Constitution"
 version: 0.1.0
 status: Proposal
 owner:

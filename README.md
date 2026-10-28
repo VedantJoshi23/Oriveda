@@ -94,7 +94,8 @@ A specification should have a single responsibility and a clearly defined owner.
 **Documentation is executable knowledge.**
 
 Documentation is not historical record.
-It is the authoritative description of how a system should behave.
+A **Frozen** specification is the authoritative description of how a system should behave: when code disagrees with it, the code is wrong.
+A specification that is not yet Frozen informs the code without binding it. A disagreement with one is a *divergence*, which is logged and reconciled, and either side may change. See `ADR-0005`.
 
 ---
 
@@ -132,7 +133,7 @@ Predictability creates maintainability.
 
 ## Quickstart
 
-Oriveda governs a target project through a bootstrap file that lives in *that* project's own repo, with this framework pulled in as a git submodule — nothing here needs to run, install, or execute. From within your project, give your coding agent this:
+Oriveda governs a target project through a bootstrap file that lives in *that* project's own repo, with this framework pulled in as a git submodule — nothing here needs to be installed to start. Later, the optional `oriveda` engine (`engine/`) checks your code against your specs. From within your project, give your coding agent this:
 
 ```text
 You are setting up this project to be governed by the Oriveda engineering
@@ -172,15 +173,19 @@ oriveda/
 │   ├── prompts/
 │   └── standards/
 │
+├── engine/
 ├── scripts/
 ├── templates/
 │
+├── LICENSE
 └── README.md
 ```
 
 `scripts/validate.py` mechanizes the Validation Layer: it checks this
 repository's specifications, or a target project's with `--root`
-(`ADR-0004`). `.oriveda/knowledge_graph.md` is a Mermaid diagram
+(`ADR-0004`). `engine/` is the `oriveda` CLI (`ADR-0006`), which checks
+a codebase against its specifications; see `engine/README.md`.
+`.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
 each milestone checkpoint (see the file itself for the maintenance rule).
 There is no standalone Vision layer or folder: vision-type evidence is
@@ -263,8 +268,10 @@ framework (https://github.com/VedantJoshi23/Oriveda).
      `.oriveda-framework/knowledge/prompts/OV-008-prompt-library-protocol.md`
      for the full prompt catalog.
    - Instruct: before any action, identify which PRM-* prompt applies
-     to the current task and load only the Frozen specs it points to —
-     never restate their content into this bootstrap file.
+     to the current task and load the specs it points to, marking each
+     as Frozen or Draft. Frozen specs bind the work. Draft specs inform
+     it, and any disagreement with one is logged as a divergence
+     (ADR-0005). Never restate their content into this bootstrap file.
    - Once this project has a frozen Constitution
      (`knowledge/constitution/` in this project, not the submodule),
      point to it and state its Laws must never be silently violated.
@@ -290,9 +297,24 @@ framework (https://github.com/VedantJoshi23/Oriveda).
 
 This prompt is intentionally generic — it makes no assumptions about your
 domain, stack, or how much (if anything) already exists. See `examples/`
-in this repository for published worked demonstrations once available;
+in this repository for published worked demonstrations;
 see `knowledge/decisions/ADR-0002-example-sandbox-separation.md` for why
 that folder only ever holds publishable source material.
+
+**You don't need every milestone finished before writing code.** The
+recommended default (`ADR-0005`) is a walking skeleton: run M1–M7 only
+as deep as one feature needs, build that feature, then deepen the specs
+with what the build taught you. Specs and code then advance together,
+feature by feature. The Constitution and any High-risk spec (domain
+boundaries, data ownership, auth, payments) are always Frozen before
+code that touches them.
+
+**Check the code against the specs.** Once a Domain Specification's §7
+carries an `oriveda-boundary` block, `oriveda check boundaries` reports
+every cross-domain dependency the specs don't allow. When the domain's
+spec is Frozen, it reports a violation; when the spec is still Draft, it
+reports a divergence to log. See `engine/README.md` and
+`examples/engine-boundary-check-walkthrough.md`.
 
 ---
 
@@ -322,6 +344,9 @@ OV-008 M7 Prompt Library Protocol
 ADR-0001
 ADR-0002
 ADR-0003
+ADR-0004
+ADR-0005
+ADR-0006
 ```
 
 ---
@@ -449,6 +474,22 @@ Superseded
 
 Knowledge evolves deliberately.
 
+**Freeze on proof, not on paper (`ADR-0005`).** How much rigor a
+specification needs, and when it must be Frozen, depends on its `risk`
+field:
+
+| Tier | Must be Frozen before… |
+| --- | --- |
+| High: the Constitution, domain boundaries, data ownership, auth, payments, decisions costly to reverse | …implementation of anything that touches it |
+| Medium: most domain and feature specs, Standards | …the first release that ships what it governs |
+| Low: routine features (a short *spec card*, `templates/spec-card-template.md`) | …the first release that ships it |
+
+Work may start on specs that are still Draft, as long as the claims it
+relies on are at ≥60% confidence and owner-acknowledged. Disagreements
+between code and Draft specs go in the target project's divergence log
+(`templates/divergence-log-template.md`). A spec with open divergences
+cannot be Frozen.
+
 ---
 
 ## Versioning
@@ -514,5 +555,4 @@ Ultimately, Oriveda aims to become an engineering operating system where humans 
 
 ## License
 
-This project is currently under active development.
-License information will be added before the first stable release.
+Licensed under the [Apache License, Version 2.0](LICENSE).

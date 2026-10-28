@@ -1,6 +1,6 @@
 ---
 id:
-title: <Project Name> — Domain: <Name>
+title: "<Project Name> — Domain: <Name>"
 version: 0.1.0
 status: Proposal
 owner:
@@ -81,6 +81,20 @@ the architecture needs revising first, not this document)*
 ### Forbidden
 
 *(explicit — not just "everything else")*
+
+### Machine-checkable boundary
+
+The same boundary in a form `oriveda check boundaries` can enforce
+(`ADR-0006`). It must agree with the prose above; if the two disagree,
+this spec can't be Frozen. Quote any path that starts with `*`.
+
+```yaml oriveda-boundary
+domain: <DOM-XXX>
+paths:
+  - "src/<module>/**"
+allowed_dependencies: []
+forbidden_dependencies: []
+```
 
 ## 8. Edge Cases & Validations
 

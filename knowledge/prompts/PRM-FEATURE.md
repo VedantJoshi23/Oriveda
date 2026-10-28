@@ -21,6 +21,8 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0003
+  - ADR-0005
+  - ADR-0006
 tags:
   - prompt
 risk: Low
@@ -40,8 +42,11 @@ them itself. Paths to Oriveda files assume the submodule location from
 ### Context
 
 - `OV-007` Feature Specification Protocol
-- The owning `DOM-` specification, the project's Frozen Constitution and
-  the Standards that apply to the change
+- The project's Frozen Constitution
+- The owning `DOM-` specification (§2, §6 and §7 Frozen) and the Standards
+  that apply to the change. State which loaded specs are still Draft:
+  they inform the work but don't bind it (`ADR-0005`)
+- The project's divergence log
 - The feature's existing `FEAT-` specification, if it has one
 
 ### Task
@@ -54,6 +59,11 @@ used for the life of the project.
 
 - Every Law of the project's Frozen Constitution, by ID.
 - The owning domain's invariants and allowed dependencies.
+- Rigor tier (`ADR-0005`): the feature's tier is stated with a reason.
+  A Low-tier feature may use a spec card. Implementation starts only once
+  the feature passes the confidence gate.
+- A disagreement with a Draft spec is logged in the divergence log in the
+  same change, never resolved silently.
 - The Standards the project's applicability decisions select for this
   kind of change.
 
@@ -62,9 +72,12 @@ used for the life of the project.
 - The `FEAT-` specification (new or revised)
 - The implementation, with the tests and documentation the specification's
   own Definition of Done lists
+- Divergence-log entries for any disagreement with a Draft spec
 
 ### Definition of Done
 
 - `OV-007` §4 (protocol readiness)
+- `oriveda check boundaries` reports no violations for the owning domain
+  (`ADR-0006`), where the project uses the engine
 - The feature specification's own Definition of Done section (`OV-007`
   section 9 of the feature template)

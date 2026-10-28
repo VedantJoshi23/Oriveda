@@ -22,6 +22,8 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0003
+  - ADR-0005
+  - ADR-0006
 tags:
   - prompt
 risk: Low
@@ -41,6 +43,9 @@ them itself. Paths to Oriveda files assume the submodule location from
 ### Context
 
 - Every Frozen specification of the target project that the change touches
+- Every Draft specification it touches, marked as Draft (`ADR-0005`)
+- The project's divergence log, and `oriveda check boundaries` output where
+  the project uses the engine (`ADR-0006`)
 - `templates/review-template.md`
 - The change under review: a spec draft at Architecture Review, or a diff,
   commit or pull request
@@ -48,7 +53,10 @@ them itself. Paths to Oriveda files assume the submodule location from
 ### Task
 
 Check the change against every Law, Standard and domain boundary it could
-affect, and record each check with its result. The relevance of a Standard
+affect, and record each check with its result. Disagreement with a Frozen
+spec is a violation. Disagreement with a Draft spec is acceptable only if
+it is logged in the divergence log; an unlogged divergence is a finding
+(`ADR-0005`). The relevance of a Standard
 to a change follows `OV-005` and `OV-007` (`OV-008` §3, Future
 Considerations: the mechanics are inherited, not redefined here).
 

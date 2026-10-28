@@ -40,8 +40,8 @@ them itself. Paths to Oriveda files assume the submodule location from
 ### Context
 
 - `OV-002` Constitution Protocol
-- The target project's Frozen `DISC-` investigations, above all its
-  recommendations roll-up
+- The target project's `DISC-` investigations, above all its
+  recommendations roll-up (Frozen, or Draft and passing the `ADR-0005` confidence gate; mark each with its status)
 
 ### Task
 

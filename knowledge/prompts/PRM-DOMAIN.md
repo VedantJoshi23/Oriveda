@@ -40,8 +40,10 @@ them itself. Paths to Oriveda files assume the submodule location from
 ### Context
 
 - `OV-006` Domain Specification Protocol
-- The target project's Frozen architecture document (the bounded context
-  and its allowed dependencies), Constitution and Standards
+- The target project's Frozen Constitution
+- Its architecture document, whose §1–§2 (the bounded context and its
+  allowed dependencies) are Frozen
+- Its Standards (Frozen, or Draft and passing the `ADR-0005` confidence gate; mark each with its status)
 
 ### Task
 

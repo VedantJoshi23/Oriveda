@@ -222,3 +222,91 @@ Gaps found while running M1–M6 on the first real target project
   with code, marking Discovery findings resolved, and governing releases.
 - No rule for a project whose specifications are all still Draft: "load
   only Frozen specs" then loads nothing.
+
+---
+
+## Progressive Rigor (post-M8)
+
+Running M0–M8 end to end against a real target project showed the method
+works, but strict sequential freezing front-loads the specs most likely
+to be wrong and can't absorb requirements that only settle during the
+build.
+
+### Resolves
+
+Two items from the "Known, not yet addressed" list above:
+
+- *No rule for a project whose specifications are all still Draft.* The
+  `ADR-0005` confidence gate lets work load Draft specs, marked as such,
+  when the claims it relies on are ≥60% and owner-acknowledged.
+- *Keeping specifications in step with code.* This is handled by the
+  divergence log, and by the rule that a spec with open divergences
+  can't be Frozen. A full M8 protocol is still open.
+
+### Added
+
+- `ADR-0005` Progressive Rigor (Frozen): only Frozen specifications are
+  authoritative over code. A disagreement with a not-yet-Frozen spec is
+  a logged *divergence*. Rigor tiers (High/Medium/Low) come from each
+  spec's `risk` field; a confidence gate (≥60%, owner-acknowledged)
+  replaces "upstream must be Frozen" for starting work; specs freeze on
+  proof, and open divergences block freezing.
+- `templates/spec-card-template.md` (Low-tier feature form) and
+  `templates/divergence-log-template.md`.
+- `DIV` ID prefix (`.oriveda/taxonomy.yaml`); glossary terms
+  *divergence*, *rigor tier*, *confidence gate*, *slice*, *spec card*.
+- `LICENSE`: Apache License 2.0.
+- `examples/graphify-pilot-walkthrough.md`: Graphify (code-only, pinned
+  0.9.89) piloted as an `OV-000` evidence provider against an
+  open-source NestJS app. Verdict: adopt, under six stated rules.
+
+### Changed
+
+- Root `README.md`: Principle 4 now states that only Frozen
+  specifications bind code. The Specification Lifecycle section gains
+  the tier table; Getting Started recommends a walking skeleton. Removed
+  the stale "first implementation" line from Long-Term Vision. The
+  License section now points to `LICENSE`.
+- `OV-002` through `OV-008` revised to v0.2.0: each "upstream is Frozen"
+  gate is replaced by the `ADR-0005` confidence gate, except where the
+  upstream spec is High tier. The Constitution, `OV-003` §1–§2 and
+  `OV-006` §2/§6/§7 remain Frozen-before-implementation. `OV-008`'s
+  `PRM-REVIEW` now also checks for unlogged divergences.
+
+---
+
+## Oriveda Engine v0.1.0 (post-M8)
+
+### Added
+
+- `ADR-0006` The Oriveda Engine (Frozen): a Python 3.10+ CLI under
+  `engine/` that reads target-project specifications plus an evidence
+  provider's code graph (Graphify first, read as a file and never
+  imported), and reports disagreements under the `ADR-0005` authority
+  rule. Commands ship one slice at a time.
+- `engine/` v0.1.0: `oriveda check boundaries`. It compares every
+  cross-domain dependency with each Domain Specification's §7
+  `oriveda-boundary` block. Findings on Frozen specs are violations
+  (exit 1); findings on Draft specs are divergences, printed with a
+  ready-to-paste `DIV` row. Every finding carries a confidence tier,
+  and a clean run is reported as an absence claim. Ships with 20 tests.
+- `examples/engine-boundary-check-walkthrough.md` and
+  `examples/realworld-domains/`: on the RealWorld target the check found
+  2 violations and 1 divergence. One of them was found through
+  symbol-level edges, despite Graphify#4839.
+- Glossary terms *engine*, *evidence provider*.
+
+### Changed
+
+- `OV-006` revised to v0.3.0: §7 carries an `oriveda-boundary` block that
+  must agree with its prose; a disagreement blocks freezing.
+  `templates/domain-template.md` gains the block.
+- Root `README.md`: documents `engine/` next to `scripts/validate.py`.
+  The genesis prompt now loads Draft specs, marked as such, instead of
+  "only Frozen specs".
+
+### Fixed
+
+- Frontmatter in five templates (domain, feature, prompt, review, spec
+  card) was invalid YAML: an unquoted colon in `title:`. Titles are now
+  quoted. Found by the engine's first real run.

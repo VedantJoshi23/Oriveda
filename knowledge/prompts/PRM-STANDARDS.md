@@ -40,8 +40,9 @@ them itself. Paths to Oriveda files assume the submodule location from
 ### Context
 
 - `OV-005` Standards Protocol
-- The target project's Frozen Constitution, architecture document and
-  technology ADRs
+- The target project's Frozen Constitution
+- Its architecture document and technology ADRs: their High-tier parts
+  Frozen, the rest Frozen, or Draft and passing the `ADR-0005` confidence gate; mark each with its status
 
 ### Task
 

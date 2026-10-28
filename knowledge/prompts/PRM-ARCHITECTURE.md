@@ -42,7 +42,8 @@ them itself. Paths to Oriveda files assume the submodule location from
 
 - `OV-003` System Architecture Protocol and `OV-004` Technology Decisions
   Protocol
-- The target project's Frozen Constitution and Frozen `DISC-` investigations
+- The target project's Frozen Constitution
+- Its `DISC-` investigations (Frozen, or Draft and passing the `ADR-0005` confidence gate; mark each with its status)
 
 ### Task
 

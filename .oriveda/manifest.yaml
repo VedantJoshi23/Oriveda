@@ -3,6 +3,10 @@ version: 0.1.0
 knowledge_graph: knowledge_graph.md   # rendered Mermaid diagram, hand-updated
                                         # at each milestone checkpoint
 validation: scripts/validate.py   # run before treating any spec as Frozen
+engine:
+  path: engine/
+  version: 0.1.0
+  commands: [check boundaries]   # ADR-0006 rule 6: one slice at a time
 
 documents:
   - id: OV-000
@@ -21,43 +25,43 @@ documents:
     title: M2 Constitution Protocol
     path: knowledge/constitution/OV-002-constitution-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M2
   - id: OV-003
     title: M3 System Architecture Protocol
     path: knowledge/architecture/OV-003-system-architecture-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M3
   - id: OV-004
     title: M3 Technology Decisions Protocol
     path: knowledge/architecture/OV-004-technology-decisions-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M3
   - id: OV-005
     title: M4 Standards Protocol
     path: knowledge/standards/OV-005-standards-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M4
   - id: OV-006
     title: M5 Domain Specification Protocol
     path: knowledge/domains/OV-006-domain-specification-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.3.0
     milestone: M5
   - id: OV-007
     title: M6 Feature Specification Protocol
     path: knowledge/features/OV-007-feature-specification-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M6
   - id: OV-008
     title: M7 Prompt Library Protocol
     path: knowledge/prompts/OV-008-prompt-library-protocol.md
     status: Frozen
-    version: 0.1.0
+    version: 0.2.0
     milestone: M7
 
 domains: []
@@ -87,6 +91,18 @@ decisions:
     status: Draft
     version: 0.1.0
     milestone: M7
+  - id: ADR-0005
+    title: Progressive Rigor — Only Frozen Specifications Win
+    path: knowledge/decisions/ADR-0005-progressive-rigor.md
+    status: Frozen
+    version: 1.0.0
+    milestone: M8
+  - id: ADR-0006
+    title: The Oriveda Engine — Specs That Check Themselves Against Code
+    path: knowledge/decisions/ADR-0006-oriveda-engine.md
+    status: Frozen
+    version: 1.0.1
+    milestone: M8
 
 # The fixed PRM-* catalog is framework-level (defined by OV-008), unlike
 # domains/features above which are always empty here — those are
@@ -140,4 +156,5 @@ prompts:
     status: Draft
     version: 0.1.0
     milestone: M7
-    kicks_off: []   # cross-cutting; evaluates against all Frozen specs
+    kicks_off: []   # cross-cutting; checks Frozen-spec violations and
+                    # unlogged divergences from Draft specs (ADR-0005)
