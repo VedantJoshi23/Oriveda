@@ -84,7 +84,7 @@ A specification should have a single responsibility and a clearly defined owner.
 
 Documentation is not historical record.
 A **Frozen** specification is the authoritative description of how a system should behave: when code disagrees with it, the code is wrong.
-A specification that is not yet Frozen informs the code without binding it. A disagreement with one is a *divergence*, which is logged and reconciled, and either side may change. See `ADR-0004`.
+A specification that is not yet Frozen informs the code without binding it. A disagreement with one is a *divergence*, which is logged and reconciled, and either side may change. See `ADR-0005`.
 
 ---
 
@@ -153,7 +153,7 @@ oriveda/
 └── README.md
 ```
 
-`engine/` is the `oriveda` CLI (`ADR-0005`), which checks a codebase
+`engine/` is the `oriveda` CLI (`ADR-0006`), which checks a codebase
 against its specifications. See `engine/README.md`. `.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
 each milestone checkpoint (see the file itself for the maintenance rule).
@@ -267,7 +267,7 @@ for what the output of following it looked like end-to-end against a
 sample project.
 
 **You don't need every milestone finished before writing code.** The
-recommended default (`ADR-0004`) is a walking skeleton: run M1–M7 only
+recommended default (`ADR-0005`) is a walking skeleton: run M1–M7 only
 as deep as one feature needs, build that feature, then deepen the specs
 with what the build taught you. Specs and code then advance together,
 feature by feature. The Constitution and any High-risk spec (domain
@@ -309,8 +309,8 @@ OV-008 M7 Prompt Library Protocol
 ADR-0001
 ADR-0002
 ADR-0003
-ADR-0004
 ADR-0005
+ADR-0006
 ```
 
 ---
@@ -425,7 +425,7 @@ Superseded
 
 Knowledge evolves deliberately.
 
-**Freeze on proof, not on paper (`ADR-0004`).** How much rigor a
+**Freeze on proof, not on paper (`ADR-0005`).** How much rigor a
 specification needs, and when it must be Frozen, depends on its `risk`
 field:
 

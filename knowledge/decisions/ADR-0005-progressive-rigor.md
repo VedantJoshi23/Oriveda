@@ -2,7 +2,7 @@
 
 ```yaml
 ---
-id: ADR-0004
+id: ADR-0005
 title: Progressive Rigor — Only Frozen Specifications Win
 version: 1.0.0
 status: Frozen
@@ -41,7 +41,7 @@ complexity: Medium
 ---
 ```
 
-## ADR-0004 — Progressive Rigor: Only Frozen Specifications Win
+## ADR-0005 — Progressive Rigor: Only Frozen Specifications Win
 
 ### Context
 

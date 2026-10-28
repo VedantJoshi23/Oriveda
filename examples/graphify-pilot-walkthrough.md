@@ -1,7 +1,7 @@
 # Worked Example — Graphify as an OV-000 Evidence Provider (Pilot)
 
 **Rulebook exercised:** `OV-000` (the `repository` evidence pipeline),
-plus a feasibility check for `ADR-0004` rule 4: can a code graph
+plus a feasibility check for `ADR-0005` rule 4: can a code graph
 detect spec-vs-code divergence?
 
 **Input:** [`lujakob/nestjs-realworld-example-app`](https://github.com/lujakob/nestjs-realworld-example-app)
@@ -127,7 +127,7 @@ evidence_item:
   Graphify put the README in its own separate community and never
   flagged the contradiction. This mirrors the M8 audit's main lesson
   (aspirational docs mistaken for reality). **Graphify does not supply
-  ADR-0004's divergence detection out of the box.** That check has to be
+  ADR-0005's divergence detection out of the box.** That check has to be
   an Oriveda-side comparison of spec claims against `graph.json`.
 - **Absence claims are unreliable.** See the false negative in §2.
 
@@ -171,7 +171,7 @@ Output, condensed: `article→user` (21 edges), `profile→user` (16),
 
 **Adopt Graphify as a recommended evidence provider for
 `repository`-type evidence, under these rules.** These are candidate
-content for an evidence-provider ADR (`ADR-0005`):
+content for an evidence-provider ADR (`ADR-0006`):
 
 1. Run code-only by default. The LLM pass requires the owner's explicit
    approval for each target, and is never used on confidential material
@@ -186,7 +186,7 @@ content for an evidence-provider ADR (`ADR-0005`):
 5. Do not run `graphify install` or its hooks in a target project
    unless the owner opts in. Oriveda reads `graph.json`; it does not
    hand control of the agent's workflow to the tool.
-6. Divergence detection (ADR-0004) is Oriveda's own check, built on
+6. Divergence detection (ADR-0005) is Oriveda's own check, built on
    `graph.json`, not a Graphify feature.
 
 **Exit check**

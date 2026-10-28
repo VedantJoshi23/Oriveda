@@ -19,7 +19,7 @@ related_documents: []
 related_domains: []
 related_features: []
 related_decisions:
-  - ADR-0004
+  - ADR-0005
 tags:
   - feature
   - spec-card
@@ -30,7 +30,7 @@ complexity:
 
 ## Spec Card: < Name >
 
-The Low-tier form of a Feature Specification (`ADR-0004` rule 2,
+The Low-tier form of a Feature Specification (`ADR-0005` rule 2,
 `OV-007`). Use it only when **all three** of these hold, and say why in
 one line:
 

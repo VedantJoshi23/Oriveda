@@ -1,4 +1,4 @@
-"""Load Domain Specifications and their `oriveda-boundary` blocks (ADR-0005 rule 4)."""
+"""Load Domain Specifications and their `oriveda-boundary` blocks (ADR-0006 rule 4)."""
 
 from __future__ import annotations
 

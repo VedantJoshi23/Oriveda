@@ -200,7 +200,7 @@ build.
 
 ### Added
 
-- `ADR-0004` Progressive Rigor (Frozen): only Frozen specifications are
+- `ADR-0005` Progressive Rigor (Frozen): only Frozen specifications are
   authoritative over code. A disagreement with a not-yet-Frozen spec is
   a logged *divergence*. Rigor tiers (High/Medium/Low) come from each
   spec's `risk` field; a confidence gate (≥60%, owner-acknowledged)
@@ -223,7 +223,7 @@ build.
   the stale "first implementation" line from Long-Term Vision. The
   License section now points to `LICENSE`.
 - `OV-002` through `OV-008` revised to v0.2.0: each "upstream is Frozen"
-  gate is replaced by the `ADR-0004` confidence gate, except where the
+  gate is replaced by the `ADR-0005` confidence gate, except where the
   upstream spec is High tier. The Constitution, `OV-003` §1–§2 and
   `OV-006` §2/§6/§7 remain Frozen-before-implementation. `OV-008`'s
   `PRM-REVIEW` now also checks for unlogged divergences.
@@ -234,10 +234,10 @@ build.
 
 ### Added
 
-- `ADR-0005` The Oriveda Engine (Frozen): a Python 3.10+ CLI under
+- `ADR-0006` The Oriveda Engine (Frozen): a Python 3.10+ CLI under
   `engine/` that reads target-project specifications plus an evidence
   provider's code graph (Graphify first, read as a file and never
-  imported), and reports disagreements under the `ADR-0004` authority
+  imported), and reports disagreements under the `ADR-0005` authority
   rule. Commands ship one slice at a time.
 - `engine/` v0.1.0: `oriveda check boundaries`. It compares every
   cross-domain dependency with each Domain Specification's §7

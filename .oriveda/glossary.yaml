@@ -25,7 +25,7 @@ frozen:
     A specification's terminal, authoritative lifecycle state. A Frozen
     specification may only change via a versioned revision (a version
     bump, in the same change as the edit) — never a silent edit. Only a
-    Frozen specification is authoritative over code (ADR-0004): code that
+    Frozen specification is authoritative over code (ADR-0005): code that
     disagrees with it is wrong. See the Specification Lifecycle section
     of the root README.
 
@@ -103,27 +103,27 @@ genesis:
 divergence:
   definition: >
     A recorded disagreement between code and a specification that is not
-    yet Frozen (ADR-0004). Logged as DIV-NNN in the target project's
+    yet Frozen (ADR-0005). Logged as DIV-NNN in the target project's
     divergence log and resolved by changing the spec, the code, or both.
     A spec with open divergences cannot be Frozen.
 
 rigor_tier:
   definition: >
-    High, Medium or Low, set from a specification's risk field (ADR-0004).
+    High, Medium or Low, set from a specification's risk field (ADR-0005).
     Decides how much form the spec needs and when it must be Frozen:
     High before implementation touches it; Medium and Low before the
     first release that ships what it governs.
 
 confidence_gate:
   definition: >
-    The ADR-0004 rule for when a slice may start implementation: the
+    The ADR-0005 rule for when a slice may start implementation: the
     Constitution and every High-tier spec on its path are Frozen, and
     everything else it relies on is at least Draft, with relied-on
     claims at ≥60% confidence and owner-acknowledged.
 
 slice:
   definition: >
-    The unit of implementation under ADR-0004: one Feature Specification
+    The unit of implementation under ADR-0005: one Feature Specification
     or spec card, owned by exactly one domain, delivering user-visible
     behavior.
 
@@ -136,9 +136,9 @@ spec_card:
 
 engine:
   definition: >
-    The oriveda CLI under engine/ (ADR-0005). It reads a target project's
+    The oriveda CLI under engine/ (ADR-0006). It reads a target project's
     specifications plus an evidence provider's code graph, and reports
-    where they agree or disagree, applying the ADR-0004 authority rule
+    where they agree or disagree, applying the ADR-0005 authority rule
     and OV-000 confidence tiers.
 
 evidence_provider:
@@ -146,4 +146,4 @@ evidence_provider:
     A tool whose output the engine can read as a code graph (Graphify
     first). Providers are inputs, never dependencies: the engine reads
     their output files through an adapter, and provider clustering is
-    never treated as a domain proposal (ADR-0005 rule 3).
+    never treated as a domain proposal (ADR-0006 rule 3).

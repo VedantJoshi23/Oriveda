@@ -6,7 +6,7 @@ validation: manual         # no automated linting yet — tracked as future work
 engine:
   path: engine/
   version: 0.1.0
-  commands: [check boundaries]   # ADR-0005 rule 6: one slice at a time
+  commands: [check boundaries]   # ADR-0006 rule 6: one slice at a time
 
 documents:
   - id: OV-000
@@ -82,14 +82,14 @@ decisions:
     path: knowledge/decisions/ADR-0003-target-project-submodule-reference.md
     status: Frozen
     version: 1.0.0
-  - id: ADR-0004
+  - id: ADR-0005
     title: Progressive Rigor — Only Frozen Specifications Win
-    path: knowledge/decisions/ADR-0004-progressive-rigor.md
+    path: knowledge/decisions/ADR-0005-progressive-rigor.md
     status: Frozen
     version: 1.0.0
-  - id: ADR-0005
+  - id: ADR-0006
     title: The Oriveda Engine — Specs That Check Themselves Against Code
-    path: knowledge/decisions/ADR-0005-oriveda-engine.md
+    path: knowledge/decisions/ADR-0006-oriveda-engine.md
     status: Frozen
     version: 1.0.0
 
@@ -111,4 +111,4 @@ prompts:
     kicks_off: [OV-007]
   - id: PRM-REVIEW
     kicks_off: []   # cross-cutting; checks Frozen-spec violations and
-                    # unlogged divergences from Draft specs (ADR-0004)
+                    # unlogged divergences from Draft specs (ADR-0005)

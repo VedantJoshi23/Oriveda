@@ -2,7 +2,7 @@
 
 ```yaml
 ---
-id: ADR-0005
+id: ADR-0006
 title: The Oriveda Engine — Specs That Check Themselves Against Code
 version: 1.0.0
 status: Frozen
@@ -18,7 +18,7 @@ priority: High
 depends_on:
   - OV-000
   - OV-006
-  - ADR-0004
+  - ADR-0005
 required_by: []
 related_documents: []
 related_domains: []
@@ -27,7 +27,7 @@ related_decisions:
   - ADR-0001
   - ADR-0002
   - ADR-0003
-  - ADR-0004
+  - ADR-0005
 tags:
   - engine
   - tooling
@@ -37,13 +37,13 @@ complexity: Medium
 ---
 ```
 
-## ADR-0005 — The Oriveda Engine: Specs That Check Themselves Against Code
+## ADR-0006 — The Oriveda Engine: Specs That Check Themselves Against Code
 
 ### Context
 
 Through M8, every Oriveda check was performed by reading: an agent or a
 human compared a specification with the code by hand. That is slow, it
-doesn't repeat reliably, and it can't run on every change. `ADR-0004`
+doesn't repeat reliably, and it can't run on every change. `ADR-0005`
 makes this more pressing. Its authority rule depends on noticing when
 code and specs disagree, and an unlogged divergence counts as a defect.
 Nobody can log what nobody notices.
@@ -61,7 +61,7 @@ how sure we are, and which specification has authority.
 
 ### Options Considered
 
-- **Keep checks manual.** No tooling to maintain. But `ADR-0004`'s
+- **Keep checks manual.** No tooling to maintain. But `ADR-0005`'s
   divergence rule becomes unenforceable in practice, and Oriveda stays
   a set of documents with nothing to run.
 - **Fork Graphify and add Oriveda's checks to it.** One tool. But
@@ -79,7 +79,7 @@ how sure we are, and which specification has authority.
 Oriveda ships an **engine**: a Python package and CLI named `oriveda`,
 living in this repository under `engine/`. It reads a target project's
 specifications and a provider's code graph, and reports where the code
-and the specifications agree or disagree, using `ADR-0004`'s authority
+and the specifications agree or disagree, using `ADR-0005`'s authority
 rule and `OV-000`'s confidence tiers.
 
 **1. Location.** The engine lives in this repository under `engine/`,
@@ -157,13 +157,13 @@ compliance.
 `oriveda check boundaries`. Planned next, each only after the previous
 one has been used on a real target: `oriveda evidence` (graph to
 `EVD`/`KC` claims), `oriveda drift` (other spec claims against the
-graph), and `oriveda gate` (`ADR-0004` rule 3 for a given slice).
+graph), and `oriveda gate` (`ADR-0005` rule 3 for a given slice).
 
 ### Consequences
 
 - **Easier:** boundary rules stop depending on someone remembering to
   check them. They can run on every commit, in CI, or before a freeze.
-  `ADR-0004`'s divergence log gets a steady supply of candidates.
+  `ADR-0005`'s divergence log gets a steady supply of candidates.
   Oriveda gains something people can run.
 - **Harder:** this repository now contains code. That brings tests,
   releases and a compatibility promise for the `oriveda-boundary` block

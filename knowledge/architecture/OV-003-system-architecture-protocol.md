@@ -25,7 +25,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
-  - ADR-0004
+  - ADR-0005
 tags:
   - architecture
   - protocol
@@ -111,7 +111,7 @@ consumes:
                                    # constraining boundaries or folder structure
   - InvestigationFrozen          # domain-discovery, technical-architecture,
                                    # data-model, business-vision (for NFRs)
-  - ConfidenceGate               # ADR-0004: investigations may instead be Drafts
+  - ConfidenceGate               # ADR-0005: investigations may instead be Drafts
                                    # that pass the confidence gate
 forbidden_dependencies:
   - Same domain-agnostic rule as OV-000/001/002: no project-specific
@@ -173,7 +173,7 @@ idea.
 - Folder Structure must be structurally consistent with the Constitution's
   Architecture Ambition (e.g. a Hybrid ambition requires one folder/module
   per bounded context, not a layered-by-technical-concern structure).
-- **Gating (`ADR-0004`).** The Constitution must be Frozen; it is always
+- **Gating (`ADR-0005`).** The Constitution must be Frozen; it is always
   High tier. `OV-001` inputs may be Drafts that pass the confidence gate.
   Within this document, §1 Service Boundaries and §2 Domain Model are High
   tier by default, because they fix domain boundaries and data ownership.
@@ -188,7 +188,7 @@ idea.
       complete first).
 - [ ] All five sections drafted, each with a stated source.
 - [ ] §1–§2 Frozen before implementation; §3–§5 Frozen, or scheduled to
-      freeze, per their `ADR-0004` tier.
+      freeze, per their `ADR-0005` tier.
 - [ ] No section conflicts with a Constitution Law.
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`.
 

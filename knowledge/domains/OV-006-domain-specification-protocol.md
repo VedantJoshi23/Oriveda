@@ -23,8 +23,8 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
-  - ADR-0004
   - ADR-0005
+  - ADR-0006
 tags:
   - domains
   - protocol
@@ -84,7 +84,7 @@ context-map backing is not).
 7. Dependencies       — Allowed (must match OV-003's context map exactly)
                          / Forbidden (explicit, not just "everything else"),
                          plus an `oriveda-boundary` block stating the same
-                         boundary machine-checkably (ADR-0005)
+                         boundary machine-checkably (ADR-0006)
 8. Edge Cases &
    Validations        — specific scenarios a future implementer must handle
 ```
@@ -126,7 +126,7 @@ consumes:
   - TechnologyDecisionFrozen  # OV-004; which datastore implements ownership
   - InvestigationFrozen       # OV-001 domain-discovery, hidden-business-rules
   - ConstitutionFrozen        # OV-002; Laws each Invariant must not violate
-  - ConfidenceGate            # ADR-0004: inputs other than the Constitution and
+  - ConfidenceGate            # ADR-0005: inputs other than the Constitution and
                                 # OV-003 §1–§2 may be Drafts that pass the gate
 forbidden_dependencies:
   - Same domain-agnostic rule as the rest of the OV-00X series: no
@@ -195,13 +195,13 @@ forgotten one.
   reconciled first.
 - A Thin-tier classification must be justified against the context map,
   not asserted without backing.
-- **Gating (`ADR-0004`).** §2 Ownership, §6 Data Ownership and §7
+- **Gating (`ADR-0005`).** §2 Ownership, §6 Data Ownership and §7
   Dependencies are High tier, because together they are the domain's
   boundary. They must be Frozen before implementation of any slice that
   touches the domain. The other sections may stay Draft while
   implementation proceeds, and freeze before the first release that ships
   the behavior they describe.
-- **Machine-checkable boundary (`ADR-0005`).** §7 carries one
+- **Machine-checkable boundary (`ADR-0006`).** §7 carries one
   `oriveda-boundary` block: the code paths the domain owns, plus its
   allowed and forbidden dependencies. It must agree with §2 and §7's
   prose. A disagreement blocks freezing, just like a context-map
@@ -212,7 +212,7 @@ forgotten one.
 **Definition of Done for Milestone M5 (Domains):**
 
 - [ ] `OV-003` §1–§2 (Service Boundaries, Domain Model) are Frozen; the `OV-004` decisions
-      this domain depends on pass the `ADR-0004` confidence gate.
+      this domain depends on pass the `ADR-0005` confidence gate.
 - [ ] Every declared bounded context has a Domain Specification, tiered
       Full or Thin, each justified.
 - [ ] No orphan or duplicate domain specs relative to `OV-003`.

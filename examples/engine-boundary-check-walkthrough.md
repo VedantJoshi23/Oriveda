@@ -1,7 +1,7 @@
 # Worked Example — `oriveda check boundaries` on RealWorld
 
-**Rulebook exercised:** `ADR-0005` (the engine's first slice), using the
-`OV-006` §7 `oriveda-boundary` block and the `ADR-0004` authority rule.
+**Rulebook exercised:** `ADR-0006` (the engine's first slice), using the
+`OV-006` §7 `oriveda-boundary` block and the `ADR-0005` authority rule.
 
 **Input:** the same open-source target as the Graphify pilot
 ([`lujakob/nestjs-realworld-example-app`](https://github.com/lujakob/nestjs-realworld-example-app)
@@ -75,7 +75,7 @@ $ echo $?
   `DOM-TAG` is still Draft. Either the spec is missing an allowed
   dependency, or `tag.module.ts` imports `UserModule` without needing
   to. The engine doesn't decide which. It produces the divergence-log
-  row and leaves the resolution to people (`ADR-0004` rule 4).
+  row and leaves the resolution to people (`ADR-0005` rule 4).
 - **Coverage is reported, not hidden.** Four files (the app shell and
   `package.json`) are owned by no domain. Before a project could claim
   full coverage, they would need an owner or an explicit exclusion.
@@ -88,7 +88,7 @@ pattern from `templates/domain-template.md`
 makes that line invalid. Five templates had the same bug, including the
 spec card added the same day. Their frontmatter had never been parsed by
 a machine, so nobody had noticed. The titles are now quoted. This
-illustrates `ADR-0005`'s premise: specs that only humans read can be
+illustrates `ADR-0006`'s premise: specs that only humans read can be
 wrong without anyone finding out.
 
 ## Exit check
@@ -97,5 +97,5 @@ wrong without anyone finding out.
 - [x] Every finding traced to `EXTRACTED` edges at the stated source
       locations.
 - [x] The clean-run wording, divergence rows and exit codes match
-      `ADR-0005` rule 5. These are covered by `engine/tests`.
+      `ADR-0006` rule 5. These are covered by `engine/tests`.
 - [x] Nothing written into `knowledge/` from this example.

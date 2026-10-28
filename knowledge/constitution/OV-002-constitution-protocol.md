@@ -25,7 +25,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
-  - ADR-0004
+  - ADR-0005
 tags:
   - constitution
   - protocol
@@ -147,7 +147,7 @@ publishes:
   - ConstitutionFrozen   # logged when a target project's Constitution is frozen
 consumes:
   - InvestigationFrozen   # specifically the recommendations investigation from OV-001
-  - ConfidenceGate        # ADR-0004: that investigation may instead be a Draft
+  - ConfidenceGate        # ADR-0005: that investigation may instead be a Draft
                           # that passes the confidence gate
 forbidden_dependencies:
   - Same domain-agnostic rule as OV-000/OV-001: no project-specific Laws,
@@ -216,7 +216,7 @@ and later Standards, not in whether the Constitution itself is stable.
   defaulted.
 - A Frozen Constitution may not be edited without an accompanying ADR and
   remediation statement (see Lifecycle above).
-- **Gating (`ADR-0004`).** A Constitution is always High tier. It must be
+- **Gating (`ADR-0005`).** A Constitution is always High tier. It must be
   Frozen before any implementation starts, and it can never be deferred
   at a release checkpoint. Its *inputs* need not be Frozen: the `OV-001`
   investigations a Law cites may be Drafts, provided each cited claim is
@@ -227,7 +227,7 @@ and later Standards, not in whether the Constitution itself is stable.
 **Definition of Done for Milestone M2 (Constitution):**
 
 - [ ] `OV-001`'s `recommendations` investigation exists for the target
-      project and passes the `ADR-0004` confidence gate: Frozen, or a Draft
+      project and passes the `ADR-0005` confidence gate: Frozen, or a Draft
       whose claims cited by Laws are ≥60% and owner-acknowledged.
 - [ ] All three owner-choice questions asked and answered.
 - [ ] Constitution drafted using the six-section structure, reviewed, and

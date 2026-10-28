@@ -30,7 +30,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
-  - ADR-0004
+  - ADR-0005
 tags:
   - prompts
   - protocol
@@ -73,7 +73,7 @@ domain coverage requirement, not "protocol readiness" like M6.
 | `PRM-STANDARDS` | `OV-005` | Once per target project initially; individual Standards can be added later without re-running the whole catalog. |
 | `PRM-DOMAIN` | `OV-006` | Once per bounded context declared in `OV-003`. |
 | `PRM-FEATURE` | `OV-007` | Repeatedly, for the life of the project — this is the workhorse prompt. |
-| `PRM-REVIEW` | All Frozen specs for the target project, plus its divergence log (`ADR-0004`) | Repeatedly, on any change — the cross-cutting companion to `PRM-FEATURE`. |
+| `PRM-REVIEW` | All Frozen specs for the target project, plus its divergence log (`ADR-0005`) | Repeatedly, on any change — the cross-cutting companion to `PRM-FEATURE`. |
 
 **Common template shape**, every prompt follows this, carried over
 directly from the founding conversation's own proposal:
@@ -107,7 +107,7 @@ the same discipline `OV-003` through `OV-007` each enforced against
 inventing new content at their own layer — M7 enforces it one layer
 further out, at the point where a human or agent actually starts typing.
 
-**Frozen binds, Draft informs (`ADR-0004`).** A prompt's Context may
+**Frozen binds, Draft informs (`ADR-0005`).** A prompt's Context may
 list Draft specs alongside Frozen ones, provided each is marked with its
 lifecycle status. During a session, a conflict with a Frozen spec means
 the work is wrong. A conflict with a Draft spec is a divergence: it is
@@ -135,7 +135,7 @@ owns:
 publishes:
   - PromptLibraryFrozen
 consumes:
-  - ConfidenceGate                          # ADR-0004: Draft target-project specs
+  - ConfidenceGate                          # ADR-0005: Draft target-project specs
                                               # may be loaded, marked as Draft
   - Frozen status of OV-000 through OV-007  # each prompt's Context section
                                               # depends on its corresponding
@@ -205,7 +205,7 @@ for it yet either.
   and only for a project with no prior Frozen specs.
 - A prompt's Context marks every loaded spec with its lifecycle status.
   `PRM-REVIEW` checks for unlogged divergences as well as Frozen-spec
-  violations (`ADR-0004`).
+  violations (`ADR-0005`).
 
 #### Checklists
 
@@ -216,7 +216,7 @@ for it yet either.
 - [ ] Each prompt's Context section correctly maps to its corresponding
       protocol(s).
 - [ ] No prompt restates spec content instead of referencing it by ID.
-- [ ] `PRM-FEATURE` and `PRM-REVIEW` follow the `ADR-0004` authority rule
+- [ ] `PRM-FEATURE` and `PRM-REVIEW` follow the `ADR-0005` authority rule
       (status-marked Context; divergence check).
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`,
       demonstrating a prompt is actually sufficient to start real work.

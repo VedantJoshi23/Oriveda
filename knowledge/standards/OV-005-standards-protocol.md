@@ -26,7 +26,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
-  - ADR-0004
+  - ADR-0005
 tags:
   - standards
   - protocol
@@ -135,7 +135,7 @@ consumes:
   - ArchitectureFrozen        # OV-003; API/Accessibility/Performance signals
   - TechnologyDecisionFrozen  # OV-004; Database/CI-CD signals
   - InvestigationFrozen       # OV-001 recommendations, specifically Improve items
-  - ConfidenceGate            # ADR-0004: OV-001/OV-003/OV-004 inputs may instead be
+  - ConfidenceGate            # ADR-0005: OV-001/OV-003/OV-004 inputs may instead be
                                 # Drafts that pass the gate (High-tier parts Frozen)
 forbidden_dependencies:
   - Same domain-agnostic rule as the rest of the OV-00X series: no
@@ -207,11 +207,11 @@ the latter is honest about its own scope.
 - No Standard may contradict a Constitution Law. A conflict found during
   drafting must be surfaced as a candidate Constitution amendment, not
   quietly resolved in the Standard's favor.
-- **Gating (`ADR-0004`).** Standards are Medium tier by default: drafted
+- **Gating (`ADR-0005`).** Standards are Medium tier by default: drafted
   early, and Frozen before the first release that ships code they govern.
   A Standard may be harvested from the first implemented slice's code
   instead of written in the abstract; abstract-first Standards tend to
-  fail on first contact with a real schema (see `ADR-0004` Context). A
+  fail on first contact with a real schema (see `ADR-0005` Context). A
   Standard that bears on security or data integrity may be raised to High.
 
 #### Checklists
@@ -219,11 +219,11 @@ the latter is honest about its own scope.
 **Definition of Done for Milestone M4 (Standards):**
 
 - [ ] The Constitution (`OV-002`) is Frozen; `OV-003`/`OV-004` outputs pass
-      the `ADR-0004` confidence gate, with their High-tier parts Frozen.
+      the `ADR-0005` confidence gate, with their High-tier parts Frozen.
 - [ ] Applicability determined and stated for all nine candidate
       categories (plus any project-specific additions).
 - [ ] Every applicable category's Standard drafted and reviewed using the
-      common template, and Frozen per its `ADR-0004` tier.
+      common template, and Frozen per its `ADR-0005` tier.
 - [ ] No Standard contradicts a Constitution Law.
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`.
 

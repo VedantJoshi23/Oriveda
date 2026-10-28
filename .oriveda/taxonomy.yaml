@@ -97,7 +97,7 @@ prefixes:
     pattern: 'DIV-[0-9]{3}'
     description: >
       One recorded disagreement between code and a not-yet-Frozen
-      specification, per ADR-0004. Lives in a target project's divergence
+      specification, per ADR-0005. Lives in a target project's divergence
       log (templates/divergence-log-template.md); blocks that spec from
       being Frozen while open.
     example: DIV-001

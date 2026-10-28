@@ -21,8 +21,8 @@ This folder is a **sandbox**, not part of Oriveda's own knowledge base. See
 
 | Example | Exercises | Input |
 | --- | --- | --- |
-| [`graphify-pilot-walkthrough.md`](graphify-pilot-walkthrough.md) | `OV-000` repository pipeline with Graphify as evidence provider; `ADR-0004` divergence-detection feasibility | `lujakob/nestjs-realworld-example-app` @ `c1c2cc4` (ISC) |
-| [`engine-boundary-check-walkthrough.md`](engine-boundary-check-walkthrough.md) | `ADR-0005` engine, first slice (`oriveda check boundaries`); `OV-006` §7 `oriveda-boundary` blocks | Same target, plus the five abbreviated Domain Specifications in [`realworld-domains/`](realworld-domains/) |
+| [`graphify-pilot-walkthrough.md`](graphify-pilot-walkthrough.md) | `OV-000` repository pipeline with Graphify as evidence provider; `ADR-0005` divergence-detection feasibility | `lujakob/nestjs-realworld-example-app` @ `c1c2cc4` (ISC) |
+| [`engine-boundary-check-walkthrough.md`](engine-boundary-check-walkthrough.md) | `ADR-0006` engine, first slice (`oriveda check boundaries`); `OV-006` §7 `oriveda-boundary` blocks | Same target, plus the five abbreviated Domain Specifications in [`realworld-domains/`](realworld-domains/) |
 
 Prior worked examples were run against a
 confidential client codebase and have been removed — see

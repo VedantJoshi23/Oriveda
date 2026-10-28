@@ -25,7 +25,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0002
-  - ADR-0004
+  - ADR-0005
 tags:
   - features
   - protocol
@@ -136,7 +136,7 @@ consumes:
                                 events, data ownership, allowed dependencies
   - StandardFrozen            # OV-005; Applicable Standards to check against
   - ConstitutionFrozen        # OV-002; Laws a feature must not violate
-  - ConfidenceGate            # ADR-0004: Draft Standards and non-boundary domain
+  - ConfidenceGate            # ADR-0005: Draft Standards and non-boundary domain
                                 # sections may stand in when they pass the gate
 forbidden_dependencies:
   - Same domain-agnostic rule as the rest of the OV-00X series: no
@@ -206,13 +206,13 @@ founding conversation asked for from the start.
   Applicable Standard relevant to the feature's shape, including stating
   "not applicable" where genuinely true.
 - No Feature Specification may violate a Constitution Law.
-- **Rigor tier (`ADR-0004`).** Every feature gets a tier at Proposal,
+- **Rigor tier (`ADR-0005`).** Every feature gets a tier at Proposal,
   with a one-line reason. A Low-tier feature (no new invariant, no
   cross-domain flow, no High-tier dependency) may use
   `templates/spec-card-template.md` instead of the nine-section
   structure. A feature moves up a tier as soon as it adds an invariant or
   touches a High-tier spec.
-- **Gating (`ADR-0004`).** Implementation of a feature may start once it
+- **Gating (`ADR-0005`).** Implementation of a feature may start once it
   passes the confidence gate: the Constitution and every High-tier spec
   on its path are Frozen; everything else it depends on is at least
   Draft, with the claims it relies on at ≥60% and owner-acknowledged; and
@@ -226,7 +226,7 @@ founding conversation asked for from the start.
 feature coverage:**
 
 - [ ] The Constitution (`OV-002`) is Frozen; `OV-005` Standards and
-      `OV-006` Domain Specifications pass the `ADR-0004` confidence gate,
+      `OV-006` Domain Specifications pass the `ADR-0005` confidence gate,
       with domain §2/§6/§7 Frozen.
 - [ ] The nine-section structure has been exercised against at least one
       real feature spanning more than one domain.
@@ -235,7 +235,7 @@ feature coverage:**
 - [ ] At least one worked example exists under `examples/`, per `ADR-0002`.
 
 *(Ongoing, per-feature: each new Feature Specification or spec card
-passes the `ADR-0004` gate before implementation begins, and is Frozen at
+passes the `ADR-0005` gate before implementation begins, and is Frozen at
 the point its tier requires. M6 as a milestone is "ready," not
 "finished," once the above is met.)*
 

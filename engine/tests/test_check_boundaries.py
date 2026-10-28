@@ -1,4 +1,4 @@
-"""Tests for `oriveda check boundaries` (ADR-0005 rules 3-5)."""
+"""Tests for `oriveda check boundaries` (ADR-0006 rules 3-5)."""
 
 from __future__ import annotations
 

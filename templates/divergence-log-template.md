@@ -19,7 +19,7 @@ related_documents: []
 related_domains: []
 related_features: []
 related_decisions:
-  - ADR-0004
+  - ADR-0005
 tags:
   - divergence
 risk: Medium
@@ -30,11 +30,11 @@ complexity: Low
 ## Divergence Log
 
 A divergence is a recorded disagreement between code and a
-specification that is **not yet Frozen** (`ADR-0004` rule 1). A
+specification that is **not yet Frozen** (`ADR-0005` rule 1). A
 disagreement with a Frozen specification is not a divergence: the code
 is wrong, and it is fixed or the spec is formally revised.
 
-Rules (`ADR-0004` rule 4):
+Rules (`ADR-0005` rule 4):
 
 - A change that introduces a divergence logs it **in the same change**.
   An unlogged divergence counts as a defect.

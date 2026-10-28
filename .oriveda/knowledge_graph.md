@@ -29,8 +29,8 @@ graph TD
     ADR0001["ADR-0001<br/>Oriveda Is a Product"]
     ADR0002["ADR-0002<br/>Sandbox Separation"]
     ADR0003["ADR-0003<br/>Submodule Reference"]
-    ADR0004["ADR-0004<br/>Progressive Rigor"]
-    ADR0005["ADR-0005<br/>Oriveda Engine"]
+    ADR0005["ADR-0005<br/>Progressive Rigor"]
+    ADR0006["ADR-0006<br/>Oriveda Engine"]
 
     OV001 --> OV000
     OV002 --> OV001
@@ -61,21 +61,21 @@ graph TD
     ADR0002 --> ADR0001
     ADR0002 --> OV000
     ADR0003 --> OV008
-    ADR0004 --> OV000
-    ADR0004 --> OV001
-    ADR0004 --> OV002
-    ADR0004 --> OV003
-    ADR0004 --> OV004
-    ADR0004 --> OV005
-    ADR0004 --> OV006
-    ADR0004 --> OV007
-    ADR0004 --> OV008
     ADR0005 --> OV000
+    ADR0005 --> OV001
+    ADR0005 --> OV002
+    ADR0005 --> OV003
+    ADR0005 --> OV004
+    ADR0005 --> OV005
     ADR0005 --> OV006
-    ADR0005 --> ADR0004
+    ADR0005 --> OV007
+    ADR0005 --> OV008
+    ADR0006 --> OV000
+    ADR0006 --> OV006
+    ADR0006 --> ADR0005
 
     classDef adr fill:#4a3b6b,stroke:#8b7bb8,color:#fff
-    class ADR0001,ADR0002,ADR0003,ADR0004,ADR0005 adr
+    class ADR0001,ADR0002,ADR0003,ADR0005,ADR0006 adr
 ```
 
 ## Reading this graph
@@ -95,7 +95,7 @@ graph TD
   (`ADR-0001` listed `ADR-0002` as `required_by` without the reverse
   `depends_on` existing), which this graph would have silently rendered
   wrong had it been built before the fix.
-- **`ADR-0004` depends on the whole spine** because it amends the
+- **`ADR-0005` depends on the whole spine** because it amends the
   gating rules of `OV-002` through `OV-008` and relies on `OV-000`/`OV-001`
   confidence tiers. The protocols list it under `related_decisions`, not
   `depends_on`: they reference its rules, but they don't require it as a

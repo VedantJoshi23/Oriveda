@@ -10,7 +10,7 @@ owner: Example
 milestone: M5
 category: Domains
 related_decisions:
-  - ADR-0005
+  - ADR-0006
 risk: High
 ---
 ```

@@ -55,7 +55,7 @@ def _render_text(report: Report, graph_commit: str | None, head: str | None) -> 
     if not report.findings:
         lines += ["No boundary violations or divergences found.",
                   "  This is an absence claim: Inference, not Fact. The code graph is not "
-                  "guaranteed complete (ADR-0005 rule 5).", ""]
+                  "guaranteed complete (ADR-0006 rule 5).", ""]
     if report.unowned_files:
         lines.append(f"{len(report.unowned_files)} file(s) belong to no declared domain and were not checked, e.g. "
                      + ", ".join(report.unowned_files[:5]))

@@ -1,4 +1,4 @@
-"""Evidence-provider adapters: turn a provider's code graph into file-level edges (ADR-0005 rule 3)."""
+"""Evidence-provider adapters: turn a provider's code graph into file-level edges (ADR-0006 rule 3)."""
 
 from __future__ import annotations
 

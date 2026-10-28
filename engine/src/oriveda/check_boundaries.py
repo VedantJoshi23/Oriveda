@@ -1,4 +1,4 @@
-"""`oriveda check boundaries`: cross-domain dependencies vs. declared Allowed lists (ADR-0005 rule 5)."""
+"""`oriveda check boundaries`: cross-domain dependencies vs. declared Allowed lists (ADR-0006 rule 5)."""
 
 from __future__ import annotations
 

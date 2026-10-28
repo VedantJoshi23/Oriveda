@@ -1,6 +1,6 @@
 # oriveda engine
 
-Checks a codebase against its Oriveda specifications (`ADR-0005`).
+Checks a codebase against its Oriveda specifications (`ADR-0006`).
 
 ```
 $ oriveda check boundaries
@@ -29,7 +29,7 @@ evidence provider, which you install separately. Today that means
 mode (no LLM calls):
 
 ```
-pip install "graphifyy==0.9.89"     # pin the version (ADR-0005 rule 3)
+pip install "graphifyy==0.9.89"     # pin the version (ADR-0006 rule 3)
 graphify update .                   # writes graphify-out/graph.json
 ```
 
@@ -62,7 +62,7 @@ reads an unquoted leading `*` as an alias.
 | `--format` | `text` | `text` or `json` |
 | `--strict` | off | Also fail on divergences |
 
-**Findings follow the `ADR-0004` authority rule:**
+**Findings follow the `ADR-0005` authority rule:**
 
 - **Violation:** the depending domain's spec is Frozen, so the code is
   wrong. The command exits `1`.

@@ -85,7 +85,7 @@ the architecture needs revising first, not this document)*
 ### Machine-checkable boundary
 
 The same boundary in a form `oriveda check boundaries` can enforce
-(`ADR-0005`). It must agree with the prose above; if the two disagree,
+(`ADR-0006`). It must agree with the prose above; if the two disagree,
 this spec can't be Frozen. Quote any path that starts with `*`.
 
 ```yaml oriveda-boundary
