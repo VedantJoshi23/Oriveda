@@ -1,5 +1,5 @@
 ---
-id:
+id: DIVERGENCE-LOG
 title: "<Project Name> — Divergence Log"
 version: 0.1.0
 status: Draft
@@ -17,6 +17,7 @@ related_domains: []
 related_features: []
 related_decisions:
   - ADR-0005
+  - ADR-0007
 tags:
   - divergence
 risk: Medium
@@ -25,27 +26,40 @@ complexity: Low
 
 # Divergence Log
 
+Save this file as `knowledge/decisions/DIVERGENCE-LOG.md`. A project
+has exactly one log, and `DIV-NNN` numbers are per project
+(`ADR-0007` rule 5).
+
 A divergence is a recorded disagreement between code and a
 specification that is **not yet Frozen** (`ADR-0005` rule 1). A
 disagreement with a Frozen specification is not a divergence: the code
 is wrong, and it is fixed or the spec is formally revised.
+
+**Adoption entries** are the one exception (`ADR-0007` rule 2). When an
+Oriveda upgrade brings a rule that existing work already breaks, the
+upgrade change logs each case here as an `open` row with a **Due** date.
+Such a row may name a Frozen spec. It records a known gap; it does not
+make the code right. Leave Due empty for ordinary divergences.
 
 Rules (`ADR-0005` rule 4):
 
 - A change that introduces a divergence logs it **in the same change**.
   An unlogged divergence counts as a defect.
 - A specification cannot be Frozen while it has `open` entries here.
+- An `open` row against a Frozen spec needs a Due date, and no `open`
+  row may pass its Due date. `scripts/validate.py --root` checks both.
 - Entries are never deleted. A resolved entry keeps its history.
 
 This is a living log, never Frozen. Its own `status` stays `Draft`.
 
 ## Entries
 
-| ID | Spec § | Spec says | Code does | Found in | Status | Resolved |
-| --- | --- | --- | --- | --- | --- | --- |
-| DIV-001 | `<DOM-XXX>` §3 | | | `<commit/PR>` | open | |
+| ID | Spec § | Spec says | Code does | Found in | Status | Due | Resolved |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| DIV-001 | `<DOM-XXX>` §3 | | | `<commit/PR>` or `adoption` | open | | |
 
 **Status values:** `open` · `spec-updated` · `code-fixed` · `both`.
+**Due:** `YYYY-MM-DD`; required for adoption entries, empty otherwise.
 
 ### Notes
 

@@ -147,3 +147,22 @@ evidence_provider:
     first). Providers are inputs, never dependencies: the engine reads
     their output files through an adapter, and provider clustering is
     never treated as a domain proposal (ADR-0006 rule 3).
+
+adoption_entry:
+  definition: >
+    A divergence-log row, written in the change that upgrades a project's
+    Oriveda submodule, recording existing work that breaks a rule the
+    upgrade introduced. It carries a Due date and may name a Frozen spec.
+    It is not a defect until the date passes (ADR-0007 rule 2).
+
+non_semantic_revision:
+  definition: >
+    A change to a Frozen specification that adds no decision, such as
+    adding a consistent boundary block or fixing frontmatter. It takes a
+    patch version bump and no re-review (ADR-0007 rule 3).
+
+shared_unit:
+  definition: >
+    A shared kernel or platform unit, declared with kind: shared in its
+    boundary block. Any domain may depend on it; it may depend on no
+    domain (ADR-0006 rule 4).

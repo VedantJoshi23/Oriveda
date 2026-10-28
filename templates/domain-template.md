@@ -85,8 +85,11 @@ the architecture needs revising first, not this document)*
 ### Machine-checkable boundary
 
 The same boundary in a form `oriveda check boundaries` can enforce
-(`ADR-0006`). It must agree with the prose above; if the two disagree,
-this spec can't be Frozen. Quote any path that starts with `*`.
+(`ADR-0006`). It is a checkable subset of the prose above. It must be
+consistent with the prose, and a contradiction means this spec can't be
+Frozen. Rules it can't express stay in the prose. Quote any path that
+starts with `*`. For a shared kernel or platform unit, set
+`kind: shared` and omit both dependency lists.
 
 ```yaml oriveda-boundary
 domain: <DOM-XXX>

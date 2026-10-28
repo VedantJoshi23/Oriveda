@@ -39,14 +39,34 @@ def domain_of(path: str, boundaries: list[DomainBoundary]) -> DomainBoundary | N
     return owners[0] if owners else None
 
 
+def _matches(path: str, patterns: tuple[str, ...]) -> bool:
+    path = path.replace("\\", "/").removeprefix("./")
+    return any(_glob_regex(p).match(path) for p in patterns)
+
+
+def _unit_of(path: str, units: tuple[str, ...]) -> str | None:
+    """The shortest directory prefix of path that matches a unit-root glob."""
+    parts = path.split("/")
+    for i in range(1, len(parts)):
+        prefix = "/".join(parts[:i])
+        if _matches(prefix, units):
+            return prefix
+    return None
+
+
 @dataclass(frozen=True)
 class Finding:
     kind: str                 # "violation" (Frozen spec) | "divergence" (not yet Frozen)
     source: DomainBoundary
     target_domain: str
-    explicitly_forbidden: bool
+    reason: str               # "forbidden" | "undeclared" | "shared-depends-on-domain"
     evidence: tuple[Edge, ...]
     edge_count: int
+    type_only_count: int = 0  # how many of edge_count are compile-time-only
+
+    @property
+    def explicitly_forbidden(self) -> bool:
+        return self.reason == "forbidden"
 
     @property
     def confidence(self) -> tuple[str, int]:
@@ -63,37 +83,65 @@ class Report:
     domains: tuple[DomainBoundary, ...]
     edges_checked: int
     cross_domain_edges: int
-    unowned_files: tuple[str, ...]
+    unowned_files: tuple[str, ...]            # source files no domain owns
+    unowned_other: tuple[str, ...] = ()       # docs/config files no domain owns
+    unowned_units: tuple[tuple[str, int], ...] = ()  # (unit root, unowned source files)
+    excluded_files: tuple[str, ...] = ()
+    type_only_ignored: int = 0
 
 
-def check(graph: CodeGraph, boundaries: list[DomainBoundary]) -> Report:
+def check(graph: CodeGraph, boundaries: list[DomainBoundary], *,
+          exclude: tuple[str, ...] = (), units: tuple[str, ...] = (),
+          count_type_only: bool = True) -> Report:
     grouped: dict[tuple[str, str], list[Edge]] = defaultdict(list)
     by_domain = {b.domain: b for b in boundaries}
-    unowned: set[str] = set()
-    cross = 0
+    unowned_src: set[str] = set()
+    unowned_other: set[str] = set()
+    excluded: set[str] = set()
+    cross = ignored_type_only = 0
     for edge in graph.edges:
+        if _matches(edge.source_file, exclude) or _matches(edge.target_file, exclude):
+            excluded.update(f for f in (edge.source_file, edge.target_file) if _matches(f, exclude))
+            continue
         src, tgt = domain_of(edge.source_file, boundaries), domain_of(edge.target_file, boundaries)
-        for f, owner in ((edge.source_file, src), (edge.target_file, tgt)):
+        for f, owner, is_code in ((edge.source_file, src, edge.source_is_code),
+                                  (edge.target_file, tgt, edge.target_is_code)):
             if owner is None:
-                unowned.add(f)
+                (unowned_src if is_code else unowned_other).add(f)
         if src is None or tgt is None or src.domain == tgt.domain:
             continue
         cross += 1
-        if tgt.domain in src.allowed:
+        if tgt.shared and src.shared:
+            continue                      # shared units may build on each other
+        if tgt.shared or tgt.domain in src.allowed:
+            continue
+        if edge.type_only and not count_type_only:
+            ignored_type_only += 1
             continue
         grouped[(src.domain, tgt.domain)].append(edge)
 
     findings = []
     for (src_name, tgt_name), edges in sorted(grouped.items()):
         src = by_domain[src_name]
+        reason = ("shared-depends-on-domain" if src.shared
+                  else "forbidden" if tgt_name in src.forbidden else "undeclared")
         # Strongest evidence first: EXTRACTED before INFERRED, then score.
         ranked = sorted(edges, key=lambda e: (e.provenance != "EXTRACTED", -e.score, e.location))
         findings.append(Finding(
             kind="violation" if src.frozen else "divergence",
             source=src,
             target_domain=tgt_name,
-            explicitly_forbidden=tgt_name in src.forbidden,
+            reason=reason,
             evidence=tuple(ranked[:MAX_EVIDENCE]),
             edge_count=len(edges),
+            type_only_count=sum(e.type_only for e in edges),
         ))
-    return Report(tuple(findings), tuple(boundaries), len(graph.edges), cross, tuple(sorted(unowned)))
+
+    unit_counts: dict[str, int] = defaultdict(int)
+    for f in unowned_src:
+        unit = _unit_of(f, units)
+        if unit is not None:
+            unit_counts[unit] += 1
+    return Report(tuple(findings), tuple(boundaries), len(graph.edges), cross,
+                  tuple(sorted(unowned_src)), tuple(sorted(unowned_other)),
+                  tuple(sorted(unit_counts.items())), tuple(sorted(excluded)), ignored_type_only)

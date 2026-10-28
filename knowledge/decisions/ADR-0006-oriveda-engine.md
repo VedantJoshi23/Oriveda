@@ -1,7 +1,7 @@
 ---
 id: ADR-0006
 title: The Oriveda Engine — Specs That Check Themselves Against Code
-version: 1.0.1
+version: 1.1.0
 status: Frozen
 owner: Architecture
 reviewers:
@@ -134,9 +134,25 @@ forbidden_dependencies:
 ````
 
 The block is part of §7, so it is High tier and freezes with
-§2/§6/§7. It is not a second source of truth: if the block and the
-prose disagree, the spec is internally inconsistent and cannot be
-Frozen. No separate configuration file exists.
+§2/§6/§7. It is a **checkable subset** of §7, not a second source of
+truth. It must be *consistent with* the prose: a block that contradicts
+the prose makes the spec internally inconsistent, and it can't be
+Frozen. The block need not be *equivalent to* the prose. §7 may state
+rules the block can't express (for example "may read but not
+command"), and for those the prose stays authoritative and is checked
+by people or by project-specific tests.
+
+A block may declare `kind: shared` for a shared kernel or platform
+unit. Any domain may depend on a shared unit without listing it, and a
+shared unit **may depend on no domain**; shared units may depend on
+each other. A shared block takes no dependency lists.
+
+Project-specific knobs are command-line flags, not block fields,
+because they describe how a project runs the check rather than what a
+domain is: `--exclude` (for example a composition root or tests),
+`--units` (unit roots, so an unowned unit is reported by name), and
+`--type-only` (whether compile-time-only edges count; default: count).
+No separate configuration file exists.
 
 **5. Findings follow the authority rule.** A dependency that crosses
 domain boundaries without being allowed is reported as:
@@ -152,6 +168,20 @@ if at least one supporting edge is `EXTRACTED`, otherwise Inference at
 the highest score. A clean result is reported as an absence claim:
 "no violations found", at Inference tier, never as proof of
 compliance.
+
+Every report also states its **coverage**, so the absence claim's scope
+is explicit:
+
+- which kinds of boundary crossing were checked (code dependencies,
+  data-store access, messaging), and which weren't because the provider
+  supplies no such edges;
+- excluded files, unowned source files (counted apart from docs and
+  config), and unowned units;
+- Domain Specifications without a block.
+
+The engine **warns** when the graph records no build commit (rule 3
+requires one), when the graph is stale, and when a Frozen spec has no
+block (rule 4). With `--strict`, each warning fails the run.
 
 **6. Commands are added one slice at a time.** The first slice is
 `oriveda check boundaries`. Planned next, each only after the previous
@@ -188,6 +218,12 @@ graph), and `oriveda gate` (`ADR-0005` rule 3 for a given slice).
   re-evaluate the order of the next commands.
 - Users are confused by having two entry points (`scripts/validate.py`
   and `oriveda`). Merge them before adding a third command.
+
+*v1.1.0 (2026-10-28): after the first run on a real consuming
+project. Rule 4: the block is a consistent, checkable subset of §7, not
+an equivalent; adds `kind: shared` and the `--exclude`, `--units` and
+`--type-only` flags. Rule 5: coverage reporting, and warnings for a
+missing build commit or a Frozen spec without a block.*
 
 *v1.0.1 (2026-10-28): corrected rule 1. It had said `scripts/` was never
 built, but `scripts/validate.py` already existed on `main` (`ADR-0004`).*

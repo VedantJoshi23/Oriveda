@@ -309,6 +309,12 @@ feature by feature. The Constitution and any High-risk spec (domain
 boundaries, data ownership, auth, payments) are always Frozen before
 code that touches them.
 
+**Upgrading Oriveda later.** Moving the submodule pointer can bring new
+obligations. Each changelog section lists them under "Obligations for
+consuming projects". Existing work that breaks a newly arrived rule is
+logged as a dated adoption entry in the divergence log in the same
+change, not treated as an instant breach (`ADR-0007`).
+
 **Check the code against the specs.** Once a Domain Specification's §7
 carries an `oriveda-boundary` block, `oriveda check boundaries` reports
 every cross-domain dependency the specs don't allow. When the domain's
@@ -347,6 +353,7 @@ ADR-0003
 ADR-0004
 ADR-0005
 ADR-0006
+ADR-0007
 ```
 
 ---

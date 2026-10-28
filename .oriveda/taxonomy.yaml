@@ -35,21 +35,21 @@ prefixes:
   DOM:
     name: Domain
     scope: project
-    pattern: 'DOM-[A-Z-]+'
+    pattern: 'DOM-[A-Z0-9][A-Z0-9-]*'
     description: A bounded context, per a target project's OV-006 output.
     example: DOM-CATALOG
 
   FEAT:
     name: Feature
     scope: project
-    pattern: 'FEAT-[A-Z-]+'
+    pattern: 'FEAT-[A-Z0-9][A-Z0-9-]*'
     description: A feature specification, per a target project's OV-007 output.
     example: FEAT-WISHLIST
 
   STD:
     name: Standard
     scope: project
-    pattern: 'STD-[A-Z-]+'
+    pattern: 'STD-[A-Z0-9][A-Z0-9-]*'
     description: >
       A convention in one of the nine candidate categories, per a target
       project's OV-005 output.
@@ -76,7 +76,7 @@ prefixes:
   DISC:
     name: Discovery investigation
     scope: project
-    pattern: 'DISC-[A-Z-]+'
+    pattern: 'DISC-[A-Z0-9][A-Z0-9-]*'
     description: >
       One of a target project's ten OV-001 investigations or its
       recommendations roll-up (ADR-0004).
@@ -85,14 +85,14 @@ prefixes:
   CONST:
     name: Constitution
     scope: project
-    pattern: 'CONST-[A-Z-]+'
+    pattern: 'CONST-[A-Z0-9][A-Z0-9-]*'
     description: A target project's Engineering Constitution, per OV-002 (ADR-0004).
     example: CONST-CORE
 
   ARCH:
     name: Architecture
     scope: project
-    pattern: 'ARCH-[A-Z-]+'
+    pattern: 'ARCH-[A-Z0-9][A-Z0-9-]*'
     description: A target project's system architecture, per OV-003 (ADR-0004).
     example: ARCH-SYSTEM
 
@@ -124,3 +124,13 @@ prefixes:
       log (templates/divergence-log-template.md); blocks that spec from
       being Frozen while open.
     example: DIV-001
+
+  DIVERGENCE:
+    name: Divergence log
+    scope: project
+    pattern: 'DIVERGENCE-LOG'
+    description: >
+      A target project's single divergence log, at
+      knowledge/decisions/DIVERGENCE-LOG.md (ADR-0007 rule 5). Its rows are
+      DIV-NNN entries.
+    example: DIVERGENCE-LOG

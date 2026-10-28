@@ -1,7 +1,7 @@
 ---
 id: OV-006
 title: M5 Domain Specification Protocol
-version: 0.3.0
+version: 0.4.0
 status: Frozen
 owner: Architecture
 reviewers:
@@ -203,9 +203,14 @@ forgotten one.
   the behavior they describe.
 - **Machine-checkable boundary (`ADR-0006`).** §7 carries one
   `oriveda-boundary` block: the code paths the domain owns, plus its
-  allowed and forbidden dependencies. It must agree with §2 and §7's
-  prose. A disagreement blocks freezing, just like a context-map
-  mismatch. `oriveda check boundaries` checks code against it.
+  allowed and forbidden dependencies. It is a checkable *subset* of §2
+  and §7's prose. It must be consistent with them but need not be
+  equivalent: rules the block can't express (such as "may read but not
+  command") stay authoritative in the prose. A contradiction blocks
+  freezing, just like a context-map mismatch. A shared kernel or
+  platform unit declares `kind: shared`: any domain may depend on it,
+  and it may depend on no domain. `oriveda check boundaries` checks code
+  against the block.
 
 ### Checklists
 
@@ -220,7 +225,8 @@ forgotten one.
 - [ ] §2, §6 and §7 of each Domain Specification Frozen before
       implementation touches that domain.
 - [ ] Each Domain Specification's §7 has an `oriveda-boundary` block that
-      agrees with its prose.
+      is consistent with its prose. Adding one to an already-Frozen spec
+      is a non-semantic revision (`ADR-0007` rule 3).
 - [ ] At least one Full and one Thin worked example exist under
       `examples/`, per `ADR-0002`.
 

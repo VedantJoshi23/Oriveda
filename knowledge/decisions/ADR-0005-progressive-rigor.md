@@ -1,7 +1,7 @@
 ---
 id: ADR-0005
 title: Progressive Rigor — Only Frozen Specifications Win
-version: 1.0.0
+version: 1.0.1
 status: Frozen
 owner: Architecture
 reviewers:
@@ -110,7 +110,7 @@ The rules that put this into practice:
 
 | Spec state | Code disagrees with it → |
 | --- | --- |
-| Frozen | The code is wrong. Fix the code, or revise the spec through its normal lifecycle (version bump; for a Constitution, ADR plus remediation statement per `OV-002`). |
+| Frozen | The code is wrong. Fix the code, or revise the spec through its normal lifecycle (a version bump; only a Constitution also needs an ADR plus remediation statement, per `OV-002`). |
 | Proposal / Draft / Architecture Review / Revision / Approved | A divergence. Log it (rule 4). Resolve it by changing the spec, the code, or both. |
 
 Code never becomes the authority by default. A divergence nobody logged
@@ -232,3 +232,7 @@ was revised from v0.1.0 to v0.2.0:
   written.
 - Re-evaluate in any case after the first two target projects have
   shipped a release under this ADR.
+
+*v1.0.1 (2026-10-28), non-semantic (`ADR-0007` rule 3): the Frozen
+row of rule 1 now says plainly that ADR-plus-remediation applies to a
+Constitution only.*

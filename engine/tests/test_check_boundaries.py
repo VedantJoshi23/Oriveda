@@ -13,7 +13,7 @@ from oriveda.graph import load_graphify
 from oriveda.specs import SpecError, load_boundaries, parse_domain_spec
 
 
-def spec(domain: str, status: str, paths: list[str], allowed=(), forbidden=()) -> str:
+def spec(domain: str, status: str, paths: list[str], allowed=(), forbidden=(), kind=None) -> str:
     def items(xs):
         return "".join(f'\n  - "{x}"' for x in xs) if xs else " []"
     return f"""# Metadata
@@ -32,7 +32,7 @@ status: {status}
 ## 7. Dependencies
 
 ```yaml oriveda-boundary
-domain: {domain}
+domain: {domain}{f"{chr(10)}kind: {kind}" if kind else ""}
 paths:{items(paths)}
 allowed_dependencies:{items(allowed)}
 forbidden_dependencies:{items(forbidden)}
@@ -40,17 +40,21 @@ forbidden_dependencies:{items(forbidden)}
 """
 
 
-def node(nid: str, source_file: str | None) -> dict:
-    n = {"id": nid, "label": nid}
+def node(nid: str, source_file: str | None, file_type: str = "code") -> dict:
+    n = {"id": nid, "label": nid, "file_type": file_type}
     if source_file is not None:
         n["source_file"] = source_file
     return n
 
 
-def link(src: str, tgt: str, relation: str, confidence="EXTRACTED", score=1.0, line="L1") -> dict:
+def link(src: str, tgt: str, relation: str, confidence="EXTRACTED", score=1.0, line="L1",
+         type_only=False) -> dict:
     # source_file of a link is where the dependency is stated: the source's file.
-    return {"source": src, "target": tgt, "relation": relation, "confidence": confidence,
-            "confidence_score": score, "source_file": "", "source_location": line}
+    out = {"source": src, "target": tgt, "relation": relation, "confidence": confidence,
+           "confidence_score": score, "source_file": "", "source_location": line}
+    if type_only:
+        out["type_only"] = True
+    return out
 
 
 @pytest.fixture
@@ -58,12 +62,14 @@ def project(tmp_path: Path):
     specs = tmp_path / "domains"
     specs.mkdir()
 
-    def write(specs_text: dict[str, str], nodes: list[dict], links: list[dict]):
+    def write(specs_text: dict[str, str], nodes: list[dict], links: list[dict], commit="abc1234"):
         for name, text in specs_text.items():
             (specs / f"{name}.md").write_text(text, encoding="utf-8")
         graph = tmp_path / "graph.json"
-        graph.write_text(json.dumps({"directed": False, "nodes": nodes, "links": links,
-                                     "built_at_commit": "abc1234"}), encoding="utf-8")
+        data = {"directed": False, "nodes": nodes, "links": links}
+        if commit is not None:
+            data["built_at_commit"] = commit
+        graph.write_text(json.dumps(data), encoding="utf-8")
         return specs, graph
     return write
 
@@ -231,3 +237,143 @@ def test_unquoted_star_glob_gets_a_helpful_error(tmp_path):
     p.write_text(spec("DOM-D", "Draft", ["x"]).replace('- "x"', "- **/x/**"), encoding="utf-8")
     with pytest.raises(SpecError, match="must be quoted"):
         parse_domain_spec(p)
+
+
+# --- 0.2.0: findings from the first run on a real consuming project -------------
+
+def run(args, capsys):
+    code = main(["check", "boundaries", *args])
+    return code, capsys.readouterr().out
+
+
+def test_missing_build_commit_warns_and_fails_strict(project, capsys):
+    specs, graph = project(three_domains(), BASE_NODES,
+                           [link("ArticleService", "UserEntity", "imports")], commit=None)
+    base = ["--specs", str(specs), "--graph", str(graph)]
+    code, out = run(base, capsys)
+    assert code == EXIT_OK
+    assert "no build commit" in out and "graph built at: unknown" in out
+    assert run(base + ["--strict"], capsys)[0] == EXIT_VIOLATIONS
+
+
+def test_coverage_names_what_was_not_checked(project, capsys):
+    specs, graph = project(three_domains(), BASE_NODES, [link("ArticleService", "UserEntity", "imports")])
+    _, out = run(["--specs", str(specs), "--graph", str(graph)], capsys)
+    assert "checked: code-dependency" in out
+    assert "not checked: data-access, messaging (graphify supplies no such edges)" in out
+    assert "covers only what is listed" in out
+
+
+def test_specs_without_block_are_listed_and_frozen_ones_fail_strict(project, capsys):
+    texts = three_domains()
+    texts["risk"] = "---\nid: DOM-RISK\nstatus: Proposal\n---\n\n# Risk\n"
+    specs, graph = project(texts, BASE_NODES, [link("ArticleService", "UserEntity", "imports")])
+    base = ["--specs", str(specs), "--graph", str(graph)]
+    code, out = run(base, capsys)
+    assert "specs without a boundary block (not checked): DOM-RISK [Proposal]" in out
+    assert "Frozen but has no oriveda-boundary block" not in out
+
+    (specs / "risk.md").write_text("---\nid: DOM-RISK\nstatus: Frozen\n---\n\n# Risk\n", encoding="utf-8")
+    code, out = run(base, capsys)
+    assert code == EXIT_OK and "DOM-RISK is Frozen but has no oriveda-boundary block" in out
+    assert run(base + ["--strict"], capsys)[0] == EXIT_VIOLATIONS
+
+
+def test_non_domain_notes_without_block_are_ignored(tmp_path):
+    from oriveda.specs import load_specs
+    (tmp_path / "README.md").write_text("# Notes about domains\n", encoding="utf-8")
+    (tmp_path / "a.md").write_text(spec("DOM-A", "Draft", ["a/**"]), encoding="utf-8")
+    assert load_specs(tmp_path).unblocked == ()
+
+
+SHARED_NODES = BASE_NODES + [node("AuditLog", "src/audit/audit.service.ts")]
+
+
+def with_shared():
+    texts = three_domains()
+    texts["audit"] = spec("DOM-AUDIT", "Frozen", ["src/audit/**"], kind="shared")
+    return texts
+
+
+def test_any_domain_may_depend_on_a_shared_unit(project):
+    specs, graph = project(with_shared(), SHARED_NODES, [link("ArticleService", "AuditLog", "calls"),
+                                                          link("UserEntity", "AuditLog", "imports")])
+    assert check(load_graphify(graph), load_boundaries(specs)).findings == ()
+
+
+def test_a_shared_unit_may_depend_on_no_domain(project):
+    specs, graph = project(with_shared(), SHARED_NODES, [link("AuditLog", "UserEntity", "imports")])
+    [finding] = check(load_graphify(graph), load_boundaries(specs)).findings
+    assert (finding.source.domain, finding.reason, finding.kind) == (
+        "DOM-AUDIT", "shared-depends-on-domain", "violation")
+
+
+def test_shared_unit_with_dependency_lists_is_a_spec_error(tmp_path):
+    p = tmp_path / "s.md"
+    p.write_text(spec("DOM-S", "Draft", ["s/**"], allowed=["DOM-X"], kind="shared"), encoding="utf-8")
+    with pytest.raises(SpecError, match="may depend on no domain"):
+        parse_domain_spec(p)
+
+
+def test_exclude_skips_composition_root_and_tests_and_counts_them(project):
+    nodes = BASE_NODES + [node("AppModule", "src/app.module.ts"),
+                          node("ArticleSpec", "src/article/article.service.spec.ts")]
+    texts = three_domains()
+    texts["app"] = spec("DOM-APP", "Frozen", ["src/app.module.ts"])
+    specs, graph = project(texts, nodes, [link("AppModule", "FollowsEntity", "imports"),
+                                          link("ArticleSpec", "FollowsEntity", "imports")])
+    boundaries = load_boundaries(specs)
+    assert len(check(load_graphify(graph), boundaries).findings) == 2
+    report = check(load_graphify(graph), boundaries,
+                   exclude=("src/app.module.ts", "**/*.spec.ts"))
+    assert report.findings == ()
+    assert report.excluded_files == ("src/app.module.ts", "src/article/article.service.spec.ts")
+
+
+def test_unit_roots_name_undeclared_units(project):
+    nodes = BASE_NODES + [node("ShipIt", "src/modules/shipping/ship.service.ts"),
+                          node("Label", "src/modules/shipping/label.ts")]
+    specs, graph = project(three_domains(), nodes, [link("ShipIt", "Label", "imports"),
+                                                    link("ShipIt", "UserEntity", "imports")])
+    report = check(load_graphify(graph), load_boundaries(specs), units=("src/modules/*",))
+    assert report.unowned_units == (("src/modules/shipping", 2),)
+
+
+def test_type_only_edges_counted_by_default_and_ignorable(project):
+    specs, graph = project(three_domains(), BASE_NODES,
+                           [link("ArticleService", "FollowsEntity", "imports", type_only=True)])
+    g, b = load_graphify(graph), load_boundaries(specs)
+    [finding] = check(g, b).findings
+    assert finding.type_only_count == 1 and finding.evidence[0].type_only
+    report = check(g, b, count_type_only=False)
+    assert report.findings == () and report.type_only_ignored == 1
+
+
+def test_unowned_docs_are_counted_apart_from_source(project):
+    nodes = BASE_NODES + [node("ARCHITECTURE", "ARCHITECTURE.md", file_type="document"),
+                          node("deps", "package.json")]   # config tagged "code" by the provider
+    specs, graph = project(three_domains(), nodes, [link("ARCHITECTURE", "UserEntity", "references"),
+                                                    link("deps", "UserEntity", "references"),
+                                                    link("ArticleService", "Logger", "imports")])
+    report = check(load_graphify(graph), load_boundaries(specs))
+    assert report.unowned_files == ("src/shared/logger.ts",)
+    assert report.unowned_other == ("ARCHITECTURE.md", "package.json")
+
+
+def test_json_reports_coverage_and_warnings(project, capsys):
+    specs, graph = project(three_domains(), BASE_NODES,
+                           [link("ArticleService", "UserEntity", "imports")], commit=None)
+    code, out = run(["--specs", str(specs), "--graph", str(graph), "--format", "json"], capsys)
+    data = json.loads(out)
+    assert data["coverage"]["not_checked"] == ["data-access", "messaging"]
+    assert any("no build commit" in w for w in data["warnings"])
+
+
+def test_suggested_divergence_row_matches_the_log_template_columns(project, capsys):
+    specs, graph = project(three_domains("Draft"), BASE_NODES,
+                           [link("ArticleService", "FollowsEntity", "references")])
+    _, out = run(["--specs", str(specs), "--graph", str(graph)], capsys)
+    row = next(l for l in out.splitlines() if l.strip().startswith("| DIV-???"))
+    template = (Path(__file__).parents[2] / "templates" / "divergence-log-template.md").read_text()
+    header = next(l for l in template.splitlines() if l.startswith("| ID |"))
+    assert row.strip().count("|") == header.count("|")

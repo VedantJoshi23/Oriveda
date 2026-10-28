@@ -13,6 +13,11 @@ knowledge/**/*.md matching its project-scope prefixes; ADR-0004):
   - status is one of the seven lifecycle stages in the root README
   - depends_on / required_by / related_documents / related_decisions
     reference ids that actually exist
+  - Frozen/Approved specs with empty reviewers pass only with an explicit
+    `reviewers_unrecorded: true` marker, reported as info (ADR-0007 rule 4)
+  - with --root: the divergence log at knowledge/decisions/DIVERGENCE-LOG.md
+    has no open row against a Frozen spec without a Due date, and no open
+    row past its Due date (ADR-0007 rules 2 and 5)
   - every file is listed in .oriveda/manifest.yaml (a target project's
     knowledge/manifest.yaml with --root) with matching
     id/status/version/milestone, and every manifest entry's path exists
@@ -29,6 +34,7 @@ unless --strict is passed.
 from __future__ import annotations
 
 import argparse
+import datetime
 import re
 import sys
 from dataclasses import dataclass, field
@@ -81,7 +87,7 @@ FENCED_FRONTMATTER_RE = re.compile(
 @dataclass
 class Finding:
     file: str
-    level: str  # "error" | "warning"
+    level: str  # "error" | "warning" | "info"
     message: str
 
 
@@ -152,10 +158,18 @@ def check_required_fields(doc: ParsedDoc, findings: list[Finding]) -> None:
                     f"status is '{status}' but field '{f}' is still blank",
                 ))
         reviewers = doc.frontmatter.get("reviewers") or []
-        if not reviewers:
+        if not reviewers and doc.frontmatter.get("reviewers_unrecorded") is True:
+            # Honest history (ADR-0007 rule 4): never back-fill a review that
+            # was not recorded at the time.
+            findings.append(Finding(
+                rel, "info",
+                f"status is '{status}' with reviewers unrecorded (reviewers_unrecorded: true)",
+            ))
+        elif not reviewers:
             findings.append(Finding(
                 rel, "error",
-                f"status is '{status}' but 'reviewers' is empty",
+                f"status is '{status}' but 'reviewers' is empty; if they were never "
+                f"recorded, set reviewers_unrecorded: true instead of adding names (ADR-0007)",
             ))
 
 
@@ -246,6 +260,55 @@ def check_manifest_sync(docs: list[ParsedDoc], manifest: dict,
             ))
 
 
+DIVERGENCE_LOG = Path("knowledge") / "decisions" / "DIVERGENCE-LOG.md"
+_SPEC_REF_RE = re.compile(r"\b([A-Z]+-[A-Z0-9][A-Z0-9-]*)\b")
+
+
+def check_divergence_log(docs: list[ParsedDoc], findings: list[Finding],
+                         today: datetime.date | None = None) -> None:
+    """ADR-0007 rules 2 and 5: open rows against Frozen specs need a Due date,
+    and no open row may be past its Due date."""
+    path = BASE / DIVERGENCE_LOG
+    if not path.exists():
+        return
+    today = today or datetime.date.today()
+    rel = str(DIVERGENCE_LOG)
+    status_by_id = {d.frontmatter.get("id"): d.frontmatter.get("status") for d in docs}
+    header: list[str] | None = None
+    for line in path.read_text().splitlines():
+        if not line.lstrip().startswith("|"):
+            header = None  # any non-table line ends the current table
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if header is None:
+            header = [c.lower() for c in cells]
+            continue
+        if set("".join(cells)) <= set("-: "):
+            continue  # the |---|---| separator row
+        row = dict(zip(header, cells))
+        div_id = row.get("id", "")
+        if not re.fullmatch(r"DIV-[0-9]{3}", div_id) or row.get("status", "").lower() != "open":
+            continue
+        ref = _SPEC_REF_RE.search(row.get("spec §", "").replace("`", ""))
+        spec_id = ref.group(1) if ref else None
+        due_text = row.get("due", "")
+        due = None
+        if due_text:
+            try:
+                due = datetime.date.fromisoformat(due_text)
+            except ValueError:
+                findings.append(Finding(rel, "error", f"{div_id}: Due '{due_text}' is not a YYYY-MM-DD date"))
+                continue
+        if due is not None and due < today:
+            findings.append(Finding(rel, "error", f"{div_id}: still open after its Due date {due} (ADR-0007 rule 2)"))
+        elif due is None and spec_id and status_by_id.get(spec_id) == "Frozen":
+            findings.append(Finding(
+                rel, "error",
+                f"{div_id}: open against Frozen spec {spec_id} without a Due date; a disagreement "
+                f"with a Frozen spec is a violation unless logged as a dated adoption entry (ADR-0007 rule 2)",
+            ))
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate Oriveda specifications.")
     parser.add_argument("--strict", action="store_true", help="treat warnings as errors")
@@ -307,15 +370,18 @@ def main() -> int:
         check_dependency_graph(doc, known_ids, findings)
 
     check_manifest_sync(docs, manifest, findings)
+    if args.root is not None:
+        check_divergence_log(docs, findings)
 
     errors = [f for f in findings if f.level == "error"]
     warnings = [f for f in findings if f.level == "warning"]
+    infos = [f for f in findings if f.level == "info"]
 
     for f in sorted(findings, key=lambda f: (f.file, f.level)):
         print(f"[{f.level.upper()}] {f.file}: {f.message}")
 
     print(f"\n{len(spec_files)} specification(s) checked, "
-          f"{len(errors)} error(s), {len(warnings)} warning(s).")
+          f"{len(errors)} error(s), {len(warnings)} warning(s), {len(infos)} info.")
 
     if errors or (args.strict and warnings):
         return 1

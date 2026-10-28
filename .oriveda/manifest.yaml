@@ -5,7 +5,7 @@ knowledge_graph: knowledge_graph.md   # rendered Mermaid diagram, hand-updated
 validation: scripts/validate.py   # run before treating any spec as Frozen
 engine:
   path: engine/
-  version: 0.1.0
+  version: 0.2.0
   commands: [check boundaries]   # ADR-0006 rule 6: one slice at a time
 
 documents:
@@ -49,7 +49,7 @@ documents:
     title: M5 Domain Specification Protocol
     path: knowledge/domains/OV-006-domain-specification-protocol.md
     status: Frozen
-    version: 0.3.0
+    version: 0.4.0
     milestone: M5
   - id: OV-007
     title: M6 Feature Specification Protocol
@@ -95,13 +95,19 @@ decisions:
     title: Progressive Rigor — Only Frozen Specifications Win
     path: knowledge/decisions/ADR-0005-progressive-rigor.md
     status: Frozen
-    version: 1.0.0
+    version: 1.0.1
     milestone: M8
   - id: ADR-0006
     title: The Oriveda Engine — Specs That Check Themselves Against Code
     path: knowledge/decisions/ADR-0006-oriveda-engine.md
     status: Frozen
-    version: 1.0.1
+    version: 1.1.0
+    milestone: M8
+  - id: ADR-0007
+    title: Adopting Oriveda Upgrades — Obligations, Grandfathering and Honest History
+    path: knowledge/decisions/ADR-0007-adopting-oriveda-upgrades.md
+    status: Frozen
+    version: 1.0.0
     milestone: M8
 
 # The fixed PRM-* catalog is framework-level (defined by OV-008), unlike

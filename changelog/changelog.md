@@ -310,3 +310,94 @@ Two items from the "Known, not yet addressed" list above:
 - Frontmatter in five templates (domain, feature, prompt, review, spec
   card) was invalid YAML: an unquoted colon in `title:`. Titles are now
   quoted. Found by the engine's first real run.
+
+---
+
+## Field Report Fixes: Engine v0.2.0, ADR-0007 (post-M8)
+
+The first run of `oriveda check boundaries` on a real consuming project
+(fifteen Frozen Domain Specifications, a NestJS + ORM backend) produced
+a field report. Each issue was sorted into a gap in Oriveda's concepts,
+fixed here, or a gap in that project's own usage, which stays with the
+project. Nothing here is specific to any one stack.
+
+### Added
+
+- `ADR-0007` Adopting Oriveda Upgrades (Frozen):
+  - each release lists its obligations for consuming projects;
+  - existing work that breaks a newly arrived rule becomes a dated
+    *adoption entry* in the divergence log, not an instant breach;
+  - *non-semantic revisions* to Frozen specs take a patch bump and no
+    re-review;
+  - `reviewers_unrecorded: true` for specs Frozen before reviewers were
+    recorded, and the general rule that no check may be satisfiable only
+    by fabricating provenance;
+  - the divergence log's fixed home is
+    `knowledge/decisions/DIVERGENCE-LOG.md`.
+- Engine v0.2.0:
+  - **Coverage** in every report: what was checked, what wasn't
+    (data-access and messaging edges aren't supplied by import-based
+    providers), excluded files, unowned source files apart from
+    docs/config, unowned units, and specs without a block.
+  - **Warnings**, each failing `--strict`: a graph with no build commit,
+    a stale graph, a Frozen spec without a boundary block.
+  - **`kind: shared`** in the boundary block. Any domain may depend on
+    a shared unit, and a shared unit may depend on no domain.
+  - **Flags:** `--exclude` (composition roots, tests), `--units` (an
+    unowned unit is reported by name), and `--type-only count|ignore`,
+    using the provider's existing `type_only` marking.
+  - 34 tests.
+- `scripts/validate.py`:
+  - accepts `reviewers_unrecorded: true`, reported as info;
+  - with `--root`, checks the divergence log: an `open` row against a
+    Frozen spec needs a Due date, and no `open` row may be past it.
+
+### Changed
+
+- `ADR-0006` v1.1.0: rule 4 now says the boundary block is a
+  *consistent, checkable subset* of §7, not an equivalent; the prose
+  stays authoritative for what the block can't express. Rule 5 adds
+  coverage reporting and warnings.
+- `ADR-0005` v1.0.1 (non-semantic): the authority table says plainly
+  that ADR-plus-remediation applies to a Constitution only.
+- `OV-006` v0.4.0: the §7 block rule follows `ADR-0006` v1.1.0.
+- Project-scope ID patterns (`DOM`, `FEAT`, `STD`, `DISC`, `CONST`,
+  `ARCH`) accept digits, e.g. `ARCH-001`. New `DIVERGENCE` prefix for the
+  log's fixed id.
+- `templates/divergence-log-template.md`: fixed id and path, a Due
+  column, adoption entries explained. The engine's suggested row has
+  the matching columns.
+
+### Obligations for consuming projects
+
+Upgrading to this release from any earlier one:
+
+- **Domain Specifications:** add an `oriveda-boundary` block to each §7
+  before `oriveda check boundaries` can check that domain. On a Frozen
+  spec, this is a non-semantic revision (patch bump, no re-review) when
+  the block is consistent with the prose. Until then the engine lists
+  the spec as unchecked and warns for Frozen ones.
+- **Divergence log:** create `knowledge/decisions/DIVERGENCE-LOG.md` from
+  the template, or move an existing log there. Add the Due column.
+- **Adoption entries:** in the upgrade change, log existing breaches of
+  `ADR-0005` tiers (for example a High-tier spec still at Proposal with
+  live code), and known Frozen-spec violations, as `open` rows with a Due
+  date.
+- **Validator:** `scripts/validate.py --root` needs
+  `knowledge/manifest.yaml`. For Frozen specs whose reviewers were never
+  recorded, set `reviewers_unrecorded: true`; never back-fill names.
+- **Engine flags:** decide your project's `--exclude` patterns
+  (composition root, tests), `--units` roots and `--type-only` policy,
+  and declare shared units with `kind: shared`.
+- **Unchanged:** no existing boundary block, divergence-log row or spec
+  needs editing, except to add the Due column.
+
+### Not yet addressed (from the same report)
+
+- Data-store and message ownership in the block (`owns_stores`,
+  `owns_messages`), and providers that supply those edges.
+- Dependency modes in the block (read vs. command).
+- A validator check that architecture contexts and Domain
+  Specifications match one-to-one.
+- Validator vocabulary for pre-existing projects: lifecycle-name aliases,
+  file discovery from the manifest, and advisory reference paths.

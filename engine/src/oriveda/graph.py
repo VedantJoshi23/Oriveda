@@ -15,6 +15,23 @@ DEPENDENCY_RELATIONS = frozenset({
 })
 
 
+# What a boundary can be crossed through. A provider declares which of these
+# its edges cover; the engine reports the rest as not checked, so a clean run
+# is never read as covering them (ADR-0006 rule 5).
+CATEGORIES = ("code-dependency", "data-access", "messaging")
+
+
+# Providers may tag config parsed into nodes as "code" (Graphify does for
+# package.json); these suffixes are never source, whatever the provider says.
+NON_SOURCE_SUFFIXES = (".json", ".yaml", ".yml", ".toml", ".ini", ".cfg", ".lock",
+                       ".md", ".mdx", ".rst", ".txt")
+
+
+def _is_source(node: dict) -> bool:
+    return (node.get("file_type", "code") == "code"
+            and not str(node.get("source_file", "")).lower().endswith(NON_SOURCE_SUFFIXES))
+
+
 class GraphError(ValueError):
     """The provider's graph file can't be read as a code graph."""
 
@@ -29,6 +46,9 @@ class Edge:
     location: str          # "<file>:<line>" where the dependency is stated
     source_label: str
     target_label: str
+    type_only: bool = False      # compile-time-only dependency (e.g. `import type`)
+    source_is_code: bool = True  # False for docs/config files the provider also graphs
+    target_is_code: bool = True
 
 
 @dataclass(frozen=True)
@@ -36,6 +56,7 @@ class CodeGraph:
     provider: str
     built_at_commit: str | None
     edges: tuple[Edge, ...]
+    supplies: frozenset[str] = frozenset({"code-dependency"})
 
 
 def load_graphify(path: Path) -> CodeGraph:
@@ -77,7 +98,12 @@ def load_graphify(path: Path) -> CodeGraph:
             location=f"{link.get('source_file') or src['source_file']}:{link.get('source_location') or '?'}",
             source_label=str(src.get("label", src.get("id"))),
             target_label=str(tgt.get("label", tgt.get("id"))),
+            type_only=bool(link.get("type_only")),
+            source_is_code=_is_source(src),
+            target_is_code=_is_source(tgt),
         ))
     commit = data.get("built_at_commit")
-    return CodeGraph(provider="graphify", built_at_commit=commit if isinstance(commit, str) else None,
-                     edges=tuple(edges))
+    # Graphify's code-only extraction yields import/call/reference edges only:
+    # no data-store access or message publication edges.
+    return CodeGraph(provider="graphify", built_at_commit=commit if isinstance(commit, str) and commit else None,
+                     edges=tuple(edges), supplies=frozenset({"code-dependency"}))
