@@ -1,5 +1,5 @@
 framework: Oriveda
-version: 0.1.0
+version: 0.3.0   # the release number; the engine keeps its own (engine.version)
 knowledge_graph: knowledge_graph.md   # rendered Mermaid diagram, hand-updated
                                         # at each milestone checkpoint
 validation: scripts/validate.py   # run before treating any spec as Frozen
@@ -89,7 +89,7 @@ decisions:
     title: Project Prefixes for Discovery, Constitution and Architecture; Target-Project Validation
     path: knowledge/decisions/ADR-0004-project-prefixes-and-target-validation.md
     status: Draft
-    version: 0.1.0
+    version: 0.2.0
     milestone: M7
   - id: ADR-0005
     title: Progressive Rigor — Only Frozen Specifications Win

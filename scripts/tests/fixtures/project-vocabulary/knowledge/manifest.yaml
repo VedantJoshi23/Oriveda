@@ -1,0 +1,21 @@
+# A project that adopted Oriveda after writing its specs: its own lifecycle
+# words, a Constitution outside the CONST- prefix, and advisory docs it links.
+# Tests add a `validator:` section to a copy of this file.
+project: example
+documents:
+- id: DOM-ORDERS
+  path: knowledge/domains/DOM-ORDERS.md
+  status: Frozen
+  version: 1.0.0
+  milestone: M5
+decisions:
+- id: ADR-0001
+  path: knowledge/decisions/ADR-0001-payment-provider.md
+  status: Accepted
+  version: 1.0.0
+  milestone: M5
+- id: ADR-0002
+  path: knowledge/decisions/ADR-0002-theme.md
+  status: Review
+  version: 1.0.0
+  milestone: M5
