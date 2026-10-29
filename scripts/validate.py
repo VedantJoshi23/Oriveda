@@ -23,6 +23,16 @@ knowledge/**/*.md matching its project-scope prefixes; ADR-0004):
     id/status/version/milestone, and every manifest entry's path exists
     (bidirectional sync, catches orphans per Contribution Rule 6)
 
+With --root, a project may add an optional `validator:` section to its
+knowledge/manifest.yaml (ADR-0004). Every key is optional, and without
+them the output is exactly as before:
+  - lifecycle_aliases: {ProjectWord: CanonicalStage}; every lifecycle rule
+    runs on the canonical stage
+  - constitution: path to the project's Constitution; references to its
+    id or path resolve
+  - advisory_paths: globs for documents that may be linked but don't bind;
+    a link to one is info, a Frozen spec's depends_on on one is an error
+
 Frontmatter may be written two ways in this repo: raw `---`-delimited at
 the very top of the file (what the template specifies), or wrapped in a
 ```yaml fenced block under a "# Metadata" heading. Both parse; the second
@@ -98,6 +108,140 @@ class ParsedDoc:
     format: str  # "raw" | "fenced"
 
 
+PROJECT_MANIFEST = Path("knowledge") / "manifest.yaml"
+SETTING_KEYS = ("lifecycle_aliases", "constitution", "advisory_paths")
+LINK_FIELDS = ("required_by", "related_documents", "related_decisions")
+
+
+@dataclass
+class ProjectSettings:
+    """A target project's optional `validator:` manifest section (ADR-0004)."""
+    aliases: dict[str, str] = field(default_factory=dict)
+    constitution_refs: set[str] = field(default_factory=set)  # its id and its path
+    advisory: list[re.Pattern] = field(default_factory=list)
+
+
+SETTINGS = ProjectSettings()
+
+
+def stage_of(status):
+    """The canonical lifecycle stage a status word stands for."""
+    return SETTINGS.aliases.get(status, status)
+
+
+def shown(status) -> str:
+    """A status for messages: the project's own word, plus the stage it maps to."""
+    if status in SETTINGS.aliases:
+        return f"'{status}' (alias of {SETTINGS.aliases[status]})"
+    return f"'{status}'"
+
+
+def glob_to_re(pattern: str) -> re.Pattern:
+    """`**` crosses directories; `*` and `?` stay within one path segment."""
+    out, i = "", 0
+    while i < len(pattern):
+        if pattern.startswith("**/", i):
+            out, i = out + "(?:.*/)?", i + 3
+        elif pattern.startswith("**", i):
+            out, i = out + ".*", i + 2
+        elif pattern[i] == "*":
+            out, i = out + "[^/]*", i + 1
+        elif pattern[i] == "?":
+            out, i = out + "[^/]", i + 1
+        else:
+            out, i = out + re.escape(pattern[i]), i + 1
+    return re.compile(out)
+
+
+def load_settings(manifest: dict, findings: list[Finding]) -> ProjectSettings:
+    rel = str(PROJECT_MANIFEST)
+    raw = manifest.get("validator")
+    settings = ProjectSettings()
+    if raw is None:
+        return settings
+    if not isinstance(raw, dict):
+        findings.append(Finding(rel, "error", "'validator' must be a mapping of settings"))
+        return settings
+
+    for key in raw:
+        if key not in SETTING_KEYS:
+            # A newer project may set keys this validator predates.
+            findings.append(Finding(
+                rel, "warning",
+                f"validator.{key} is not a setting this validator knows, so it is ignored "
+                f"(known: {', '.join(SETTING_KEYS)})",
+            ))
+
+    aliases = raw.get("lifecycle_aliases") or {}
+    if not isinstance(aliases, dict):
+        findings.append(Finding(rel, "error", "validator.lifecycle_aliases must be a mapping"))
+        aliases = {}
+    for word, stage in aliases.items():
+        if word in LIFECYCLE_STATUSES:
+            findings.append(Finding(
+                rel, "error",
+                f"validator.lifecycle_aliases cannot redefine '{word}', which is already a "
+                f"lifecycle stage",
+            ))
+        elif stage not in LIFECYCLE_STATUSES:
+            findings.append(Finding(
+                rel, "error",
+                f"validator.lifecycle_aliases maps '{word}' to '{stage}', which is not one of "
+                f"the lifecycle stages: {sorted(LIFECYCLE_STATUSES)}",
+            ))
+        else:
+            settings.aliases[word] = stage
+
+    constitution = raw.get("constitution")
+    if constitution is not None:
+        path = (BASE / str(constitution)).resolve()
+        doc = None
+        if path.is_file() and path.is_relative_to(BASE):
+            doc = parse_frontmatter(path, [])
+        if doc is None or not doc.frontmatter.get("id"):
+            findings.append(Finding(
+                rel, "error",
+                f"validator.constitution is '{constitution}', but no specification with an "
+                f"id in its frontmatter is there",
+            ))
+        else:
+            settings.constitution_refs = {doc.frontmatter["id"], str(constitution)}
+            findings.append(Finding(
+                rel, "info",
+                f"Constitution '{doc.frontmatter['id']}' is at {constitution} "
+                f"(validator.constitution)",
+            ))
+
+    advisory = raw.get("advisory_paths") or []
+    if not isinstance(advisory, list) or not all(isinstance(g, str) for g in advisory):
+        findings.append(Finding(rel, "error", "validator.advisory_paths must be a list of globs"))
+        advisory = []
+    settings.advisory = [glob_to_re(g) for g in advisory]
+    return settings
+
+
+def advisory_target(ref) -> tuple[str, bool] | None:
+    """The advisory path a reference names, and whether that file exists.
+
+    A reference without a suffix may name an existing Markdown file by its
+    stem (`DESIGN` for `DESIGN.md`); a bare id that names no file is left to
+    the ordinary dangling-reference error. None if it matches no advisory glob.
+    """
+    ref = str(ref)
+    if ".." in Path(ref).parts or Path(ref).is_absolute():
+        return None
+
+    def advisory(path: str) -> bool:
+        return any(g.fullmatch(path) for g in SETTINGS.advisory)
+
+    if advisory(ref):
+        return ref, (BASE / ref).is_file()
+    stem_path = ref + ".md"
+    if not Path(ref).suffix and advisory(stem_path) and (BASE / stem_path).is_file():
+        return stem_path, True
+    return None
+
+
 def load_taxonomy() -> dict:
     return yaml.safe_load(TAXONOMY_PATH.read_text())["prefixes"]
 
@@ -149,13 +293,13 @@ def check_required_fields(doc: ParsedDoc, findings: list[Finding]) -> None:
             findings.append(Finding(rel, "error", f"missing required field '{f}'"))
 
     status = doc.frontmatter.get("status")
-    if status in MATURE_STATUSES:
+    if stage_of(status) in MATURE_STATUSES:
         for f in FILLED_WHEN_MATURE:
             v = doc.frontmatter.get(f)
             if v in (None, "", []):
                 findings.append(Finding(
                     rel, "error",
-                    f"status is '{status}' but field '{f}' is still blank",
+                    f"status is {shown(status)} but field '{f}' is still blank",
                 ))
         reviewers = doc.frontmatter.get("reviewers") or []
         if not reviewers and doc.frontmatter.get("reviewers_unrecorded") is True:
@@ -163,12 +307,12 @@ def check_required_fields(doc: ParsedDoc, findings: list[Finding]) -> None:
             # was not recorded at the time.
             findings.append(Finding(
                 rel, "info",
-                f"status is '{status}' with reviewers unrecorded (reviewers_unrecorded: true)",
+                f"status is {shown(status)} with reviewers unrecorded (reviewers_unrecorded: true)",
             ))
         elif not reviewers:
             findings.append(Finding(
                 rel, "error",
-                f"status is '{status}' but 'reviewers' is empty; if they were never "
+                f"status is {shown(status)} but 'reviewers' is empty; if they were never "
                 f"recorded, set reviewers_unrecorded: true instead of adding names (ADR-0007)",
             ))
 
@@ -176,7 +320,7 @@ def check_required_fields(doc: ParsedDoc, findings: list[Finding]) -> None:
 def check_status(doc: ParsedDoc, findings: list[Finding]) -> None:
     rel = str(doc.path.relative_to(BASE))
     status = doc.frontmatter.get("status")
-    if status is not None and status not in LIFECYCLE_STATUSES:
+    if status is not None and stage_of(status) not in LIFECYCLE_STATUSES:
         findings.append(Finding(
             rel, "error",
             f"status '{status}' is not one of the lifecycle stages: "
@@ -211,13 +355,46 @@ def check_id(doc: ParsedDoc, taxonomy: dict, seen_ids: dict[str, Path],
 def check_dependency_graph(doc: ParsedDoc, known_ids: set[str],
                             findings: list[Finding]) -> None:
     rel = str(doc.path.relative_to(BASE))
-    for field_name in ("depends_on", "required_by", "related_documents", "related_decisions"):
+    status = doc.frontmatter.get("status")
+    for field_name in ("depends_on",) + LINK_FIELDS:
         refs = doc.frontmatter.get(field_name) or []
         for ref in refs:
-            if ref not in known_ids:
+            if ref in known_ids:
+                continue
+            target = advisory_target(ref) if SETTINGS.advisory else None
+            if target is None:
                 findings.append(Finding(
                     rel, "error",
                     f"{field_name} references '{ref}', which does not exist",
+                ))
+                continue
+            path, exists = target
+            if not exists:
+                findings.append(Finding(
+                    rel, "error",
+                    f"{field_name} references '{ref}', which matches validator.advisory_paths "
+                    f"but {path} does not exist",
+                ))
+            elif field_name in LINK_FIELDS:
+                findings.append(Finding(
+                    rel, "info",
+                    f"{field_name} links advisory document {path} (validator.advisory_paths): "
+                    f"linked, not binding",
+                ))
+            elif stage_of(status) == "Frozen":
+                # A link to advisory content is fine; a Frozen dependency on it would
+                # make content that doesn't bind part of what does.
+                findings.append(Finding(
+                    rel, "error",
+                    f"status is {shown(status)} but depends_on advisory document {path}, which "
+                    f"does not bind; move what it relies on into a specification, or cite the "
+                    f"document under related_documents",
+                ))
+            else:
+                findings.append(Finding(
+                    rel, "warning",
+                    f"depends_on advisory document {path}, which does not bind; resolve this "
+                    f"before the spec is Frozen",
                 ))
 
 
@@ -273,7 +450,7 @@ def check_divergence_log(docs: list[ParsedDoc], findings: list[Finding],
         return
     today = today or datetime.date.today()
     rel = str(DIVERGENCE_LOG)
-    status_by_id = {d.frontmatter.get("id"): d.frontmatter.get("status") for d in docs}
+    status_by_id = {d.frontmatter.get("id"): stage_of(d.frontmatter.get("status")) for d in docs}
     header: list[str] | None = None
     for line in path.read_text().splitlines():
         if not line.lstrip().startswith("|"):
@@ -318,7 +495,7 @@ def main() -> int:
                              "and references to Oriveda's own OV-/ADR-/PRM- ids")
     args = parser.parse_args()
 
-    global BASE
+    global BASE, SETTINGS
     findings: list[Finding] = []
     taxonomy = load_taxonomy()
     framework_manifest = load_manifest()
@@ -336,6 +513,7 @@ def main() -> int:
             print(f"[ERROR] {manifest_path}: a target project lists its specifications here")
             return 1
         manifest = yaml.safe_load(manifest_path.read_text())
+        SETTINGS = load_settings(manifest, findings)
         # Project-scope prefixes, plus the project's own ADR series and any prefixes the
         # project adds in knowledge/taxonomy.yaml (ADR-0004).
         taxonomy = {k: v for k, v in taxonomy.items() if v.get("scope") == "project" or k == "ADR"}
@@ -365,7 +543,16 @@ def main() -> int:
         check_status(doc, findings)
         check_id(doc, taxonomy, seen_ids, findings)
 
-    known_ids = {d.frontmatter.get("id") for d in docs if d.frontmatter.get("id")} | external_ids
+    for word, stage in SETTINGS.aliases.items():
+        used = sum(1 for d in docs if d.frontmatter.get("status") == word)
+        findings.append(Finding(
+            str(PROJECT_MANIFEST), "info",
+            f"lifecycle alias '{word}' -> {stage} (validator.lifecycle_aliases): "
+            f"{used} specification(s)",
+        ))
+
+    known_ids = ({d.frontmatter.get("id") for d in docs if d.frontmatter.get("id")}
+                 | external_ids | SETTINGS.constitution_refs)
     for doc in docs:
         check_dependency_graph(doc, known_ids, findings)
 

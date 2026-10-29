@@ -401,3 +401,77 @@ Upgrading to this release from any earlier one:
   Specifications match one-to-one.
 - Validator vocabulary for pre-existing projects: lifecycle-name aliases,
   file discovery from the manifest, and advisory reference paths.
+
+---
+
+## v0.3.0: Project Validator Settings (post-M8)
+
+From the second field report by the same consuming project. On that
+project `oriveda check boundaries --strict` passed, but
+`scripts/validate.py --root` reported 97 errors. None was a spec defect.
+Each came from a project fact the validator had no way to be told.
+Oriveda now supplies the mechanism, and each project supplies its own
+values.
+
+**No action needed unless you want to use these settings.**
+
+### Added
+
+- An optional `validator:` section in a target project's
+  `knowledge/manifest.yaml`, read by `scripts/validate.py --root`
+  (`ADR-0004` v0.2.0):
+  - `lifecycle_aliases`: maps the project's own status words onto
+    Oriveda's lifecycle stages, e.g. `{Review: Proposal, Accepted: Frozen}`.
+    Lifecycle rules run on the mapped stage, and findings show both
+    words. An alias to a word that isn't a stage, or one that redefines a
+    stage, is an error.
+  - `constitution`: the path to the project's Constitution. References
+    to its id or path resolve.
+  - `advisory_paths`: globs for documents that may be linked but don't
+    bind. A link to one is reported as info. A Frozen spec's `depends_on`
+    on one stays an error, and on any other spec it is a warning.
+  - An unknown key is a warning, not a failure.
+- `scripts/tests/`: 24 tests for the validator. Among them is a
+  regression check that its output, with no settings or empty ones, is
+  byte-identical to the previous release's on this repository and on a
+  project fixture. Run with `python -m pytest scripts/tests`.
+
+### Changed
+
+- `ADR-0004` v0.2.0 (Draft): records the settings. The engine does not
+  read them yet, so Domain Specifications keep canonical status words.
+- `.oriveda/manifest.yaml` `version` is now the release number, 0.3.0.
+  It had stayed at 0.1.0 since genesis while releases were numbered by
+  the engine. The engine is unchanged and stays at 0.2.0.
+
+### Obligations for consuming projects
+
+None. Every key is optional. Without the section, the validator's output
+is byte-identical to the previous release's. No spec, manifest entry or
+file needs changing, no field became required, and the default stage
+vocabulary is unchanged.
+
+To use the settings, add the section to `knowledge/manifest.yaml`.
+Validators older than this release ignore it, so the section is safe to
+add before bumping the submodule. Expect two effects:
+
+- **An alias of `Frozen` brings Frozen's obligations.** A spec rejected
+  before for an unknown status word is now checked as Frozen, and may
+  show a real defect that the vocabulary error hid. An example is empty
+  `reviewers`: per `ADR-0007` rule 4, set `reviewers_unrecorded: true`,
+  and never back-fill names.
+- **Advisory documents stay advisory.** A Frozen spec that `depends_on`
+  one is still an error. Move what it relies on into a specification,
+  or cite the document under `related_documents`.
+
+### Not yet addressed
+
+From the first field report:
+
+- data-store and message ownership in the boundary block, and providers
+  that supply those edges;
+- a one-to-one check between architecture contexts and Domain
+  Specifications;
+- dependency modes in the block (read vs. command).
+
+Also not yet addressed: the engine reading `lifecycle_aliases`.

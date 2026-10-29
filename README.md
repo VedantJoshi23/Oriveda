@@ -183,7 +183,10 @@ oriveda/
 
 `scripts/validate.py` mechanizes the Validation Layer: it checks this
 repository's specifications, or a target project's with `--root`
-(`ADR-0004`). `engine/` is the `oriveda` CLI (`ADR-0006`), which checks
+(`ADR-0004`). A target project whose specs predate Oriveda can declare
+its own lifecycle words, Constitution path and advisory documents in an
+optional `validator:` section of its `knowledge/manifest.yaml`
+(`ADR-0004` v0.2.0). `engine/` is the `oriveda` CLI (`ADR-0006`), which checks
 a codebase against its specifications; see `engine/README.md`.
 `.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
