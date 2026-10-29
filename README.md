@@ -2,6 +2,8 @@
 
 > **Engineering the Future, Deliberately.**
 
+**▶ New here? [Watch the 2½-minute interactive introduction](https://vedantjoshi23.github.io/Oriveda/)**, or [read it as a page](https://vedantjoshi23.github.io/Oriveda/?read).
+
 Oriveda is an engineering knowledge framework for building software with AI agents: **specs before code, evidence before specs.** Every architectural claim traces back to a source and a confidence score. Every decision is written down before it's implemented, not reconstructed afterward from commit history and chat logs.
 
 It works whether you're starting from nothing but an idea, or reverse-engineering an existing codebase, PRD, Figma file, or competitor site — Oriveda's Knowledge Acquisition protocol builds a checklist of what it knows, how confident it is, and where each fact came from, then asks only for the specific evidence that's missing.
@@ -175,6 +177,7 @@ oriveda/
 │
 ├── engine/
 ├── scripts/
+├── site/
 ├── templates/
 │
 ├── LICENSE
@@ -188,6 +191,9 @@ its own lifecycle words, Constitution path and advisory documents in an
 optional `validator:` section of its `knowledge/manifest.yaml`
 (`ADR-0004` v0.2.0). `engine/` is the `oriveda` CLI (`ADR-0006`), which checks
 a codebase against its specifications; see `engine/README.md`.
+`site/` is the interactive introduction, a static page published to
+GitHub Pages by `.github/workflows/pages.yml`; it summarizes this README
+and adds no knowledge of its own.
 `.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
 each milestone checkpoint (see the file itself for the maintenance rule).
