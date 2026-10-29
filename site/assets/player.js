@@ -69,19 +69,46 @@
 
   // ---------- Chapter model ----------
 
-  const dur = (node, fallback) => (reduceMotion ? 0.001 : parseFloat(node.dataset.dur) || fallback);
+  // The HTML is timed in "script time". When narration.js is present, each
+  // chapter is stretched to fit its voice: scripted times map through the
+  // chapter's anchors, piecewise-linearly, so visuals land on the words.
+  const NARRATION = window.ORIVEDA_NARRATION || null;
+  const warpFor = (id) => {
+    const a = NARRATION && NARRATION.chapters[id] ? NARRATION.chapters[id].anchors : null;
+    if (!a) return (x) => x;
+    return (x) => {
+      if (x === Infinity) return x;
+      for (let k = 1; k < a.length; k++) {
+        if (x <= a[k][0]) {
+          const [x0, y0] = a[k - 1];
+          const [x1, y1] = a[k];
+          return x1 === x0 ? y1 : y0 + ((x - x0) * (y1 - y0)) / (x1 - x0);
+        }
+      }
+      const [xl, yl] = a[a.length - 1];
+      return yl + (x - xl);
+    };
+  };
 
   let total = 0;
   const chapters = [...document.querySelectorAll('#plate > .scene')].map((el, i) => {
+    const W = warpFor(el.id);
+    // Entrances keep their speed; only long sweeps stretch with the chapter.
+    const dur = (node, at) => {
+      if (reduceMotion) return 0.001;
+      const d = parseFloat(node.dataset.dur) || 0.7;
+      return d > 1.5 ? W(at + d) - W(at) : d;
+    };
     const timed = [...el.querySelectorAll('[data-at]')]
       .filter((node) => !node.closest('.caps'))
       .map((node) => {
         const mark = node.dataset.mark || null;
+        const at = parseFloat(node.dataset.at);
         return {
           node,
-          at: parseFloat(node.dataset.at),
-          out: node.dataset.out ? parseFloat(node.dataset.out) : Infinity,
-          dur: dur(node, 0.7),
+          at: W(at),
+          out: node.dataset.out ? W(parseFloat(node.dataset.out)) : Infinity,
+          dur: dur(node, at),
           ease: EASES[node.dataset.ease] || EASES.out,
           read: node.dataset.read || '',
           mark,
@@ -92,12 +119,14 @@
           last: -1,
         };
       });
-    const caps = [...el.querySelectorAll('.caps .cap')].map((node) => ({
-      at: parseFloat(node.dataset.at),
-      out: node.dataset.out ? parseFloat(node.dataset.out) : Infinity,
+    const spoken = NARRATION && NARRATION.chapters[el.id] ? NARRATION.chapters[el.id].lines : [];
+    const caps = [...el.querySelectorAll('.caps .cap')].map((node, k) => ({
+      at: W(parseFloat(node.dataset.at)),
+      out: node.dataset.out ? W(parseFloat(node.dataset.out)) : Infinity,
       text: node.textContent.trim(),
+      len: spoken[k] || null,
     }));
-    const d = parseFloat(el.dataset.duration) || 10;
+    const d = NARRATION && NARRATION.chapters[el.id] ? NARRATION.chapters[el.id].dur : parseFloat(el.dataset.duration) || 10;
     const ch = { el, i, id: el.id, title: el.dataset.title, start: total, dur: d, timed, caps, body: el.querySelector('.plate-body') };
     total += d;
     return ch;
@@ -263,30 +292,38 @@
     syncHash();
   };
 
-  // Subtitles light up word by word at a reading pace, from the clock.
+  // Subtitles light up word by word: in step with the voice when there is
+  // narration (by character position within the spoken line), otherwise at a
+  // reading pace.
   let subCap = null;
   let subWords = [];
+  let subMarks = [];
   const renderSubtitle = (ch, local) => {
     const cap = ch.caps.find((c) => local >= c.at && local < c.out) || null;
     if (cap !== subCap) {
       subCap = cap;
       subtitle.textContent = '';
       subWords = [];
+      subMarks = [];
       if (cap) {
         const p = document.createElement('p');
-        cap.text.split(/\s+/).forEach((w, i) => {
+        const words = cap.text.split(/\s+/);
+        const chars = words.reduce((n, w) => n + w.length + 1, 0);
+        let seen = 0;
+        words.forEach((w, i) => {
           if (i) p.append(' ');
           const s = document.createElement('span');
           s.textContent = w;
           p.append(s);
           subWords.push(s);
+          subMarks.push(cap.len ? cap.at + (seen / chars) * cap.len : cap.at + 0.1 + (i / words.length) * Math.max(0.8, (Math.min(cap.out, ch.dur) - cap.at) * 0.62));
+          seen += w.length + 1;
         });
         subtitle.append(p);
       }
     }
     if (!cap) return;
-    const span = Math.max(0.8, (Math.min(cap.out, ch.dur) - cap.at) * 0.62);
-    subWords.forEach((s, i) => s.classList.toggle('lit', local >= cap.at + 0.1 + (i / subWords.length) * span));
+    subWords.forEach((s, i) => s.classList.toggle('lit', local >= subMarks[i]));
   };
 
   const render = () => {
@@ -295,9 +332,11 @@
     setCurrent(idx);
     const ch = chapters[idx];
     const local = t - ch.start;
-    ch.el.style.setProperty('--sp', reduceMotion ? '1' : clamp01(local / 0.35).toFixed(3));
-    const revealed = setScene(ch, local, false);
-    if (revealed && !dragging) follow(ch.body, revealed);
+    // On the cover, the plate is shown fully drawn while the clock waits at t.
+    const shown = onCover ? Math.max(local, ch.dur - 0.2) : local;
+    ch.el.style.setProperty('--sp', reduceMotion ? '1' : clamp01(shown / 0.35).toFixed(3));
+    const revealed = setScene(ch, shown, false);
+    if (revealed && !dragging && !onCover) follow(ch.body, revealed);
     renderSubtitle(ch, local);
     for (const c of chapters) c.fill.style.width = `${(clamp01((t - c.start) / c.dur) * 100).toFixed(2)}%`;
     setRail(idx, clamp01(local / ch.dur));
@@ -306,20 +345,65 @@
     timeline.setAttribute('aria-valuetext', `${fmt(t)}, ${ch.title}`);
   };
 
+  // ---------- Narration ----------
+
+  // One audio track for the whole film. While it plays, it is the clock:
+  // the frame follows voice.currentTime, so a stalled download holds the
+  // picture instead of letting it run ahead of the words.
+  const voice = NARRATION ? new Audio(NARRATION.src) : null;
+  if (voice) voice.preload = 'auto';
+  let soundOn = false;
+  let ccChosen = false;
+  const btnSound = $('#btn-sound');
+  // Trust the voice's position only once it has settled near ours: while it
+  // seeks or buffers, or on a server that can't seek, the picture keeps time.
+  const voiceIsClock = () =>
+    soundOn && voice && !voice.paused && !voice.seeking && voice.readyState >= 2 && Math.abs(voice.currentTime - t) < 0.5;
+
+  function syncVoice() {
+    if (!voice) return;
+    if (!(soundOn && playing && !readMode && !dragging)) {
+      if (!voice.paused) voice.pause();
+      return;
+    }
+    voice.playbackRate = rate;
+    if (Math.abs(voice.currentTime - t) > 0.15) voice.currentTime = t;
+    if (voice.paused) voice.play().catch(() => setSound(false));
+  }
+
+  function setSound(on) {
+    soundOn = !!(on && voice);
+    btnSound.setAttribute('aria-pressed', String(soundOn));
+    btnSound.setAttribute('aria-label', soundOn ? 'Mute narration' : 'Play narration');
+    // Voice and subtitles together are a lot to take in, so subtitles follow
+    // the sound until the viewer picks for themselves.
+    if (!ccChosen) setCaptions(!soundOn);
+    syncVoice();
+  }
+
   // ---------- Clock ----------
 
   // The loop only runs while playing or while a frame is pending; a paused
   // player costs nothing.
   let rafId = 0;
   let last = null;
+  let lastSync = 0;
   const kick = () => { if (!rafId) rafId = requestAnimationFrame(frame); };
   const invalidate = () => { dirty = true; kick(); };
   function frame(now) {
     rafId = 0;
     if (playing && !readMode) {
-      if (last !== null) t += Math.min(0.1, (now - last) / 1000) * rate;
+      if (voiceIsClock()) t = Math.min(voice.currentTime, total);
+      else {
+        if (last !== null) t += Math.min(0.1, (now - last) / 1000) * rate;
+        // Pull a drifted voice back to the picture, at most once a second.
+        if (soundOn && voice && !voice.seeking && now - lastSync > 1000) {
+          lastSync = now;
+          syncVoice();
+        }
+      }
       last = now;
-      if (t >= total) {
+      if (t >= total - 0.02) {
         t = total;
         ended = true;
         setPlaying(false);
@@ -337,6 +421,7 @@
     root.classList.toggle('ended', ended && !p);
     btnPlay.setAttribute('aria-label', p ? 'Pause' : ended ? 'Replay' : 'Play');
     if (p) kick();
+    syncVoice();
   };
 
   const seek = (time) => {
@@ -346,7 +431,18 @@
     // replays it rather than showing it frozen mid-way.
     if (leaving && leaving.i !== chapterAt(t)) setScene(leaving, -1, false);
     if (ended && t < total) { ended = false; setPlaying(playing); }
+    if (!dragging) syncVoice();
     invalidate();
+  };
+
+  // Before the first play the stage shows a cover: the opening plate fully
+  // drawn, with a choice to play with or without narration. Starting from a
+  // click is also what lets the browser play sound.
+  let onCover = false;
+  const begin = (withSound) => {
+    onCover = false;
+    root.classList.remove('cover');
+    setSound(withSound);
   };
 
   const goChapter = (i) => {
@@ -355,12 +451,14 @@
       chapters[i].el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
       return;
     }
+    if (onCover) begin(true);
     seek(chapters[i].start);
     if (!playing) setPlaying(true);
   };
 
   const togglePlay = () => {
-    if (ended) { ended = false; seek(0); setPlaying(true); }
+    if (onCover) { begin(true); seek(t); setPlaying(true); }
+    else if (ended) { ended = false; seek(0); setPlaying(true); }
     else setPlaying(!playing);
   };
 
@@ -393,7 +491,12 @@
     tip.style.left = `${Math.min(box.width - 80, Math.max(80, e.clientX - box.left))}px`;
     if (dragging) seek(time);
   });
-  const endDrag = () => { dragging = false; timeline.classList.remove('dragging'); };
+  const endDrag = () => {
+    if (!dragging) return;
+    dragging = false;
+    timeline.classList.remove('dragging');
+    syncVoice();
+  };
   timeline.addEventListener('pointerup', endDrag);
   timeline.addEventListener('pointercancel', endDrag);
   timeline.addEventListener('pointerleave', () => { if (!dragging) tip.hidden = true; });
@@ -409,13 +512,35 @@
   $('#btn-next').addEventListener('click', nextChapter);
 
   const btnCc = $('#btn-cc');
-  const toggleCaptions = () => btnCc.setAttribute('aria-pressed', String(!root.classList.toggle('no-cc')));
+  function setCaptions(on) {
+    root.classList.toggle('no-cc', !on);
+    btnCc.setAttribute('aria-pressed', String(on));
+  }
+  const toggleCaptions = () => {
+    ccChosen = true;
+    setCaptions(root.classList.contains('no-cc'));
+  };
   btnCc.addEventListener('click', toggleCaptions);
+
+  const toggleSound = () => {
+    if (onCover) togglePlay();
+    else setSound(!soundOn);
+  };
+  if (voice) btnSound.addEventListener('click', toggleSound);
+  else btnSound.hidden = true;
+
+  $('#cta-len').textContent = fmt(total);
+  if (!voice) $('#cta-sound').firstChild.nextSibling.textContent = 'Play ';
+  $('#cta-sound').addEventListener('click', togglePlay);
+  $('#cta-muted').addEventListener('click', () => { begin(false); seek(t); setPlaying(true); });
+  $('#cta-read').addEventListener('click', () => setMode(true));
+  if (!voice) $('#cta-muted').hidden = true;
 
   const btnSpeed = $('#btn-speed');
   const cycleSpeed = () => {
     rate = RATES[(RATES.indexOf(rate) + 1) % RATES.length];
     btnSpeed.textContent = `${rate}×`;
+    syncVoice();
   };
   btnSpeed.addEventListener('click', cycleSpeed);
 
@@ -512,8 +637,7 @@
       window.scrollTo(0, 0);
       current = -1;
       subCap = null;
-      seek(chapters[idx].start);
-      setPlaying(true);
+      showCover(chapters[idx].start);
     }
   };
   btnWatch.addEventListener('click', () => { if (readMode) setMode(false); });
@@ -539,6 +663,7 @@
     else if (k === 'n' || k === 'N') nextChapter();
     else if (/^[1-9]$/.test(k) && +k <= chapters.length) goChapter(+k - 1);
     else if (k === 'c' || k === 'C') toggleCaptions();
+    else if (k === 'm' || k === 'M') toggleSound();
     else if (k === 's' || k === 'S') cycleSpeed();
     else if (k === 'f' || k === 'F') toggleFullscreen();
     else if (k === '?') btnKeys.click();
@@ -554,6 +679,14 @@
 
   // ---------- Start ----------
 
+  function showCover(at) {
+    setPlaying(false);
+    seek(at);
+    onCover = true;
+    root.classList.add('cover');
+    invalidate();
+  }
+
   const startIdx = Math.max(0, chapters.findIndex((c) => `#${c.id}` === location.hash));
   // ?t=<seconds> starts at a timestamp, like a video link.
   const startT = parseFloat(new URLSearchParams(location.search).get('t'));
@@ -565,8 +698,7 @@
     readProgress();
   } else {
     chapters.forEach((c) => setScene(c, -1, false));
-    seek(Number.isFinite(startT) ? startT : chapters[startIdx].start);
-    setPlaying(true);
+    showCover(Number.isFinite(startT) ? startT : chapters[startIdx].start);
   }
   // Fonts change line wrapping, and so the rail's geometry.
   document.fonts?.ready.then(() => { if (readMode) readProgress(); else invalidate(); });

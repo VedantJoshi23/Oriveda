@@ -463,6 +463,48 @@ html:not(.watch) [data-read="hide"] { display: none; }
 .no-cc .subtitle p { visibility: hidden; }
 html:not(.watch) .subtitle { display: none; }
 
+/* Cover: the opening plate drawn in full, with the choice of how to watch. */
+.cover-cta { display: none; }
+.watch.cover .subtitle { display: none; }
+.watch.cover .cover-cta {
+  grid-row: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px 18px;
+  min-height: 4.6em;
+  padding: 12px 16px 10px;
+}
+.cta-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 20px 11px 16px;
+  border: 0;
+  background: var(--light);
+  color: var(--night);
+  font: 600 1rem/1 var(--display);
+  cursor: pointer;
+}
+.cta-main:hover { background: #fff; }
+.cta-main svg { width: 16px; height: 16px; fill: currentColor; }
+.cta-main span { font: 400 0.72rem/1 var(--mono); color: #5d574b; }
+.cta-alt {
+  border: 0;
+  background: none;
+  padding: 6px 2px;
+  font: 500 0.68rem/1 var(--mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--night-line-2);
+  cursor: pointer;
+}
+.cta-alt:hover { color: var(--light); }
+
 /* ---------- Controls ---------- */
 
 .controls { position: relative; z-index: 10; padding: 10px clamp(12px, 2.6vw, 28px) 10px; background: var(--night); border-top: 1px solid var(--night-line); }
@@ -504,7 +546,11 @@ html:not(.watch) .controls { display: none; }
 .ctl svg { width: 19px; height: 19px; fill: currentColor; }
 .ctl.txt { font: 500 0.68rem/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
 .ctl.txt:hover { color: var(--light); }
-.ctl[aria-pressed="false"] { text-decoration: line-through; }
+.ctl.txt[aria-pressed="false"] { text-decoration: line-through; }
+#btn-sound .i-on { display: none; }
+#btn-sound[aria-pressed="true"] .i-on { display: block; }
+#btn-sound[aria-pressed="true"] .i-off { display: none; }
+#btn-sound[aria-pressed="false"] { color: var(--dim); }
 .ctl.play { width: 40px; height: 40px; background: var(--light); color: var(--night); border-radius: 50%; }
 .ctl.play:hover { background: #fff; }
 .ctl.play .i-play, .ctl.play .i-replay { display: none; }

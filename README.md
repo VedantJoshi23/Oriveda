@@ -193,7 +193,8 @@ optional `validator:` section of its `knowledge/manifest.yaml`
 a codebase against its specifications; see `engine/README.md`.
 `site/` is the interactive introduction, a static page published to
 GitHub Pages by `.github/workflows/pages.yml`; it summarizes this README
-and adds no knowledge of its own.
+and adds no knowledge of its own. Its voice-over is generated from the
+page's narration lines by `scripts/build_site_narration.py`.
 `.oriveda/knowledge_graph.md` is a Mermaid diagram
 rendered from every specification's own frontmatter, updated by hand at
 each milestone checkpoint (see the file itself for the maintenance rule).
