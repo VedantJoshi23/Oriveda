@@ -1,0 +1,443 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oriveda · Engineering the Future, Deliberately</title>
+<meta name="description" content="Oriveda is an engineering knowledge framework for building software with AI agents: specs before code, evidence before specs. A 2½-minute interactive introduction.">
+<meta property="og:title" content="Oriveda · Engineering the Future, Deliberately">
+<meta property="og:description" content="Specs before code, evidence before specs. A 2½-minute interactive introduction to the Oriveda framework.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://vedantjoshi23.github.io/Oriveda/cover.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0c0d10">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23ece4d2'/%3E%3Ccircle cx='10' cy='9' r='3' fill='%231f1c17'/%3E%3Ccircle cx='23' cy='24' r='3.4' fill='%231f1c17'/%3E%3Ccircle cx='14' cy='17' r='1.8' fill='%231f1c17'/%3E%3Ccircle cx='17' cy='16' r='1.8' fill='%231f1c17'/%3E%3Ccircle cx='20' cy='15' r='1.8' fill='%231f1c17'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>document.documentElement.classList.add(new URLSearchParams(location.search).has('read') ? 'read' : 'watch');</script>
+</head>
+<body>
+
+<header class="top">
+  <a class="brand" href="#intro">Oriveda <span>an introduction in nine plates</span></a>
+  <div class="top-actions">
+    <div class="mode" role="group" aria-label="View mode">
+      <button type="button" id="mode-watch" aria-pressed="true" title="Watch (R)">Watch</button>
+      <button type="button" id="mode-read" aria-pressed="false" title="Read (R)">Read</button>
+    </div>
+    <a class="gh" href="https://github.com/VedantJoshi23/Oriveda">GitHub ↗</a>
+  </div>
+</header>
+
+<div class="shell">
+
+<nav class="index" id="index" aria-label="Chapters">
+  <p class="index-label">Index</p>
+  <div class="index-track">
+    <span class="index-rail" aria-hidden="true"><i id="index-fill"></i></span>
+    <ol id="index-list"></ol>
+  </div>
+</nav>
+
+<main id="stage">
+<div id="plate">
+
+  <!-- 01 -->
+  <section class="scene" id="intro" data-title="Introduction" data-duration="14">
+    <header class="plate-head"><span class="no">Plate 01</span><span class="nm">Introduction</span><span class="src">Source · <a href="https://github.com/VedantJoshi23/Oriveda/blob/main/ORIGIN.md">ORIGIN.md</a></span></header>
+    <div class="plate-body"><div class="pi intro">
+      <div class="caps">
+        <p class="cap" data-at="0.4" data-out="6.4">Oriveda is an engineering knowledge framework for building software with AI agents.</p>
+        <p class="cap" data-at="6.4" data-out="10.8">Its name joins guided vision with foundational knowledge.</p>
+        <p class="cap" data-at="10.8">Its rule: specs before code, evidence before specs.</p>
+      </div>
+      <figure class="chart">
+        <svg viewBox="0 0 320 380" role="img" aria-label="Star chart of Orion">
+          <g class="grat" data-at="0" data-dur="1.2">
+            <line x1="278" y1="22" x2="278" y2="360"/><line x1="190" y1="22" x2="190" y2="360"/><line x1="102" y1="22" x2="102" y2="360"/>
+            <line x1="30" y1="67" x2="304" y2="67"/><line x1="30" y1="190" x2="304" y2="190"/><line x1="30" y1="313" x2="304" y2="313"/>
+            <text x="278" y="16">5h10m</text><text x="190" y="16">5h30m</text><text x="102" y="16">5h50m</text>
+            <text class="dec" x="26" y="70">+10°</text><text class="dec" x="26" y="193">0°</text><text class="dec" x="26" y="316">−10°</text>
+          </g>
+          <g class="asterism">
+            <line class="draw" data-at="1.9" data-dur="0.9" x1="168" y1="68" x2="80" y2="99" pathLength="1"/>
+            <line class="draw" data-at="2.1" data-dur="0.9" x1="168" y1="68" x2="212" y2="112" pathLength="1"/>
+            <line class="draw" data-at="2.3" data-dur="0.9" x1="80" y1="99" x2="142" y2="213" pathLength="1"/>
+            <line class="draw" data-at="2.5" data-dur="0.9" x1="212" y1="112" x2="181" y2="194" pathLength="1"/>
+            <line class="draw" data-at="2.7" data-dur="0.6" x1="142" y1="213" x2="164" y2="205" pathLength="1"/>
+            <line class="draw" data-at="2.8" data-dur="0.6" x1="164" y1="205" x2="181" y2="194" pathLength="1"/>
+            <line class="draw" data-at="3.0" data-dur="0.9" x1="142" y1="213" x2="111" y2="309" pathLength="1"/>
+            <line class="draw" data-at="3.2" data-dur="0.9" x1="181" y1="194" x2="258" y2="291" pathLength="1"/>
+          </g>
+          <g class="stars">
+            <circle data-at="0.3" cx="258" cy="291" r="6.4"/>
+            <circle data-at="0.45" cx="80" cy="99" r="5.9"/>
+            <circle data-at="0.6" cx="212" cy="112" r="4.4"/>
+            <circle data-at="0.75" cx="164" cy="205" r="4.3"/>
+            <circle data-at="0.85" cx="142" cy="213" r="4.2"/>
+            <circle data-at="0.95" cx="111" cy="309" r="3.8"/>
+            <circle data-at="1.05" cx="181" cy="194" r="3.6"/>
+            <circle data-at="1.2" cx="168" cy="68" r="2.4"/>
+          </g>
+          <g class="names" data-at="3.6" data-dur="1">
+            <text x="70" y="96" text-anchor="end">Betelgeuse</text>
+            <text x="222" y="116">Bellatrix</text>
+            <text x="176" y="58">Meissa</text>
+            <text x="134" y="232" text-anchor="end">Alnitak</text>
+            <text x="190" y="186">Mintaka</text>
+            <text x="268" y="300">Rigel</text>
+            <text x="101" y="327" text-anchor="end">Saiph</text>
+          </g>
+        </svg>
+        <figcaption data-at="4.2"><b>Fig. 1</b> Orion. Lines trace the hunter; dot size marks brightness.</figcaption>
+      </figure>
+      <div class="intro-text">
+        <h1 class="mask" data-at="3.4" data-dur="0.9">Oriveda</h1>
+        <p class="motto" data-at="4.6">Engineering the Future, Deliberately.</p>
+        <dl class="entry">
+          <dt data-at="6.4">Ori·ve·da <i>n.</i></dt>
+          <dd data-at="6.8"><span class="sense">1</span><span><i>Ori-</i>, from Orion, humanity's oldest navigation aid: guided vision.</span></dd>
+          <dd data-at="8.2"><span class="sense">2</span><span><i>-veda</i>, from the Vedas: foundational knowledge.</span></dd>
+          <dd data-at="9.6"><span class="sense">3</span><span>An engineering knowledge framework for building software with AI agents.</span></dd>
+        </dl>
+        <p class="maxim" data-at="10.8">Specs before code. <em>Evidence before specs.</em></p>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 02 -->
+  <section class="scene" id="problem" data-title="The problem" data-duration="16">
+    <header class="plate-head"><span class="no">Plate 02</span><span class="nm">The problem</span><span class="src">Specimens are illustrative · claim from <a href="https://github.com/VedantJoshi23/Oriveda#vision">README § Vision</a></span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">Software loses knowledge faster than it gains code.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5" data-out="6">Architecture decisions vanish into chat threads. Business rules hide inside code.</p>
+        <p class="cap" data-at="6" data-out="11.5">Documentation drifts out of date, and every new AI session starts from zero.</p>
+        <p class="cap" data-at="11.5">Oriveda treats that knowledge as the durable asset, and the code as one consumer of it.</p>
+      </div>
+      <div class="specimens">
+        <figure class="spec" data-at="1.8">
+          <figcaption>#eng-chat · four months ago</figcaption>
+          <blockquote>ok going with event sourcing for orders, reasons are somewhere up-thread</blockquote>
+          <p class="note">Decisions disappear into conversations.</p>
+        </figure>
+        <figure class="spec" data-at="3.6">
+          <figcaption>checkout.service.ts</figcaption>
+          <pre>if (cart.total &gt; 500 &amp;&amp; user.tier !== 'gold') {
+  requireManualReview(order);
+}</pre>
+          <p class="note">Business rules hide inside implementations.</p>
+        </figure>
+        <figure class="spec" data-at="6.4">
+          <figcaption>README.md · last edited two years ago</figcaption>
+          <blockquote>Run <code>make setup</code>, then ask whoever set up the payment sandbox.</blockquote>
+          <p class="note">Documentation goes stale.</p>
+        </figure>
+        <figure class="spec" data-at="8.4">
+          <figcaption>AI assistant · new session</figcaption>
+          <blockquote>I don't have context from previous conversations. Could you describe your architecture?</blockquote>
+          <p class="note">Assistants lose context between sessions.</p>
+        </figure>
+      </div>
+      <i class="marker" hidden data-at="10.6" data-dur="1.2" data-mark="fade" data-read="skip"></i>
+      <p class="answer" data-at="12">Oriveda writes knowledge down <em>before</em> it is built, instead of reconstructing it afterwards from commit history and chat logs.</p>
+    </div></div>
+  </section>
+
+  <!-- 03 -->
+  <section class="scene" id="layers" data-title="Why layers" data-duration="14">
+    <header class="plate-head"><span class="no">Plate 03</span><span class="nm">Why layers</span><span class="src">Source · <a href="https://github.com/VedantJoshi23/Oriveda/blob/main/ORIGIN.md#the-crack-in-the-plan">ORIGIN.md § The crack in the plan</a></span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">One giant prompt can't work.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5" data-out="4.6">Oriveda began as a request for one complete prompt to hand to any coding agent.</p>
+        <p class="cap" data-at="4.6" data-out="10">But its parts change at different rates. Change one feature and you'd regenerate everything.</p>
+        <p class="cap" data-at="10">So the prompt split into layers, and became documentation the code must answer to.</p>
+      </div>
+      <div class="strata">
+        <p class="monolith" data-at="0.9" data-out="4.3" data-read="hide" aria-hidden="true"><b>ONE MASSIVE PROMPT</b> engineering philosophy · modular monolith · domain boundaries · coding standards · API conventions · auth · sessions · caching · load balancing · error tracking · disaster recovery · checkout flow · wishlist · coupons · order status · inventory · payments · email templates · admin roles · deployment · logging · rate limits · feature flags · and every feature still to come …</p>
+        <div class="layers">
+          <div class="layer" data-at="4.6"><span class="ln">Constitution</span><span class="rate">changes almost never</span><svg class="ticks" data-ticks="1" data-seed="3" viewBox="0 0 400 18" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+          <div class="layer" data-at="5.4"><span class="ln">Architecture</span><span class="rate">rarely</span><svg class="ticks" data-ticks="3" data-seed="7" viewBox="0 0 400 18" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+          <div class="layer" data-at="6.2"><span class="ln">Standards</span><span class="rate">occasionally</span><svg class="ticks" data-ticks="9" data-seed="11" viewBox="0 0 400 18" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+          <div class="layer" data-at="7.0"><span class="ln">Features</span><span class="rate">constantly</span><svg class="ticks" data-ticks="42" data-seed="19" viewBox="0 0 400 18" preserveAspectRatio="none" aria-hidden="true"></svg></div>
+          <p class="axis" data-at="7.8"><span>each tick is a change</span><span>time →</span></p>
+        </div>
+      </div>
+      <p class="answer" data-at="10">Layered, versioned and stable enough to build on, a prompt isn't a prompt anymore. <em>It's documentation.</em></p>
+    </div></div>
+  </section>
+
+  <!-- 04 -->
+  <section class="scene" id="evidence" data-title="Evidence first" data-duration="22">
+    <header class="plate-head"><span class="no">Plate 04</span><span class="nm">Evidence first</span><span class="src">Claims are illustrative · method from <a href="https://github.com/VedantJoshi23/Oriveda/blob/main/knowledge/discovery/OV-000-knowledge-acquisition.md">OV-000</a></span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">Every claim carries its evidence.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5" data-out="4">Start from whatever you actually have: code, a PRD, Figma, screenshots, or just an idea.</p>
+        <p class="cap" data-at="4" data-out="9.5">Each extracted fact becomes a claim with a confidence score and a citation to its source.</p>
+        <p class="cap" data-at="9.5" data-out="12.5">Facts, inferences and assumptions are labelled. An assumption is never treated as settled.</p>
+        <p class="cap" data-at="12.5" data-out="18.5">Instead of generic questions, the agent asks only for the evidence that would raise confidence most.</p>
+        <p class="cap" data-at="18.5">Most AI tools start with code. Most docs start with requirements. Oriveda starts with evidence.</p>
+      </div>
+      <div class="ev">
+        <div class="onhand">
+          <p class="label" data-at="0.9">Evidence on hand</p>
+          <ul>
+            <li data-at="1.1">Source code</li>
+            <li data-at="1.4">PRD</li>
+            <li data-at="1.7">Figma file</li>
+            <li data-at="2.0">Screenshots</li>
+            <li data-at="2.3">Demo video</li>
+            <li data-at="2.6">Competitor site</li>
+          </ul>
+        </div>
+        <div class="ledger-wrap">
+          <table class="ledger">
+            <thead data-at="3.7"><tr><th>Kind</th><th>Claim</th><th>Confidence</th><th>Source</th></tr></thead>
+            <tbody>
+              <tr data-at="4.2" style="--w:.99"><td><span class="kind fact">Fact</span></td><td>Orders have a <code>status</code> field</td><td><div class="conf"><span class="bar"><i></i></span><span class="pct">99%</span></div></td><td class="cite">source code, <code>order.entity.ts</code></td></tr>
+              <tr data-at="5.4" style="--w:.90"><td><span class="kind fact">Fact</span></td><td>Checkout requires sign-in</td><td><div class="conf"><span class="bar"><i></i></span><span class="pct">90%</span></div></td><td class="cite">PRD §3, Checkout</td></tr>
+              <tr data-at="6.6" style="--w:.70"><td><span class="kind inference">Inference</span></td><td>A wishlist feature exists</td><td><div class="conf"><span class="bar"><i></i></span><span class="pct">70%</span></div></td><td class="cite">screenshot, <code>home.png</code></td></tr>
+              <tr id="claim-refunds" data-at="7.8" style="--w:.35;--w2:.95">
+                <td><span class="swap"><span class="kind assumption" data-at="0" data-out="18.5" data-read="hide">Assumption</span><span class="kind fact" data-at="18.5">Fact</span></span></td>
+                <td>Refunds need admin approval</td>
+                <td><div class="conf"><span class="bar"><i></i></span><span class="pct swap"><span data-at="0" data-out="18.5" data-read="hide">35%</span><span data-at="18.5">95%</span></span></div></td>
+                <td class="cite"><span class="swap"><span data-at="0" data-out="18.5" data-read="hide">none yet, assumed</span><span data-at="18.5">screenshot, <code>admin-refunds.png</code></span></span></td>
+              </tr>
+            </tbody>
+          </table>
+          <i class="marker" hidden data-at="18.5" data-dur="1.1" data-mark="rev" data-target="#claim-refunds"></i>
+          <div class="exchange">
+            <p class="ask" data-at="12.8"><span class="who">Agent</span>The largest remaining uncertainty is your refund rules. A single admin screenshot or workflow diagram would resolve it.</p>
+            <p class="reply" data-at="16.6"><span class="who">You</span>Attached <code>admin-refunds.png</code></p>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 05 -->
+  <section class="scene" id="milestones" data-title="Milestones" data-duration="20">
+    <header class="plate-head"><span class="no">Plate 05</span><span class="nm">Milestones</span><span class="src">Source · <a href="https://github.com/VedantJoshi23/Oriveda#knowledge-hierarchy">README § Knowledge Hierarchy</a>, <a href="https://github.com/VedantJoshi23/Oriveda/blob/main/knowledge/decisions/ADR-0005-progressive-rigor.md">ADR-0005</a></span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">Implementation is the last milestone, not the first.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5" data-out="10">Knowledge is built in a deliberate order, with one protocol per milestone.</p>
+        <p class="cap" data-at="10" data-out="14">Significant decisions are recorded as ADRs wherever they happen. They cut across every layer.</p>
+        <p class="cap" data-at="14">You don't finish every milestone first. Go just deep enough for one feature, build it, then deepen the specs with what the build taught you.</p>
+      </div>
+      <div class="route">
+        <span class="route-line" data-at="1.2" data-dur="7.6" data-ease="linear" aria-hidden="true"></span>
+        <ol>
+          <li data-at="1.4"><b>M1</b><span>Discovery</span><code>OV-000 · 001</code></li>
+          <li data-at="2.4"><b>M2</b><span>Constitution</span><code>OV-002</code></li>
+          <li data-at="3.4"><b>M3</b><span>Architecture</span><code>OV-003 · 004</code></li>
+          <li data-at="4.4"><b>M4</b><span>Standards</span><code>OV-005</code></li>
+          <li data-at="5.4"><b>M5</b><span>Domains</span><code>OV-006</code></li>
+          <li data-at="6.4"><b>M6</b><span>Features</span><code>OV-007</code></li>
+          <li data-at="7.4"><b>M7</b><span>Prompts</span><code>OV-008</code></li>
+          <li data-at="8.6" class="dest"><b>M8</b><span>Implementation</span><code>your code</code></li>
+        </ol>
+        <p class="adr" data-at="10.2"><code>ADR-XXXX</code> Decisions run beneath every milestone, recorded wherever a significant, revisitable choice is made.</p>
+      </div>
+      <div class="skeleton">
+        <p class="sk-title" data-at="14">Walking skeleton <span>spec depth, feature by feature</span></p>
+        <div class="sk" data-at="14.6" data-dur="1" style="--d:.34"><span>Feature 1</span><i></i></div>
+        <div class="sk" data-at="15.6" data-dur="1" style="--d:.58"><span>Feature 2</span><i></i></div>
+        <div class="sk" data-at="16.6" data-dur="1" style="--d:.82"><span>Feature 3</span><i></i></div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 06 -->
+  <section class="scene" id="rigor" data-title="Progressive rigor" data-duration="20">
+    <header class="plate-head"><span class="no">Plate 06</span><span class="nm">Progressive rigor</span><span class="src">Source · <a href="https://github.com/VedantJoshi23/Oriveda/blob/main/knowledge/decisions/ADR-0005-progressive-rigor.md">ADR-0005</a></span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">Freeze on proof, not on paper.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5" data-out="6">A spec's status decides its authority over the code.</p>
+        <p class="cap" data-at="6" data-out="12.5">Its risk decides when it must be Frozen. Work may start on a Draft whose claims are at least 60% confident and owner-acknowledged.</p>
+        <p class="cap" data-at="12.5">Disagreements with a Draft aren't failures. They're logged, reconciled, and resolved before it freezes.</p>
+      </div>
+      <div class="rigor">
+        <dl class="defs">
+          <div class="def frozen" data-at="1"><dt>Frozen</dt><dd>Binds the code. When code disagrees with it, the code is wrong.</dd></div>
+          <div class="def draft" data-at="2.6"><dt>Draft</dt><dd>Informs the code. A disagreement is a <em>divergence</em>: logged, and either side may change.</dd></div>
+        </dl>
+        <table class="tiers">
+          <thead data-at="5.8"><tr><th>Risk</th><th>Covers</th><th>Frozen before</th></tr></thead>
+          <tbody>
+            <tr class="high" data-at="6.2"><td>High</td><td>Constitution, domain boundaries, data ownership, auth, payments</td><td>any code that touches it</td></tr>
+            <tr class="med" data-at="7.4"><td>Medium</td><td>Most domain and feature specs, Standards</td><td>the first release that ships it</td></tr>
+            <tr class="low" data-at="8.6"><td>Low</td><td>Routine features, written as a short spec card</td><td>the first release that ships it</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="divlog" data-at="12.8">
+        <p class="file">divergence-log.md</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>ID</th><th>Spec</th><th>Expected</th><th>Observed</th><th>Status</th></tr></thead>
+            <tbody><tr><td>DIV-007</td><td><code>DOM-TAG</code> §7</td><td>DOM-USER not allowed</td><td><code>tag.module.ts</code> imports <code>UserModule</code></td><td class="open">open</td></tr></tbody>
+          </table>
+        </div>
+        <p class="note" data-at="15.4">A spec with open divergences cannot be Frozen.</p>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 07 -->
+  <section class="scene" id="engine" data-title="The engine" data-duration="22">
+    <header class="plate-head"><span class="no">Plate 07</span><span class="nm">The engine</span><span class="src">Real run · <a href="https://github.com/VedantJoshi23/Oriveda/blob/main/examples/engine-boundary-check-walkthrough.md">engine walkthrough</a>, output abridged</span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">Check the code against what you decided.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5" data-out="4.5">Code graphs tell you what the code is. The oriveda engine tells you whether it matches what you decided.</p>
+        <p class="cap" data-at="4.5" data-out="8.2">It compares every cross-domain dependency in the code with each domain's declared boundaries.</p>
+        <p class="cap" data-at="8.2" data-out="11.4">Against a Frozen spec, a forbidden dependency is a violation.</p>
+        <p class="cap" data-at="11.4" data-out="16.5">Against a Draft spec, it's a divergence, reported with a ready-to-paste divergence-log row.</p>
+        <p class="cap" data-at="16.5">This is a real run, against the open-source RealWorld NestJS app.</p>
+      </div>
+      <div class="engine">
+        <figure class="graph-fig">
+          <svg class="graph" viewBox="0 0 340 270" role="img" aria-label="Five domains. Article depending on Profile and User depending on Article are violations. Tag depending on User is a divergence.">
+            <defs>
+              <marker id="arr-ok" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#8a8170"/></marker>
+              <marker id="arr-bad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b2361f"/></marker>
+              <marker id="arr-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a8720e"/></marker>
+            </defs>
+            <g class="edges">
+              <path class="draw ok" data-at="3.0" data-dur="0.9" d="M232 66 Q170 40 108 66" pathLength="1" marker-end="url(#arr-ok)"/>
+              <path class="draw ok" data-at="3.3" data-dur="0.9" d="M252 88 L200 117" pathLength="1" marker-end="url(#arr-ok)"/>
+              <path class="draw ok" data-at="3.6" data-dur="0.9" d="M252 184 L200 155" pathLength="1" marker-end="url(#arr-ok)"/>
+              <path class="draw ok" data-at="3.9" data-dur="0.9" d="M88 184 L140 155" pathLength="1" marker-end="url(#arr-ok)"/>
+              <path class="draw ok" data-at="4.2" data-dur="0.9" d="M88 88 L140 117" pathLength="1" marker-end="url(#arr-ok)"/>
+              <path class="draw bad" data-at="8.4" data-dur="1" d="M270 86 L270 186" pathLength="1" marker-end="url(#arr-bad)"/>
+              <path class="draw warn" data-at="11.6" data-dur="1" d="M70 186 L70 86" pathLength="1" marker-end="url(#arr-warn)"/>
+              <path class="draw bad" data-at="14.4" data-dur="1" d="M108 88 Q170 112 232 88" pathLength="1" marker-end="url(#arr-bad)"/>
+            </g>
+            <g class="edge-labels">
+              <text class="bad" data-at="9.2" x="278" y="140">forbidden</text>
+              <text class="warn" data-at="12.4" x="62" y="140" text-anchor="end">not allowed</text>
+              <text class="bad" data-at="15.2" x="170" y="96" text-anchor="middle">forbidden</text>
+            </g>
+            <g class="nodes">
+              <g class="node frozen" data-at="1.0"><rect x="30" y="52" width="80" height="34" rx="3"/><text x="70" y="69">USER</text><text class="st" x="70" y="80">Frozen</text></g>
+              <g class="node frozen" data-at="1.3"><rect x="230" y="52" width="80" height="34" rx="3"/><text x="270" y="69">ARTICLE</text><text class="st" x="270" y="80">Frozen</text></g>
+              <g class="node draft" data-at="1.6"><rect x="230" y="186" width="80" height="34" rx="3"/><text x="270" y="203">PROFILE</text><text class="st" x="270" y="214">Draft</text></g>
+              <g class="node draft" data-at="1.9"><rect x="30" y="186" width="80" height="34" rx="3"/><text x="70" y="203">TAG</text><text class="st" x="70" y="214">Draft</text></g>
+              <g class="node frozen" data-at="2.2"><rect x="130" y="119" width="80" height="34" rx="3"/><text x="170" y="136">SHARED</text><text class="st" x="170" y="147">Frozen</text></g>
+            </g>
+          </svg>
+          <figcaption data-at="2.4"><b>Fig. 2</b> Declared domain boundaries. Solid frame: Frozen. Dashed: Draft.</figcaption>
+        </figure>
+        <div class="term">
+          <p class="term-bar">~/nestjs-realworld-example-app</p>
+          <div class="term-body"><div class="ln"><span class="ps">$ </span><span data-at="4.4" data-type="22">oriveda check boundaries</span></div><div class="ln dim" data-at="6.0">  domains: 5  dependency edges: 342  cross-domain: 47</div><div class="ln" data-at="8.2"><span class="v">VIOLATION </span> DOM-ARTICLE -&gt; DOM-PROFILE (explicitly forbidden)</div><div class="ln dim" data-at="8.6">  spec: DOM-ARTICLE [Frozen]   5 edge(s), fact 95%</div><div class="ln dim" data-at="9.0">  - src/article/article.service.ts:L15 -references-&gt; FollowsEntity</div><div class="ln" data-at="11.4"><span class="d">DIVERGENCE</span> DOM-TAG -&gt; DOM-USER (not in allowed_dependencies)</div><div class="ln dim" data-at="11.8">  spec: DOM-TAG [Draft]   2 edge(s), fact 95%</div><div class="ln dim" data-at="12.2">  - src/tag/tag.module.ts:L3 -imports-&gt; UserModule</div><div class="ln row" data-at="12.8">  | DIV-??? | `DOM-TAG` §7 | DOM-USER not allowed | … | open |</div><div class="ln" data-at="14.2"><span class="v">VIOLATION </span> DOM-USER -&gt; DOM-ARTICLE (explicitly forbidden)</div><div class="ln dim" data-at="14.6">  - src/user/user.entity.ts:L4 -imports-&gt; ArticleEntity</div><div class="ln sum" data-at="16.2">Summary: 2 violation(s), 1 divergence(s).</div></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <!-- 08 -->
+  <section class="scene" id="principles" data-title="Principles" data-duration="22">
+    <header class="plate-head"><span class="no">Plate 08</span><span class="nm">Principles</span><span class="src">Source · <a href="https://github.com/VedantJoshi23/Oriveda#the-oriveda-principles">README § The Oriveda Principles</a></span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">Eight principles hold it together.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5" data-out="8.5">Code changes. Frameworks change. Languages change. Engineering principles should not.</p>
+        <p class="cap" data-at="8.5" data-out="17">The lens for every decision: if this grew to 100 engineers and 10 million users, would it still make sense? If not, why is it acceptable today?</p>
+        <p class="cap" data-at="17">Not every shortcut must scale. Every shortcut must be intentional, and written down.</p>
+      </div>
+      <ol class="principles">
+        <li data-at="1.0"><b>01</b><strong>Knowledge outlives implementation.</strong><span>It survives framework migrations, language changes and rewrites.</span></li>
+        <li data-at="2.8"><b>02</b><strong>Every decision is discoverable.</strong><span>Never only in a conversation.</span></li>
+        <li data-at="4.6"><b>03</b><strong>Every spec has one purpose.</strong><span>A single responsibility and a clear owner.</span></li>
+        <li data-at="6.4"><b>04</b><strong>Documentation is executable knowledge.</strong><span>A Frozen spec is the authority on behaviour.</span></li>
+        <li data-at="8.2"><b>05</b><strong>Humans and AI read the same knowledge.</strong><span>No tribal knowledge in chat transcripts.</span></li>
+        <li data-at="10.0"><b>06</b><strong>The framework evolves independently.</strong><span>Reusable across products and domains.</span></li>
+        <li data-at="11.8"><b>07</b><strong>Every shortcut is intentional.</strong><span>Written down with its rationale and migration plan.</span></li>
+        <li data-at="13.6"><b>08</b><strong>Consistency beats cleverness.</strong><span>Predictability creates maintainability.</span></li>
+      </ol>
+    </div></div>
+  </section>
+
+  <!-- 09 -->
+  <section class="scene" id="start" data-title="Get started" data-duration="10">
+    <header class="plate-head"><span class="no">Plate 09</span><span class="nm">Get started</span><span class="src">Source · <a href="https://github.com/VedantJoshi23/Oriveda#quickstart">README § Quickstart</a></span></header>
+    <div class="plate-body"><div class="pi">
+      <h2 class="headline mask" data-at="0.3">Start with one prompt.</h2>
+      <div class="caps">
+        <p class="cap" data-at="0.5">Bring whatever evidence you have: a repo, a PRD, screenshots, or nothing but an idea.</p>
+      </div>
+      <div class="start">
+        <div class="prompt-block" data-at="1.4">
+          <p class="prompt-label">From inside your own project, give your coding agent this <button type="button" class="copy" data-copy="#quickstart">Copy</button></p>
+          <pre id="quickstart">You are setting up this project to be governed by the Oriveda engineering
+framework (https://github.com/VedantJoshi23/Oriveda). Add it as a git
+submodule at .oriveda-framework/, then start with PRM-DISCOVERY: ask me
+what evidence I have about this project (existing code, a PRD, Figma,
+screenshots, a video — anything) and begin Knowledge Acquisition from
+whatever I actually have.</pre>
+        </div>
+        <div class="further" data-at="3.4">
+          <a class="primary" href="https://github.com/VedantJoshi23/Oriveda">View Oriveda on GitHub ↗</a>
+          <p class="label">Further reading</p>
+          <ul>
+            <li><a href="https://github.com/VedantJoshi23/Oriveda#getting-started-with-a-new-project">Getting started<span>the full setup prompt, step by step</span></a></li>
+            <li><a href="https://github.com/VedantJoshi23/Oriveda/blob/main/ORIGIN.md">Origin story<span>how a website prompt became a methodology</span></a></li>
+            <li><a href="https://github.com/VedantJoshi23/Oriveda/blob/main/examples/engine-boundary-check-walkthrough.md">Engine walkthrough<span>the boundary check, run end to end</span></a></li>
+          </ul>
+          <p class="foot">Open source under the Apache 2.0 licence.</p>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+</div>
+<div class="subtitle" id="subtitle" aria-hidden="true"></div>
+</main>
+</div>
+
+<footer class="controls" id="controls">
+  <div class="timeline" id="timeline" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0">
+    <div class="tip" id="tip" hidden></div>
+  </div>
+  <div class="bar-row">
+    <button type="button" class="ctl" id="btn-prev" aria-label="Previous chapter" title="Previous chapter (P)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 5h2v14H6zM20 5v14L9 12z"/></svg></button>
+    <button type="button" class="ctl play" id="btn-play" aria-label="Pause" title="Play / pause (Space)">
+      <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+      <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15L19.5 12z"/></svg>
+      <svg class="i-replay" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5V2L7 6l5 4V7a5 5 0 1 1-5 5H5a7 7 0 1 0 7-7z"/></svg>
+    </button>
+    <button type="button" class="ctl" id="btn-next" aria-label="Next chapter" title="Next chapter (N)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16 5h2v14h-2zM4 5v14l11-7z"/></svg></button>
+    <span class="time" id="time">0:00 / 0:00</span>
+    <span class="now" id="now-title"></span>
+    <span class="spacer"></span>
+    <button type="button" class="ctl txt" id="btn-cc" aria-pressed="true" title="Subtitles (C)">CC</button>
+    <button type="button" class="ctl txt" id="btn-speed" title="Playback speed (S)">1×</button>
+    <button type="button" class="ctl txt" id="btn-chapters" aria-expanded="false" aria-controls="chapter-menu" title="Chapters">Plates</button>
+    <button type="button" class="ctl txt" id="btn-keys" aria-expanded="false" aria-controls="keys" title="Keyboard shortcuts (?)">?</button>
+    <button type="button" class="ctl" id="btn-fs" aria-label="Fullscreen" title="Fullscreen (F)"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4h6v2H6v4H4zm10 0h6v6h-2V6h-4zM4 14h2v4h4v2H4zm14 0h2v6h-6v-2h4z"/></svg></button>
+  </div>
+  <ol class="popover chapter-menu" id="chapter-menu" hidden></ol>
+  <div class="popover keys" id="keys" hidden>
+    <dl>
+      <dt><kbd>Space</kbd> <kbd>K</kbd></dt><dd>Play / pause</dd>
+      <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Back / forward 5 s</dd>
+      <dt><kbd>P</kbd> <kbd>N</kbd></dt><dd>Previous / next plate</dd>
+      <dt><kbd>1</kbd>–<kbd>9</kbd></dt><dd>Jump to plate</dd>
+      <dt><kbd>C</kbd></dt><dd>Subtitles</dd>
+      <dt><kbd>S</kbd></dt><dd>Speed</dd>
+      <dt><kbd>F</kbd></dt><dd>Fullscreen</dd>
+      <dt><kbd>R</kbd></dt><dd>Watch / read</dd>
+    </dl>
+  </div>
+</footer>
+
+<script src="assets/player.js"></script>
+</body>
+</html>
