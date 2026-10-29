@@ -391,7 +391,7 @@ whatever I actually have.</pre>
             <li><a href="https://github.com/VedantJoshi23/Oriveda/blob/main/ORIGIN.md">Origin story<span>how a website prompt became a methodology</span></a></li>
             <li><a href="https://github.com/VedantJoshi23/Oriveda/blob/main/examples/engine-boundary-check-walkthrough.md">Engine walkthrough<span>the boundary check, run end to end</span></a></li>
           </ul>
-          <p class="foot">Open source under the Apache 2.0 licence.</p>
+          <p class="foot">Open source under the Apache 2.0 licence. Narration voiced with the open Kokoro-82M text-to-speech model.</p>
         </div>
       </div>
     </div></div>
@@ -399,6 +399,11 @@ whatever I actually have.</pre>
 
 </div>
 <div class="subtitle" id="subtitle" aria-hidden="true"></div>
+<div class="cover-cta" id="cover-cta">
+  <button type="button" class="cta-main" id="cta-sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15L19.5 12z"/></svg>Play with narration <span id="cta-len"></span></button>
+  <button type="button" class="cta-alt" id="cta-muted">Play muted</button>
+  <button type="button" class="cta-alt" id="cta-read">Read instead</button>
+</div>
 </main>
 </div>
 
@@ -417,6 +422,10 @@ whatever I actually have.</pre>
     <span class="time" id="time">0:00 / 0:00</span>
     <span class="now" id="now-title"></span>
     <span class="spacer"></span>
+    <button type="button" class="ctl" id="btn-sound" aria-pressed="false" aria-label="Narration" title="Narration (M)">
+      <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>
+      <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.6 3 2.7-2.7-1.1-1.1-2.7 2.7-2.7-2.7-1.1 1.1 2.7 2.7-2.7 2.7 1.1 1.1 2.7-2.7 2.7 2.7 1.1-1.1z"/></svg>
+    </button>
     <button type="button" class="ctl txt" id="btn-cc" aria-pressed="true" title="Subtitles (C)">CC</button>
     <button type="button" class="ctl txt" id="btn-speed" title="Playback speed (S)">1×</button>
     <button type="button" class="ctl txt" id="btn-chapters" aria-expanded="false" aria-controls="chapter-menu" title="Chapters">Plates</button>
@@ -430,6 +439,7 @@ whatever I actually have.</pre>
       <dt><kbd>←</kbd> <kbd>→</kbd></dt><dd>Back / forward 5 s</dd>
       <dt><kbd>P</kbd> <kbd>N</kbd></dt><dd>Previous / next plate</dd>
       <dt><kbd>1</kbd>–<kbd>9</kbd></dt><dd>Jump to plate</dd>
+      <dt><kbd>M</kbd></dt><dd>Narration on / off</dd>
       <dt><kbd>C</kbd></dt><dd>Subtitles</dd>
       <dt><kbd>S</kbd></dt><dd>Speed</dd>
       <dt><kbd>F</kbd></dt><dd>Fullscreen</dd>
@@ -438,6 +448,7 @@ whatever I actually have.</pre>
   </div>
 </footer>
 
+<script src="assets/narration.js"></script>
 <script src="assets/player.js"></script>
 </body>
 </html>
